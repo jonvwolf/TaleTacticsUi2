@@ -1,20 +1,28 @@
-<div fxLayout="row" fxLayoutAlign="center center">
+<div fxLayout="column" fxLayoutAlign="center center">
+    <app-form-errors [baseComponent]="this"></app-form-errors>
     <mat-card>
+        <!-- for overlay to work, must be inside a position:relative div -->
+        <app-loader-overlay [baseComponent]="this"></app-loader-overlay>
         <mat-card-header>
             <mat-card-title>Horror Tactics</mat-card-title>
         </mat-card-header>
-        <form>
+        <form [formGroup]="form" (keyup.enter)="submit()">
             <mat-card-content>
-                <mat-form-field appearance="standard" color="accent">
-                    <mat-label>Username</mat-label>
-                    <input matInput type="text">
-                </mat-form-field>
-                <mat-form-field appearance="standard" color="accent">
-                    <mat-label>Password</mat-label>
-                    <input matInput type="password" autocomplete="off">
-                </mat-form-field>
+                    <mat-form-field appearance="standard" color="accent">
+                        <mat-label>Username</mat-label>
+                        <input matInput type="text" [formControl]="controls.usernameControl">
+                        <mat-error>Valid username is required</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="standard" color="accent">
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" autocomplete="off" [formControl]="controls.passwordControl">
+                        <mat-error>Password is required</mat-error>
+                    </mat-form-field>
             </mat-card-content>
-            <button mat-raised-button color="primary">Log in</button>
+            <mat-card-actions align="end">
+                <!-- btn has no disable feature because of browser autofill issue -->
+                <app-submit-btn [baseComponent]="this" [options]="createSubmitBtnOptions(false, 'Log in')"></app-submit-btn>
+            </mat-card-actions>
         </form>
-    </mat-card>    
+    </mat-card>
 </div>

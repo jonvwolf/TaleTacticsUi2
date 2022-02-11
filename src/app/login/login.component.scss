@@ -1,7 +1,13 @@
 mat-card {
     width: 50%;
     max-width: 400px;
-    margin: 40px auto;
+    margin: 15px auto;
+}
+
+app-form-errors{
+    width: 50%;
+    max-width: 425px;
+    margin-top: 15px;
 }
 
 mat-form-field {

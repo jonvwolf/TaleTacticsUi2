@@ -14,11 +14,19 @@ import { LoginComponent } from './login/login.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FormErrorsComponent } from './helpers/reusable-components/form-errors/form-errors.component';
+import { LoaderOverlayComponent } from './helpers/reusable-components/loader-overlay/loader-overlay.component';
+import { SubmitBtnComponent } from './helpers/reusable-components/submit-btn/submit-btn.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    FormErrorsComponent,
+    LoaderOverlayComponent,
+    SubmitBtnComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +40,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatListModule,
     MatCardModule,
     MatInputModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
