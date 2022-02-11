@@ -11,6 +11,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { LoginComponent } from './login/login.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import { LoginComponent } from './login/login.component';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatCardModule,
+    MatInputModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
