@@ -1,4 +1,4 @@
-<button mat-raised-button color="primary" (click)="baseComponent?.test()">
-    <mat-spinner class="mat-spinner-btn-loading" [diameter]="22" *ngIf="baseComponent?.isLoading"></mat-spinner>
-    <span *ngIf="baseComponent?.isLoading === false">{{options.btnText}}</span>
+<button mat-raised-button color="primary" (click)="formComponent?.submit()" [disabled]="isBtnDisabled">
+    <mat-spinner class="mat-spinner-btn-loading" [diameter]="22" *ngIf="formComponent?.isLoading"></mat-spinner>
+    <span *ngIf="formComponent?.isLoading === false">{{options.btnText}}</span>
 </button>

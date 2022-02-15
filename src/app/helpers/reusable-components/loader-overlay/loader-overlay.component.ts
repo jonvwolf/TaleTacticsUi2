@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BaseFormComponent } from '../../base-form-component';
+import { IFormComponent } from '../../base-form-component';
 
 @Component({
   selector: 'app-loader-overlay',
@@ -8,7 +8,7 @@ import { BaseFormComponent } from '../../base-form-component';
 })
 export class LoaderOverlayComponent implements OnInit {
 
-  @Input() public baseComponent:BaseFormComponent|null = null;
+  @Input() public formComponent:IFormComponent|null = null;
 
   constructor() { }
 

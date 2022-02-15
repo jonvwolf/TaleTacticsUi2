@@ -30,8 +30,6 @@ export class LoginComponent extends BaseFormComponent implements OnInit, OnDestr
     if(!this.canSubmit())
       return;
 
-    // TODO: Finish the reusable components, use BaseFormComponent or use some kind of interface?
-    // -> then create endpoints
     this.startLoad();
     const model = this.formHelper.createModel(this.controls);
 

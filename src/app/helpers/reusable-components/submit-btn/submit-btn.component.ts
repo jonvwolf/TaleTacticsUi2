@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BaseFormComponent } from '../../base-form-component';
+import { IFormComponent } from '../../base-form-component';
 
 export interface SubmitBtnOptions {
   enableFuncBtnDisable:boolean,
@@ -25,8 +25,14 @@ export const createSubmitBtnOptions = (enableFuncBtnDisable:boolean, btnText:str
 })
 export class SubmitBtnComponent implements OnInit {
 
-  @Input() public baseComponent:BaseFormComponent|null = null; 
+  @Input() public formComponent:IFormComponent|null = null; 
   @Input() public options:SubmitBtnOptions = defaultSubmitBtnOptions;
+
+  public get isBtnDisabled():boolean { 
+    if(this.formComponent === null)
+      return false;
+    return this.options.enableFuncBtnDisable && this.formComponent.isSubmitBtnDisabled; 
+  }
 
   constructor() { }
 
