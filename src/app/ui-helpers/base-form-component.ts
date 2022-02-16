@@ -2,11 +2,13 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { BadRequestError } from "../core/api-endpoints/errors/bad-request-error";
+import { UnauthorizedError } from "../core/api-endpoints/errors/unauthorized-error";
 import { htCreateSubmitBtnOptions } from "./reusable-components/submit-btn/submit-btn.component";
 
 export interface IFormComponent {
     hasUnexpectedError:boolean,
-    hasBadRequestFromServer:boolean,
+    hasBadRequestFromServerError:boolean,
+    hasSessionExpiredError:boolean,
     isLoading:boolean,
     isSubmitBtnDisabled:boolean
     submit():void
@@ -22,10 +24,14 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
 
     private _hasUnexpectedError:boolean = false;
     private _hasBadRequestFromServer:boolean = false;
-    private _isLoading:boolean = false;
+    private _hasSessionExpiredError:boolean = false;
 
+    private _isLoading:boolean = false;
+    
     public get hasUnexpectedError():boolean { return this._hasUnexpectedError }
-    public get hasBadRequestFromServer():boolean { return this._hasBadRequestFromServer }
+    public get hasBadRequestFromServerError():boolean { return this._hasBadRequestFromServer }
+    public get hasSessionExpiredError():boolean { return this._hasSessionExpiredError }
+
     public get isLoading():boolean { return this._isLoading; }
     public get isSubmitBtnDisabled():boolean{ return this.form.invalid; }
     
@@ -47,6 +53,8 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
         this._isLoading = true;
         this._hasBadRequestFromServer = false;
         this._hasBadRequestFromServer = false;
+        this._hasSessionExpiredError = false;
+        
         this.form.disable();
     }
 
@@ -75,6 +83,8 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
         this.endLoad();
         if(error instanceof BadRequestError){
             this._hasBadRequestFromServer = true;
+        }else if(error instanceof UnauthorizedError){
+            this._hasSessionExpiredError = true;
         }else{
             this.unexpectedErrorHappened();
         }

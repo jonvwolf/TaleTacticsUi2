@@ -13,15 +13,16 @@ import { MatInputModule } from '@angular/material/input';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { NavComponent } from './nav/nav.component';
 import { SecureAppComponent } from './secured-app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
-    NavComponent,
-    SecureAppComponent
+    HomeComponent,
+    SecureAppComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,

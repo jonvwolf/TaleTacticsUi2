@@ -1,7 +1,10 @@
 <mat-card *ngIf="formComponent?.hasUnexpectedError" class="mat-card-error">
     Unkown error
 </mat-card>
-<mat-card *ngIf="formComponent?.hasBadRequestFromServer" class="mat-card-error">
-    Bad request error
+<mat-card *ngIf="formComponent?.hasBadRequestFromServerError" class="mat-card-error">
+    Bad request error (validate your input)
+</mat-card>
+<mat-card *ngIf="formComponent?.hasSessionExpiredError" class="mat-card-error">
+    Your session has expired. Please log out and log back in
 </mat-card>
 <ng-content select="[form-error-default]"></ng-content>
