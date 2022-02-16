@@ -56,8 +56,16 @@ export abstract class BaseFormComponent implements IFormComponent {
         this._hasUnexpectedError = true;
     }
 
-    public test():void{
-        this._hasUnexpectedError = true;
-        this._isLoading = true;
+    protected endLoadAndHandleError(error:any){
+        // TODO: here
+        // this._isLoading = false;
+        // if(error instanceof BadRequestError){
+        //     this.badRequestObj = error.errors;
+        // }else{
+        //     if(isUpdate)
+        //         this.showUnknownErrorUpdate = true;
+        //     else
+        //         this.showUnknownError = true;
+        // }
     }
 }
