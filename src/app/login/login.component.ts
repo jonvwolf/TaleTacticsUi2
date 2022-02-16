@@ -5,6 +5,7 @@ import { BaseFormComponent } from '../ui-helpers/base-form-component';
 import { LoginFormControls, LoginFormHelper } from '../ui-helpers/forms/login-form-helper';
 import { HtConstants } from '../core/ht-constants';
 import { LoginEndpointsService } from '../core/api-endpoints/login-endpoints.service';
+import { UnauthorizedError } from '../core/api-endpoints/errors/unauthorized-error';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,7 @@ import { LoginEndpointsService } from '../core/api-endpoints/login-endpoints.ser
 })
 export class LoginComponent extends BaseFormComponent implements OnInit, OnDestroy {
 
+  public hasBadLogin:boolean = false;
   public controls:LoginFormControls;
 
   constructor(private formHelper:LoginFormHelper, private session:UserSessionService,
@@ -23,37 +25,40 @@ export class LoginComponent extends BaseFormComponent implements OnInit, OnDestr
     this.form = formHelper.createForm(this.controls); 
   }
 
-  ngOnInit(): void {
+  public override ngOnInit(): void {
     if(this.session.isLoggedIn){
       this.router.navigate(HtConstants.pathHome)
       return;
     }
-  }
-
-  ngOnDestroy(): void {
-    super.onDestroy();
+    super.ngOnInit();
   }
 
   public submit():void {
-    if(!this.canSubmit()){
-      this.form.markAllAsTouched();
+    if(!this.canSubmitAndTouchForm()){
       return;
     }
 
-    this.startLoad();
+    this.hasBadLogin = false;
+    this.startLoadAndClearErrors();
     const model = this.formHelper.createModel(this.controls);
 
-    super.subs.add(this.loginEndpoints.post(model).subscribe(data => {
-      this.endLoad();
-      if(this.session.login(data)){
-        this.router.navigate(HtConstants.pathHome);
-        return;
+    super.subs.add(this.loginEndpoints.post(model).subscribe({
+      next: (data) => {
+        this.endLoad();
+        if(this.session.login(data)){
+          this.router.navigate(HtConstants.pathHome);
+          return;
+        }
+        this.unexpectedErrorHappened();
+      },
+      error: (error) => {
+        if(error instanceof UnauthorizedError){
+          this.endLoad();
+          this.hasBadLogin = true;
+          return;
+        }
+        super.endLoadAndHandleError(error);    
       }
-      this.unexpectedErrorHappened();
-
-    }, error => {
-      // TODO: here
-    }))
-    
+    }));
   }
 }

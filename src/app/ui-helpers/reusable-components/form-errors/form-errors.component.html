@@ -4,3 +4,4 @@
 <mat-card *ngIf="formComponent?.hasBadRequestFromServer" class="mat-card-error">
     Bad request error
 </mat-card>
+<ng-content select="[form-error-default]"></ng-content>

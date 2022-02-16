@@ -19,6 +19,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormErrorsComponent } from './ui-helpers/reusable-components/form-errors/form-errors.component';
 import { LoaderOverlayComponent } from './ui-helpers/reusable-components/loader-overlay/loader-overlay.component';
 import { SubmitBtnComponent } from './ui-helpers/reusable-components/submit-btn/submit-btn.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { SubmitBtnComponent } from './ui-helpers/reusable-components/submit-btn/
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     LayoutModule,

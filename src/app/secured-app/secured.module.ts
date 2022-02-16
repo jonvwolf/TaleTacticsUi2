@@ -17,6 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NavComponent } from './nav/nav.component';
 import { SecureAppComponent } from './secured-app.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { SecureAppComponent } from './secured-app.component';
   ],
   imports: [
     CommonModule,
+    HttpClientModule,
     SecureRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,

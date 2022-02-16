@@ -1,5 +1,9 @@
 <div fxLayout="column" fxLayoutAlign="center center">
-    <app-form-errors [formComponent]="this"></app-form-errors>
+    <app-form-errors [formComponent]="this">
+        <mat-card form-error-default class="mat-card-error" *ngIf="hasBadLogin">
+            Invalid credentials
+        </mat-card>
+    </app-form-errors>
     <mat-card>
         <!-- for overlay to work, must be inside a position:relative div -->
         <app-loader-overlay [formComponent]="this"></app-loader-overlay>

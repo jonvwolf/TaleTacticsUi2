@@ -1,5 +1,7 @@
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { Subscription } from "rxjs";
+import { BadRequestError } from "../core/api-endpoints/errors/bad-request-error";
 import { htCreateSubmitBtnOptions } from "./reusable-components/submit-btn/submit-btn.component";
 
 export interface IFormComponent {
@@ -12,7 +14,10 @@ export interface IFormComponent {
 
 const baseFormComponentDefaultFormGroup = new FormGroup({});
 
-export abstract class BaseFormComponent implements IFormComponent {
+@Component({
+    template: ''
+})
+export abstract class BaseFormComponent implements IFormComponent, OnDestroy, OnInit {
     public form:FormGroup = baseFormComponentDefaultFormGroup;
 
     private _hasUnexpectedError:boolean = false;
@@ -24,16 +29,24 @@ export abstract class BaseFormComponent implements IFormComponent {
     public get isLoading():boolean { return this._isLoading; }
     public get isSubmitBtnDisabled():boolean{ return this.form.invalid; }
     
-    public createSubmitBtnOptions = htCreateSubmitBtnOptions; 
+    public get createSubmitBtnOptions() { return htCreateSubmitBtnOptions; } 
 
-    protected subs:Subscription = new Subscription();
+    private _subs:Subscription = new Subscription();
+    protected get subs():Subscription { return this._subs; }
 
-    protected onDestroy():void{
-        this.subs.unsubscribe();
+    public abstract submit(): void;
+    public ngOnInit(): void {
+        this.form.reset();
+    }
+    
+    public ngOnDestroy():void{
+        this._subs.unsubscribe();
     }
 
-    protected startLoad():void{
+    protected startLoadAndClearErrors():void{
         this._isLoading = true;
+        this._hasBadRequestFromServer = false;
+        this._hasBadRequestFromServer = false;
         this.form.disable();
     }
 
@@ -42,13 +55,15 @@ export abstract class BaseFormComponent implements IFormComponent {
         this.form.enable();
     }
 
-    public abstract submit(): void;
-
-    protected canSubmit():boolean{
-        return !(this.form.invalid);
+    protected canSubmitAndTouchForm():boolean{
+        if(!this.form.invalid){
+            this.form.markAllAsTouched();
+            return false;
+        }
+        return true;
     }
 
-    public hasError(control:FormControl):boolean{
+    public controlHasError(control:FormControl):boolean{
         return control.invalid && (control.dirty || control.touched);
     }
 
@@ -57,15 +72,11 @@ export abstract class BaseFormComponent implements IFormComponent {
     }
 
     protected endLoadAndHandleError(error:any){
-        // TODO: here
-        // this._isLoading = false;
-        // if(error instanceof BadRequestError){
-        //     this.badRequestObj = error.errors;
-        // }else{
-        //     if(isUpdate)
-        //         this.showUnknownErrorUpdate = true;
-        //     else
-        //         this.showUnknownError = true;
-        // }
+        this.endLoad();
+        if(error instanceof BadRequestError){
+            this._hasBadRequestFromServer = true;
+        }else{
+            this.unexpectedErrorHappened();
+        }
     }
 }
