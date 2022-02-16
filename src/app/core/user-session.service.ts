@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { TokenModel } from './models/token-model';
+import { TokenModel } from './api-models/token-model';
 import jwt_decode from 'jwt-decode'
-import { User } from './user';
+import { User } from './logged-user';
 import { HtConstants } from './ht-constants';
 
 const defaultUser:User = new User(null);

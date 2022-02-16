@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserSessionService } from '../core/user-session.service';
-import { BaseFormComponent } from '../helpers/base-form-component';
-import { LoginFormControls, LoginFormHelper } from '../helpers/forms/login-form-helper';
+import { BaseFormComponent } from '../ui-helpers/base-form-component';
+import { LoginFormControls, LoginFormHelper } from '../ui-helpers/forms/login-form-helper';
 import { HtConstants } from '../core/ht-constants';
 
 @Component({

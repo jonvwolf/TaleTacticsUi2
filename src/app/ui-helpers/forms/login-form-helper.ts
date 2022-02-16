@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { LoginModel } from "src/app/core/models/login-model";
+import { LoginModel } from "src/app/core/api-models/login-model";
 
 export interface LoginFormControls {
     usernameControl:FormControl,

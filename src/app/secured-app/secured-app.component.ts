@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-secure-app',
-  templateUrl: './secure-app.component.html',
-  styleUrls: ['./secure-app.component.scss']
+  selector: 'app-secured-app',
+  templateUrl: './secured-app.component.html',
+  styleUrls: ['./secured-app.component.scss']
 })
 export class SecureAppComponent implements OnInit {
 

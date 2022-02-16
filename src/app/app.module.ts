@@ -16,9 +16,9 @@ import { MatInputModule } from '@angular/material/input';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FormErrorsComponent } from './helpers/reusable-components/form-errors/form-errors.component';
-import { LoaderOverlayComponent } from './helpers/reusable-components/loader-overlay/loader-overlay.component';
-import { SubmitBtnComponent } from './helpers/reusable-components/submit-btn/submit-btn.component';
+import { FormErrorsComponent } from './ui-helpers/reusable-components/form-errors/form-errors.component';
+import { LoaderOverlayComponent } from './ui-helpers/reusable-components/loader-overlay/loader-overlay.component';
+import { SubmitBtnComponent } from './ui-helpers/reusable-components/submit-btn/submit-btn.component';
 
 @NgModule({
   declarations: [

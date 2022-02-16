@@ -4,7 +4,7 @@ import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {path:'', component: LoginComponent},
-  {path:'secured', loadChildren: () => import('src/app/secure/secure.module').then(m=>m.SecureModule)},
+  {path:'secured', loadChildren: () => import('src/app/secured-app/secured.module').then(m=>m.SecureModule)},
   {path:'**', redirectTo:'', pathMatch:'full'}
   // TODO: add a 404
 ];
