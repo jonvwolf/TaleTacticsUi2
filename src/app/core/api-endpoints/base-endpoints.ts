@@ -1,13 +1,15 @@
 import { HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { environment } from "src/environments/environment";
+import { HtConstants } from "../ht-constants";
 import { BadRequestError } from "./errors/bad-request-error";
 import { InternalServerError } from "./errors/internal-server-error";
 import { NotFoundError } from "./errors/not-found-error";
 import { UnauthorizedError } from "./errors/unauthorized-error";
 
 export abstract class BaseApiEndpoints {
-    protected get basePath():string { return environment.apiHost + '/api'; }
+    protected get basePath():string { return environment.apiHost; }
+    protected get securedBasePath():string { return environment.apiHost + HtConstants.securedBasePath; }
 
     protected createHttpHeadersJson():HttpHeaders{
         const headers = new HttpHeaders()

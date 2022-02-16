@@ -13,6 +13,7 @@ export class UserSessionService {
 
   public get isLoggedIn():boolean { return this._user.isValidAndNotExpired; }
 
+  public jwt:string = '';
   private _user:User = defaultUser;
 
   constructor() {
@@ -41,12 +42,14 @@ export class UserSessionService {
       return false;
     }
 
+    this.jwt = token;
     this._user = user;
     localStorage.setItem(HtConstants.localStorageJwt, token);
     return true;
   }
 
   public logout():void {
+    this.jwt = '';
     localStorage.removeItem(HtConstants.localStorageJwt);
     this._user = defaultUser;
   }

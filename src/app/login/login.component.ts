@@ -27,7 +27,7 @@ export class LoginComponent extends BaseFormComponent implements OnInit, OnDestr
 
   public override ngOnInit(): void {
     if(this.session.isLoggedIn){
-      this.router.navigate(HtConstants.pathHome)
+      this.router.navigate(HtConstants.pathSecuredHome)
       return;
     }
     super.ngOnInit();
@@ -46,7 +46,7 @@ export class LoginComponent extends BaseFormComponent implements OnInit, OnDestr
       next: (data) => {
         this.endLoad();
         if(this.session.login(data)){
-          this.router.navigate(HtConstants.pathHome);
+          this.router.navigate(HtConstants.pathSecuredHome);
           return;
         }
         this.unexpectedErrorHappened();

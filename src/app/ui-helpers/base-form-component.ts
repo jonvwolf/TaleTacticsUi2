@@ -56,7 +56,7 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
     }
 
     protected canSubmitAndTouchForm():boolean{
-        if(!this.form.invalid){
+        if(this.form.invalid){
             this.form.markAllAsTouched();
             return false;
         }
