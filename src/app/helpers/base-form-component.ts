@@ -1,6 +1,6 @@
 import { FormControl, FormGroup } from "@angular/forms";
 import { Subscription } from "rxjs";
-import { createSubmitBtnOptions as htCreateSubmitBtnOptions } from "./reusable-components/submit-btn/submit-btn.component";
+import { htCreateSubmitBtnOptions } from "./reusable-components/submit-btn/submit-btn.component";
 
 export interface IFormComponent {
     hasUnexpectedError:boolean,

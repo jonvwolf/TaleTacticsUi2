@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserSessionService } from '../core/user-session.service';
 import { BaseFormComponent } from '../helpers/base-form-component';
 import { LoginFormControls, LoginFormHelper } from '../helpers/forms/login-form-helper';
+import { HtConstants } from '../core/ht-constants';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +14,8 @@ export class LoginComponent extends BaseFormComponent implements OnInit, OnDestr
 
   public controls:LoginFormControls;
 
-  constructor(private formHelper:LoginFormHelper){
+  constructor(private formHelper:LoginFormHelper, private session:UserSessionService,
+    private router:Router){
     super();
 
     this.controls = formHelper.createControls();
@@ -19,7 +23,10 @@ export class LoginComponent extends BaseFormComponent implements OnInit, OnDestr
   }
 
   ngOnInit(): void {
-    
+    if(this.session.isLoggedIn){
+      this.router.navigate(HtConstants.pathHome)
+      return;
+    }
   }
 
   ngOnDestroy(): void {

@@ -10,9 +10,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NavComponent } from './nav/nav.component';
+import { SecureAppComponent } from './secure-app.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    NavComponent,
+    SecureAppComponent
+  ],
   imports: [
     CommonModule,
     SecureRoutingModule,
@@ -23,7 +33,13 @@ import { MatListModule } from '@angular/material/list';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatCardModule,
+    MatInputModule,
+    FlexLayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ]
 })
 export class SecureModule { }

@@ -11,7 +11,7 @@ const defaultSubmitBtnOptions:SubmitBtnOptions = {
   btnText: 'Submit'
 };
 
-export const createSubmitBtnOptions = (enableFuncBtnDisable:boolean, btnText:string):SubmitBtnOptions => {
+export const htCreateSubmitBtnOptions = (enableFuncBtnDisable:boolean, btnText:string):SubmitBtnOptions => {
   return {
     enableFuncBtnDisable,
     btnText,
