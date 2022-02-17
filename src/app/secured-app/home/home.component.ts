@@ -14,6 +14,14 @@ export class HomeComponent extends BaseFormComponent implements OnInit {
 
   constructor(private stories:StoriesEndpointsService) {
     super();
+
+    // TODO:
+  //     Maybe make BaseFormComponent a variable like: HtForm which has all the variables, etc
+  //   -> Change it. I have submit() in Secured Home
+
+  // how to change parent view (nav bar title)
+  //   -> onActivate
+  //   https://stackoverflow.com/questions/45587507/angular-how-to-get-component-instance-of-router-outlet
   }
 
   override ngOnInit(): void {
