@@ -16,8 +16,8 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private session:UserSessionService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-
     if(this.session.isLoggedIn){
+      
       if(request.url.indexOf(environment.apiHost + HtConstants.securedBasePath + '/') > -1){
         const cloned = request.clone({
           headers: request.headers.set('Authorization', 'Bearer ' + this.session.jwt)

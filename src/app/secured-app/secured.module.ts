@@ -14,19 +14,16 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SecureAppComponent } from './secured-app.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { HomeComponent } from './home/home.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
     HomeComponent,
-    SecureAppComponent,
-    HomeComponent
+    SecureAppComponent
   ],
   imports: [
     CommonModule,
-    HttpClientModule,
     SecureRoutingModule,
     LayoutModule,
     MatToolbarModule,
@@ -39,10 +36,9 @@ import { HomeComponent } from './home/home.component';
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    SharedModule
   ],
-  providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
-  ]
+  providers: []
 })
 export class SecureModule { }

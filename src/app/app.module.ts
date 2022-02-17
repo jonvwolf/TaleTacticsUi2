@@ -16,18 +16,14 @@ import { MatInputModule } from '@angular/material/input';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FormErrorsComponent } from './ui-helpers/reusable-components/form-errors/form-errors.component';
-import { LoaderOverlayComponent } from './ui-helpers/reusable-components/loader-overlay/loader-overlay.component';
-import { SubmitBtnComponent } from './ui-helpers/reusable-components/submit-btn/submit-btn.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SharedModule } from './shared/shared.module';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    FormErrorsComponent,
-    LoaderOverlayComponent,
-    SubmitBtnComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -45,9 +41,12 @@ import { HttpClientModule } from '@angular/common/http';
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    SharedModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

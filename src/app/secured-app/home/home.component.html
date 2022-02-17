@@ -1,1 +1,13 @@
-<p>home works!</p>
+<div fxLayout="column" fxLayoutAlign="center center">
+    <app-form-errors [formComponent]="this"></app-form-errors>
+    <mat-card>
+        <!-- for overlay to work, must be inside a position:relative div -->
+        <app-loader-overlay [formComponent]="this"></app-loader-overlay>
+        <mat-card-header>
+            <mat-card-title>Stories</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            list
+        </mat-card-content>
+    </mat-card>
+</div>
