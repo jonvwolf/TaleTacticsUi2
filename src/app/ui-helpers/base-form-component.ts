@@ -28,9 +28,9 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
 
     private _isLoading:boolean = false;
     
-    public get hasUnexpectedError():boolean { return this._hasUnexpectedError }
-    public get hasBadRequestFromServerError():boolean { return this._hasBadRequestFromServer }
-    public get hasSessionExpiredError():boolean { return this._hasSessionExpiredError }
+    public get hasUnexpectedError():boolean { return this._hasUnexpectedError; }
+    public get hasBadRequestFromServerError():boolean { return this._hasBadRequestFromServer; }
+    public get hasSessionExpiredError():boolean { return this._hasSessionExpiredError; }
 
     public get isLoading():boolean { return this._isLoading; }
     public get isSubmitBtnDisabled():boolean{ return this.form.invalid; }
@@ -40,7 +40,9 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
     private _subs:Subscription = new Subscription();
     protected get subs():Subscription { return this._subs; }
 
-    public abstract submit(): void;
+    public submit(): void{
+        // nothing
+    }
     public ngOnInit(): void {
         this.form.reset();
     }

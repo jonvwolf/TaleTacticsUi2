@@ -5,22 +5,28 @@
     [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-    <a mat-list-item href="#">Link 1</a>
-    <a mat-list-item href="#">Link 2</a>
+    <a mat-list-item [routerLink]="['/secured/home']">Link 1</a>
+    <a mat-list-item [routerLink]="['/secured/home']">Link 1</a>
     <a mat-list-item href="#">Link 3</a>
     </mat-nav-list>
 </mat-sidenav>
 <mat-sidenav-content>
     <mat-toolbar color="primary">
-    <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-    </button>
-    <span>Home</span>
+        <mat-toolbar-row>
+            <button
+                type="button"
+                aria-label="Toggle sidenav"
+                mat-icon-button
+                (click)="drawer.toggle()"
+                *ngIf="isHandset$ | async">
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+            <span>{{generalElements.headerTitle}}</span>
+            <span class="mat-toolbar-spacer"></span>
+            <button mat-button aria-label="Logout button" (click)="logout()">
+                <mat-icon>logout</mat-icon> Logout
+            </button>
+        </mat-toolbar-row>
     </mat-toolbar>
     <router-outlet></router-outlet>
 </mat-sidenav-content>

@@ -33,7 +33,7 @@ export class LoginComponent extends BaseFormComponent implements OnInit, OnDestr
     super.ngOnInit();
   }
 
-  public submit():void {
+  public override submit():void {
     if(!this.canSubmitAndTouchForm()){
       return;
     }
