@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StoriesEndpointsService } from 'src/app/core/api-endpoints/stories-endpoints.service';
 import { ReadStoryModel } from 'src/app/core/api-models/read-story-model';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
-import { SecuredAppUiService } from 'src/app/ui-helpers/secured-app-ui.service';
+import { SecuredAppUiGeneralElements, SecuredAppUiService } from 'src/app/ui-helpers/secured-app-ui.service';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +12,11 @@ import { SecuredAppUiService } from 'src/app/ui-helpers/secured-app-ui.service';
 export class HomeComponent extends BaseFormComponent implements OnInit {
 
   public storyList:ReadStoryModel[] = [];
+
+  // These can be changed later on using appUI but not inside ngOnInit
+  public override get initialGeneralElements():SecuredAppUiGeneralElements { return {
+    headerTitle: 'Home'
+  }; }
 
   constructor(private stories:StoriesEndpointsService, private appUI:SecuredAppUiService) {
     super();
@@ -28,11 +33,6 @@ export class HomeComponent extends BaseFormComponent implements OnInit {
         this.storyList = data;
         this.endLoad();
 
-        // TODO: add onActivate to get the generalElements and this one
-        // can be used to change things at a later point
-        this.appUI.changeGeneralElements({
-          headerTitle: 'Home' + Date()
-        });
       },
       error: (err) => {
         this.endLoadAndHandleError(err);

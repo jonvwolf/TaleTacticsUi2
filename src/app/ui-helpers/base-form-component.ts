@@ -4,6 +4,7 @@ import { Subscription } from "rxjs";
 import { BadRequestError } from "../core/api-endpoints/errors/bad-request-error";
 import { UnauthorizedError } from "../core/api-endpoints/errors/unauthorized-error";
 import { htCreateSubmitBtnOptions } from "./reusable-components/submit-btn/submit-btn.component";
+import { SecuredAppUiGeneralElements } from "./secured-app-ui.service";
 
 export interface IFormComponent {
     hasUnexpectedError:boolean,
@@ -36,6 +37,8 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
     public get isSubmitBtnDisabled():boolean{ return this.form.invalid; }
     
     public get createSubmitBtnOptions() { return htCreateSubmitBtnOptions; } 
+
+    public get initialGeneralElements():SecuredAppUiGeneralElements { return {}; }
 
     private _subs:Subscription = new Subscription();
     protected get subs():Subscription { return this._subs; }

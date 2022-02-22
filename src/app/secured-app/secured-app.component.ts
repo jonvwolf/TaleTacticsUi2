@@ -1,10 +1,11 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { delay, map, Observable, shareReplay, Subscription, tap } from 'rxjs';
+import { map, Observable, shareReplay, Subscription, tap } from 'rxjs';
 import { HtConstants } from '../core/ht-constants';
 import { UserSessionService } from '../core/user-session.service';
 import { htDefaultGeneralElements, SecuredAppUiGeneralElements, SecuredAppUiService } from '../ui-helpers/secured-app-ui.service';
+import { BaseFormComponent } from '../ui-helpers/base-form-component'
 
 @Component({
   selector: 'app-secured-app',
@@ -42,5 +43,11 @@ export class SecureAppComponent implements OnInit {
   public logout():void {
     this.session.logout();
     this.router.navigate(HtConstants.pathLogin);
+  }
+
+  public onRuterActive(event:any):void{
+    if(event instanceof BaseFormComponent){
+      this.appUI.changeGeneralElements(event.initialGeneralElements);
+    }
   }
 }
