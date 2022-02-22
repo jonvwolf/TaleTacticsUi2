@@ -32,7 +32,6 @@ export class HomeComponent extends BaseFormComponent implements OnInit {
       next: (data) => {
         this.storyList = data;
         this.endLoad();
-
       },
       error: (err) => {
         this.endLoadAndHandleError(err);

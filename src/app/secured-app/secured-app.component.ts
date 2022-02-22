@@ -47,6 +47,7 @@ export class SecureAppComponent implements OnInit {
 
   public onRuterActive(event:any):void{
     if(event instanceof BaseFormComponent){
+      // TODO: change this to be direct change instead of event push
       this.appUI.changeGeneralElements(event.initialGeneralElements);
     }
   }
