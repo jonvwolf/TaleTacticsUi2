@@ -8,7 +8,7 @@
         </mat-card-header>
         <mat-card-content>
             <p *ngIf="storyList.length == 0">
-                <a mat-stroked-button routerLink="['/secured/home']">No stories created so far! Click here to start creating one</a>
+                <a mat-stroked-button [routerLink]="['/secured/create-story']">No stories created so far! Click here to start creating one</a>
             </p>
             <table mat-table class="mat-elevation-z8" [dataSource]="storyList" *ngIf="storyList.length > 0">
                 <ng-container matColumnDef="id">

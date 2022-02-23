@@ -17,11 +17,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SecureAppComponent } from './secured-app.component';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
+import { CreateStoryComponent } from './create-story/create-story.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
-    SecureAppComponent
+    SecureAppComponent,
+    CreateStoryComponent
   ],
   imports: [
     CommonModule,
