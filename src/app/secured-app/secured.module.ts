@@ -20,12 +20,16 @@ import { SharedModule } from '../shared/shared.module';
 import { CreateStoryComponent } from './create-story/create-story.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { CutTextPipe } from '../ui-helpers/pipes/cut-text.pipe';
+import { ConvertToBrPipe } from '../ui-helpers/pipes/convert-to-br.pipe';
 
 @NgModule({
   declarations: [
     HomeComponent,
     SecureAppComponent,
-    CreateStoryComponent
+    CreateStoryComponent,
+    CutTextPipe,
+    ConvertToBrPipe
   ],
   imports: [
     CommonModule,

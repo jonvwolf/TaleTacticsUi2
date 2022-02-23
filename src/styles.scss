@@ -64,6 +64,11 @@ mat-card.full-content-card {
 mat-form-field.full-form-field{
   width: 100%;
 }
+
+app-form-errors.full-content{
+  width: 90%; 
+}
+
 app-form-errors.default-form{
   width: 50%;
   max-width: 1000px;
