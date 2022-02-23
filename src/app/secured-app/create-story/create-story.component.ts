@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { StoriesEndpointsService } from 'src/app/core/api-endpoints/stories-endpoints.service';
+import { HtConstants } from 'src/app/core/ht-constants';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
 import { CreateStoryFormControls, StoryFormHelperService } from 'src/app/ui-helpers/forms/story-form-helper.service';
 import { SecuredAppUiGeneralElements } from 'src/app/ui-helpers/secured-app-ui.service';
@@ -15,7 +18,8 @@ export class CreateStoryComponent extends BaseFormComponent implements OnInit {
     headerTitle: 'Create a story'
   }; }
 
-  constructor(private formHelper:StoryFormHelperService) {
+  constructor(private formHelper:StoryFormHelperService, private endpoints:StoriesEndpointsService,
+    private router:Router) {
     super();
 
     this.controls = formHelper.createControls();
@@ -23,8 +27,25 @@ export class CreateStoryComponent extends BaseFormComponent implements OnInit {
   }
 
   override ngOnInit(): void {
-    this.unexpectedErrorHappened();
     super.ngOnInit();
   }
 
+  public override submit(): void {
+      if(!this.canSubmitAndTouchForm()){
+        return;
+      }
+
+      this.startLoadAndClearErrors();
+      const model = this.formHelper.createModel(this.controls);
+
+      this.subs.add(this.endpoints.post(model).subscribe({
+        next: () => {
+          this.router.navigate(HtConstants.pathSecuredHome);
+          this.endLoad();
+        },
+        error: (err) => {
+          this.endLoadAndHandleError(err);
+        }
+      }));
+  }
 }

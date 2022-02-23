@@ -18,6 +18,8 @@ import { SecureAppComponent } from './secured-app.component';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { CreateStoryComponent } from './create-story/create-story.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { CreateStoryComponent } from './create-story/create-story.component';
     FormsModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
-    SharedModule
+    SharedModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: []
 })

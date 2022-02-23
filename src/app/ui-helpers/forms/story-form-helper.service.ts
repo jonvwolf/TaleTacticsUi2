@@ -30,9 +30,9 @@ public createForm(controls:CreateStoryFormControls):FormGroup{
 }
 
 public createModel(controls:CreateStoryFormControls):CreateStoryModel{
-    // TODO:
     return {
-        
+        title: controls.titleControl.value,
+        description: controls.descriptionControl.value
     };
 }
 }

@@ -57,24 +57,25 @@ mat-card-actions {
   margin-top: 20px;
 }
 
-mat-card.content-card {
-  // This is for home
+mat-card.full-content-card {
   width: 90%;
   margin-top:10px;
 }
-
-app-form-errors.general-form{
+mat-form-field.full-form-field{
+  width: 100%;
+}
+app-form-errors.default-form{
   width: 50%;
   max-width: 1000px;
   margin-top: 15px;
   min-width: 320px;
 }
-mat-card.general-form{
+mat-card.default-form{
   width: 50%;
   max-width: 1000px;
   min-width: 300px;
   margin-top:10px
 }
-mat-card.general-form mat-form-field {
+mat-card.default-form mat-form-field {
   display: block;
 }

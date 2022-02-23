@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
+import { CreateStoryModel } from '../api-models/create-story-model';
 import { ReadStoryModel } from '../api-models/read-story-model';
 import { BaseApiEndpoints } from './base-endpoints';
 
@@ -15,6 +16,14 @@ export class StoriesEndpointsService extends BaseApiEndpoints {
 
   public getAll():Observable<ReadStoryModel[]>{
     return this.http.get<ReadStoryModel[]>(this.securedBasePath + '/stories', {headers: this.createHttpHeadersJson()}).pipe(
+      catchError((err:HttpErrorResponse) => {
+        return this.handleHttpError(err);
+      })
+    );
+  }
+
+  public post(model:CreateStoryModel):Observable<ReadStoryModel>{
+    return this.http.post<ReadStoryModel>(this.securedBasePath + '/stories', model, {headers:this.createHttpHeadersJson()}).pipe(
       catchError((err:HttpErrorResponse) => {
         return this.handleHttpError(err);
       })

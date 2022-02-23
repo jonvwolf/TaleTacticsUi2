@@ -14,12 +14,12 @@
             <mat-card-content>
                     <mat-form-field appearance="standard" color="accent">
                         <mat-label>Username</mat-label>
-                        <input matInput type="text" [formControl]="controls.usernameControl">
+                        <input matInput type="text" [formControl]="controls.usernameControl" name="login-username">
                         <mat-error>Valid username is required</mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="standard" color="accent">
                         <mat-label>Password</mat-label>
-                        <input matInput type="password" autocomplete="off" [formControl]="controls.passwordControl">
+                        <input matInput type="password" autocomplete="off" [formControl]="controls.passwordControl" name="login-password">
                         <mat-error>Password is required</mat-error>
                     </mat-form-field>
             </mat-card-content>
