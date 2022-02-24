@@ -22,6 +22,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { CutTextPipe } from '../ui-helpers/pipes/cut-text.pipe';
 import { ConvertToBrPipe } from '../ui-helpers/pipes/convert-to-br.pipe';
+import { UpdateStoryComponent } from './update-story/update-story.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ConvertToBrPipe } from '../ui-helpers/pipes/convert-to-br.pipe';
     SecureAppComponent,
     CreateStoryComponent,
     CutTextPipe,
-    ConvertToBrPipe
+    ConvertToBrPipe,
+    UpdateStoryComponent
   ],
   imports: [
     CommonModule,

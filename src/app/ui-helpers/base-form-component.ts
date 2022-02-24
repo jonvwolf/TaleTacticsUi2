@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { BadRequestError } from "../core/api-endpoints/errors/bad-request-error";
 import { UnauthorizedError } from "../core/api-endpoints/errors/unauthorized-error";
@@ -46,6 +47,7 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
     public submit(): void{
         // nothing
     }
+
     public ngOnInit(): void {
         this.form.reset();
     }
@@ -93,5 +95,10 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
         }else{
             this.unexpectedErrorHappened();
         }
+    }
+
+    protected getNumberParam(key:string, route:ActivatedRoute):number|null{
+        const val = Number(route.snapshot.paramMap.get(key));
+        return Number.isNaN(val) ? null : val;
     }
 }

@@ -9,7 +9,7 @@ const routes: Routes = [{
   path: '', component: SecureAppComponent, canActivate:[AuthGuard],
   children: [
     {path:'home', component:HomeComponent},
-    {path:'create-story', component:CreateStoryComponent},
+    {path:'TODO here', component:CreateStoryComponent},
     {path:'',  redirectTo: 'home', pathMatch: 'full'},
     // TODO: add a 404 component
     {path:'**', redirectTo: 'home', pathMatch: 'full'}

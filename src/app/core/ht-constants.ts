@@ -4,4 +4,8 @@ export class HtConstants {
 
     public static get pathLogin():any[] { return ['/']; }
     public static get pathSecuredHome():any[] { return ['/secured/home']; }
+    
+    public static getPathSecuredUpdateStory(id:number):any[] {
+        return ['/secured/stories', id];
+    }
 }
