@@ -40,7 +40,7 @@ export class StoriesEndpointsService extends BaseApiEndpoints {
   }
 
   public put(id:number, model:UpdateStoryModel):Observable<ReadStoryModel>{
-    return this.http.post<ReadStoryModel>(this.securedBasePath + '/stories/' + id, model, {headers:this.createHttpHeadersJson()}).pipe(
+    return this.http.put<ReadStoryModel>(this.securedBasePath + '/stories/' + id, model, {headers:this.createHttpHeadersJson()}).pipe(
       catchError((err:HttpErrorResponse) => {
         return this.handleHttpError(err);
       })

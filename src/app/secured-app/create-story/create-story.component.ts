@@ -41,7 +41,6 @@ export class CreateStoryComponent extends BaseFormComponent implements OnInit {
       this.subs.add(this.endpoints.post(model).subscribe({
         next: () => {
           this.router.navigate(htConstants.pathSecuredHome);
-          this.endLoad();
         },
         error: (err) => {
           this.endLoadAndHandleError(err);

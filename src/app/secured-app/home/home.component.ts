@@ -2,8 +2,10 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { StoriesEndpointsService } from 'src/app/core/api-endpoints/stories-endpoints.service';
 import { ReadStoryModel } from 'src/app/core/api-models/read-story-model';
+import { htConstants } from 'src/app/core/ht-constants';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
 import { SecuredAppUiGeneralElements, SecuredAppUiService } from 'src/app/ui-helpers/secured-app-ui.service';
 
@@ -25,7 +27,7 @@ export class HomeComponent extends BaseFormComponent implements OnInit, AfterVie
     headerTitle: 'Home'
   }; }
 
-  constructor(private stories:StoriesEndpointsService, private appUI:SecuredAppUiService) {
+  constructor(private stories:StoriesEndpointsService, private router:Router) {
     super();
 
   }
@@ -57,5 +59,9 @@ export class HomeComponent extends BaseFormComponent implements OnInit, AfterVie
     if(this.dataSource.paginator){
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  public storyRowClick(readStoryModel:ReadStoryModel):void {
+    this.router.navigate(htConstants.getPathSecuredUpdateStory(readStoryModel.id));
   }
 }

@@ -26,7 +26,8 @@ export class UpdateStoryComponent extends BaseFormComponent implements OnInit {
   override ngOnInit(): void {
     super.ngOnInit();
 
-    const id = this.getNumberParam('id', this.route);
+    this.startLoadAndClearErrors();
+    const id = this.getNumberParam(htConstants.updateStoryIdParamName, this.route);
     if(id === null){
       this.router.navigate(htConstants.pathSecuredHome);
       return;
@@ -45,6 +46,21 @@ export class UpdateStoryComponent extends BaseFormComponent implements OnInit {
   }
 
   public override submit(): void {
-      
+    if(!this.canSubmitAndTouchForm()){
+      return;
+    }
+
+    this.startLoadAndClearErrors();
+    const model = this.formHelper.createUpdateModel(this.controls);
+
+    this.subs.add(this.endpoints.put(this.id, model).subscribe({
+      next: (data) => {
+        // TODO: nagivate with sucess param
+        this.router.navigate(htConstants.pathSecuredHome);
+      },
+      error: (err) => {
+        this.endLoadAndHandleError(err);
+      }
+    }));
   }
 }
