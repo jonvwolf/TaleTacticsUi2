@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserSessionService } from '../core/user-session.service';
-import { HtConstants } from '../core/ht-constants';
+import { htConstants } from '../core/ht-constants';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if(this.session.isLoggedIn){
       
-      if(request.url.indexOf(environment.apiHost + HtConstants.securedBasePath + '/') > -1){
+      if(request.url.indexOf(environment.apiHost + htConstants.securedBasePath + '/') > -1){
         const cloned = request.clone({
           headers: request.headers.set('Authorization', 'Bearer ' + this.session.jwt)
         });

@@ -2,7 +2,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, Observable, shareReplay, Subscription, tap } from 'rxjs';
-import { HtConstants } from '../core/ht-constants';
+import { htConstants, HtConstants } from '../core/ht-constants';
 import { UserSessionService } from '../core/user-session.service';
 import { htDefaultGeneralElements, SecuredAppUiGeneralElements, SecuredAppUiService } from '../ui-helpers/secured-app-ui.service';
 import { BaseFormComponent } from '../ui-helpers/base-form-component'
@@ -15,6 +15,7 @@ import { BaseFormComponent } from '../ui-helpers/base-form-component'
 export class SecureAppComponent implements OnInit {
 
   public generalElements:SecuredAppUiGeneralElements = htDefaultGeneralElements;
+  public ht:HtConstants = htConstants;
 
   public isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
@@ -42,7 +43,7 @@ export class SecureAppComponent implements OnInit {
 
   public logout():void {
     this.session.logout();
-    this.router.navigate(HtConstants.pathLogin);
+    this.router.navigate(htConstants.pathLogin);
   }
 
   public onRuterActive(event:any):void{

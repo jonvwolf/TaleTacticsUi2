@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StoriesEndpointsService } from 'src/app/core/api-endpoints/stories-endpoints.service';
-import { HtConstants } from 'src/app/core/ht-constants';
+import { htConstants } from 'src/app/core/ht-constants';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
 import { StoryFormHelperService, UpdateStoryFormControls } from 'src/app/ui-helpers/forms/story-form-helper.service';
 
@@ -28,7 +28,7 @@ export class UpdateStoryComponent extends BaseFormComponent implements OnInit {
 
     const id = this.getNumberParam('id', this.route);
     if(id === null){
-      this.router.navigate(HtConstants.pathSecuredHome);
+      this.router.navigate(htConstants.pathSecuredHome);
       return;
     }
 

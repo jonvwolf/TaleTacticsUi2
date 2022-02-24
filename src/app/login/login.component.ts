@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { UserSessionService } from '../core/user-session.service';
 import { BaseFormComponent } from '../ui-helpers/base-form-component';
 import { LoginFormControls, LoginFormHelper } from '../ui-helpers/forms/login-form-helper';
-import { HtConstants } from '../core/ht-constants';
+import { htConstants } from '../core/ht-constants';
 import { LoginEndpointsService } from '../core/api-endpoints/login-endpoints.service';
 import { UnauthorizedError } from '../core/api-endpoints/errors/unauthorized-error';
 
@@ -27,7 +27,7 @@ export class LoginComponent extends BaseFormComponent implements OnInit, OnDestr
 
   public override ngOnInit(): void {
     if(this.session.isLoggedIn){
-      this.router.navigate(HtConstants.pathSecuredHome)
+      this.router.navigate(htConstants.pathSecuredHome)
       return;
     }
     super.ngOnInit();
@@ -46,7 +46,7 @@ export class LoginComponent extends BaseFormComponent implements OnInit, OnDestr
       next: (data) => {
         this.endLoad();
         if(this.session.login(data)){
-          this.router.navigate(HtConstants.pathSecuredHome);
+          this.router.navigate(htConstants.pathSecuredHome);
           return;
         }
         this.unexpectedErrorHappened();

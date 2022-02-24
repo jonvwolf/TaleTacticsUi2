@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StoriesEndpointsService } from 'src/app/core/api-endpoints/stories-endpoints.service';
-import { HtConstants } from 'src/app/core/ht-constants';
+import { htConstants } from 'src/app/core/ht-constants';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
 import { CreateStoryFormControls, StoryFormHelperService } from 'src/app/ui-helpers/forms/story-form-helper.service';
 import { SecuredAppUiGeneralElements } from 'src/app/ui-helpers/secured-app-ui.service';
@@ -40,7 +40,7 @@ export class CreateStoryComponent extends BaseFormComponent implements OnInit {
 
       this.subs.add(this.endpoints.post(model).subscribe({
         next: () => {
-          this.router.navigate(HtConstants.pathSecuredHome);
+          this.router.navigate(htConstants.pathSecuredHome);
           this.endLoad();
         },
         error: (err) => {

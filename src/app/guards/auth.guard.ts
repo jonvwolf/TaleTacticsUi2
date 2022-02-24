@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserSessionService } from '../core/user-session.service';
-import { HtConstants } from '../core/ht-constants';
+import { htConstants } from '../core/ht-constants';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ constructor(private session:UserSessionService, private router:Router){
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     if(!this.session.isLoggedIn){
-      this.router.navigate(HtConstants.pathLogin);
+      this.router.navigate(htConstants.pathLogin);
       return false;
     }
 

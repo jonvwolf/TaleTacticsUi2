@@ -1,11 +1,15 @@
 export class HtConstants {
-    public static get securedBasePath():string { return '/secured'; }
-    public static get localStorageJwt():string { return 'ht-jwt'; }
+    public get securedBasePath():string { return '/secured'; }
+    public get localStorageJwt():string { return 'ht-jwt'; }
 
-    public static get pathLogin():any[] { return ['/']; }
-    public static get pathSecuredHome():any[] { return ['/secured/home']; }
-    
-    public static getPathSecuredUpdateStory(id:number):any[] {
+    public get pathLogin():any[] { return ['/']; }
+    public get pathSecuredHome():any[] { return ['/secured/home']; }
+
+    public get pathSecuredCreateStory():any[] { return ['/secured/stories/create']; }
+
+    public getPathSecuredUpdateStory(id:number):any[] {
         return ['/secured/stories', id];
     }
 }
+
+export const htConstants = new HtConstants();

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TokenModel } from './api-models/token-model';
 import jwt_decode from 'jwt-decode'
 import { User } from './logged-user';
-import { HtConstants } from './ht-constants';
+import { htConstants } from './ht-constants';
 
 const defaultUser:User = new User(null);
 
@@ -21,7 +21,7 @@ export class UserSessionService {
   }
 
   private loadJwtFromStorage():void{
-    const storedJwt = localStorage.getItem(HtConstants.localStorageJwt);
+    const storedJwt = localStorage.getItem(htConstants.localStorageJwt);
     if(storedJwt === null){
       return;
     }
@@ -44,13 +44,13 @@ export class UserSessionService {
 
     this.jwt = token;
     this._user = user;
-    localStorage.setItem(HtConstants.localStorageJwt, token);
+    localStorage.setItem(htConstants.localStorageJwt, token);
     return true;
   }
 
   public logout():void {
     this.jwt = '';
-    localStorage.removeItem(HtConstants.localStorageJwt);
+    localStorage.removeItem(htConstants.localStorageJwt);
     this._user = defaultUser;
   }
 

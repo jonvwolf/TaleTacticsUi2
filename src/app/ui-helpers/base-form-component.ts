@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { BadRequestError } from "../core/api-endpoints/errors/bad-request-error";
 import { UnauthorizedError } from "../core/api-endpoints/errors/unauthorized-error";
+import { htConstants, HtConstants } from "../core/ht-constants";
 import { htCreateSubmitBtnOptions } from "./reusable-components/submit-btn/submit-btn.component";
 import { SecuredAppUiGeneralElements } from "./secured-app-ui.service";
 
@@ -22,6 +23,7 @@ const baseFormComponentDefaultFormGroup = new FormGroup({});
     template: ''
 })
 export abstract class BaseFormComponent implements IFormComponent, OnDestroy, OnInit {
+    public ht:HtConstants = htConstants;
     public form:FormGroup = baseFormComponentDefaultFormGroup;
 
     private _hasUnexpectedError:boolean = false;
