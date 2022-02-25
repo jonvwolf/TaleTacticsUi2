@@ -4,6 +4,7 @@ import { StoriesEndpointsService } from 'src/app/core/api-endpoints/stories-endp
 import { htConstants } from 'src/app/core/ht-constants';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
 import { StoryFormHelperService, UpdateStoryFormControls } from 'src/app/ui-helpers/forms/story-form-helper.service';
+import { SecuredAppUiGeneralElements } from 'src/app/ui-helpers/secured-app-ui.service';
 
 @Component({
   selector: 'app-update-story',
@@ -14,6 +15,11 @@ export class UpdateStoryComponent extends BaseFormComponent implements OnInit {
 
   public controls:UpdateStoryFormControls;
   public id:number = 0;
+
+  // These can be changed later on using appUI but not inside ngOnInit
+  public override get initialGeneralElements():SecuredAppUiGeneralElements { return {
+    headerTitle: 'Update story'
+  }; }
 
   constructor(private formHelper:StoryFormHelperService, private route:ActivatedRoute,
     private router:Router, private endpoints:StoriesEndpointsService) {
@@ -56,7 +62,7 @@ export class UpdateStoryComponent extends BaseFormComponent implements OnInit {
     this.subs.add(this.endpoints.put(this.id, model).subscribe({
       next: (data) => {
         // TODO: nagivate with sucess param
-        this.router.navigate(htConstants.pathSecuredHome);
+        this.router.navigate(htConstants.getPathSecuredStoryScenesEditor(this.id));
       },
       error: (err) => {
         this.endLoadAndHandleError(err);

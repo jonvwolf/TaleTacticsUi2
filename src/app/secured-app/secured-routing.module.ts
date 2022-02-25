@@ -4,6 +4,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { CreateStoryComponent } from './create-story/create-story.component';
 import { HomeComponent } from './home/home.component';
 import { SecureAppComponent } from './secured-app.component';
+import { StoryScenesEditorComponent } from './story-scenes-editor/story-scenes-editor.component';
 import { UpdateStoryComponent } from './update-story/update-story.component';
 
 const routes: Routes = [{
@@ -12,6 +13,7 @@ const routes: Routes = [{
     {path:'home', component:HomeComponent},
     {path:'stories/create', component:CreateStoryComponent},
     {path:'stories/update/:id', component:UpdateStoryComponent},
+    {path:'stories/scenes-editor/:id', component:StoryScenesEditorComponent},
     {path:'',  redirectTo: 'home', pathMatch: 'full'},
     // TODO: add a 404 component
     {path:'**', redirectTo: 'home', pathMatch: 'full'}

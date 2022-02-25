@@ -23,6 +23,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { CutTextPipe } from '../ui-helpers/pipes/cut-text.pipe';
 import { ConvertToBrPipe } from '../ui-helpers/pipes/convert-to-br.pipe';
 import { UpdateStoryComponent } from './update-story/update-story.component';
+import { StoryScenesEditorComponent } from './story-scenes-editor/story-scenes-editor.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { UpdateStoryComponent } from './update-story/update-story.component';
     CreateStoryComponent,
     CutTextPipe,
     ConvertToBrPipe,
-    UpdateStoryComponent
+    UpdateStoryComponent,
+    StoryScenesEditorComponent
   ],
   imports: [
     CommonModule,

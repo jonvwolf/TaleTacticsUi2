@@ -1,0 +1,16 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+    <app-form-errors class="default-form" [formComponent]="this"></app-form-errors>
+    <mat-card class="default-form">
+        <mat-card-header>
+            <mat-card-title>
+                {{story.title}}
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <pre>{{story.description}}</pre>
+        </mat-card-content>
+        <mat-card-actions>
+            <a mat-raised-button [routerLink]="ht.getPathSecuredUpdateStory(story.id)" color="primary">Update</a>
+        </mat-card-actions>
+    </mat-card>
+</div>

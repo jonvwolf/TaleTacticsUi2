@@ -11,6 +11,9 @@ export class HtConstants {
     public getPathSecuredUpdateStory(id:number):any[] {
         return ['/secured/stories/update', id];
     }
+    public getPathSecuredStoryScenesEditor(id:number):any[] {
+        return ['/secured/stories/scenes-editor', id];
+    }
 }
 
 export const htConstants = new HtConstants();

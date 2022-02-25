@@ -62,6 +62,6 @@ export class HomeComponent extends BaseFormComponent implements OnInit, AfterVie
   }
 
   public storyRowClick(readStoryModel:ReadStoryModel):void {
-    this.router.navigate(htConstants.getPathSecuredUpdateStory(readStoryModel.id));
+    this.router.navigate(htConstants.getPathSecuredStoryScenesEditor(readStoryModel.id));
   }
 }
