@@ -14,6 +14,9 @@ export class HtConstants {
     public getPathSecuredStoryScenesEditor(id:number):any[] {
         return ['/secured/stories/scenes-editor', id];
     }
+    public getPathSecuredGame(gameCode:string):any[] {
+        return ['/secured/games', gameCode];
+    }
 }
 
 export const htConstants = new HtConstants();

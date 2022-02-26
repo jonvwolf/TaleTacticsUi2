@@ -24,6 +24,9 @@ import { CutTextPipe } from '../ui-helpers/pipes/cut-text.pipe';
 import { ConvertToBrPipe } from '../ui-helpers/pipes/convert-to-br.pipe';
 import { UpdateStoryComponent } from './update-story/update-story.component';
 import { StoryScenesEditorComponent } from './story-scenes-editor/story-scenes-editor.component';
+import { GameStoryDashboardComponent } from './game-story-dashboard/game-story-dashboard.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { StartGameDialogComponent } from '../ui-helpers/dialogs/start-game-dialog/start-game-dialog.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,9 @@ import { StoryScenesEditorComponent } from './story-scenes-editor/story-scenes-e
     CutTextPipe,
     ConvertToBrPipe,
     UpdateStoryComponent,
-    StoryScenesEditorComponent
+    StoryScenesEditorComponent,
+    GameStoryDashboardComponent,
+    StartGameDialogComponent
   ],
   imports: [
     CommonModule,
@@ -53,7 +58,8 @@ import { StoryScenesEditorComponent } from './story-scenes-editor/story-scenes-e
     MatProgressSpinnerModule,
     SharedModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule
   ],
   providers: []
 })

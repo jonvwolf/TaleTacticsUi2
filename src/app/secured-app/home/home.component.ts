@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,6 +8,7 @@ import { StoriesEndpointsService } from 'src/app/core/api-endpoints/stories-endp
 import { ReadStoryModel } from 'src/app/core/api-models/read-story-model';
 import { htConstants } from 'src/app/core/ht-constants';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
+import { StartGameDialogComponent } from 'src/app/ui-helpers/dialogs/start-game-dialog/start-game-dialog.component';
 import { SecuredAppUiGeneralElements, SecuredAppUiService } from 'src/app/ui-helpers/secured-app-ui.service';
 
 @Component({
@@ -27,7 +29,8 @@ export class HomeComponent extends BaseFormComponent implements OnInit, AfterVie
     headerTitle: 'Home'
   }; }
 
-  constructor(private stories:StoriesEndpointsService, private router:Router) {
+  constructor(private stories:StoriesEndpointsService, private router:Router,
+    private dialog:MatDialog) {
     super();
 
   }
@@ -63,5 +66,9 @@ export class HomeComponent extends BaseFormComponent implements OnInit, AfterVie
 
   public storyRowClick(readStoryModel:ReadStoryModel):void {
     this.router.navigate(htConstants.getPathSecuredStoryScenesEditor(readStoryModel.id));
+  }
+
+  public startGame(readStoryModel:ReadStoryModel):void {
+    this.dialog.open(StartGameDialogComponent, {data: readStoryModel, disableClose: true});
   }
 }

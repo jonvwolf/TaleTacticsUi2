@@ -4,7 +4,7 @@
         <!-- for overlay to work, must be inside a position:relative div -->
         <app-loader-overlay [formComponent]="this"></app-loader-overlay>
         <mat-card-header>
-            <mat-card-title>Stories</mat-card-title>
+            <mat-card-title>Stories <span class="card-title-desc">Click on the row <b>text</b> to edit it</span></mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <p *ngIf="storyList.length == 0">
@@ -17,19 +17,27 @@
             <table mat-table matSort class="mat-elevation-z8" [dataSource]="dataSource" [hidden]="storyList.length == 0">
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-                    <td mat-cell *matCellDef="let element">{{element.id}}</td>
+                    <td mat-cell *matCellDef="let element"><span (click)="storyRowClick(element)">{{element.id}}</span></td>
                 </ng-container>
                 <ng-container matColumnDef="title">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-                    <td mat-cell *matCellDef="let element">{{element.title}}</td>
+                    <td mat-cell *matCellDef="let element"><span (click)="storyRowClick(element)">{{element.title}}</span></td>
                 </ng-container>
                 <ng-container matColumnDef="description">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-                    <td mat-cell *matCellDef="let element">{{element.description | cutText:100 | convertToBr:'. '}}</td>
+                    <td mat-cell *matCellDef="let element"><span (click)="storyRowClick(element)">{{element.description | cutText:100 | convertToBr:'. '}}</span></td>
+                </ng-container>
+                <ng-container matColumnDef="game-start">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-raised-button color="primary" (click)="startGame(element)">
+                            Start a game
+                        </button>
+                    </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="['id', 'title', 'description']"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['id', 'title', 'description']" (click)="storyRowClick(row)"></tr>
+                <tr mat-header-row *matHeaderRowDef="['id', 'title', 'description', 'game-start']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['id', 'title', 'description', 'game-start']"></tr>
 
                 <tr class="mat-row" *matNoDataRow>
                     <td class="mat-cell" colspan="3">No stories matches the filter</td>

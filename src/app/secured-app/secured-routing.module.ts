@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
 import { CreateStoryComponent } from './create-story/create-story.component';
+import { GameStoryDashboardComponent } from './game-story-dashboard/game-story-dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { SecureAppComponent } from './secured-app.component';
 import { StoryScenesEditorComponent } from './story-scenes-editor/story-scenes-editor.component';
@@ -14,6 +15,7 @@ const routes: Routes = [{
     {path:'stories/create', component:CreateStoryComponent},
     {path:'stories/update/:id', component:UpdateStoryComponent},
     {path:'stories/scenes-editor/:id', component:StoryScenesEditorComponent},
+    {path:'games/:gameCode', component: GameStoryDashboardComponent},
     {path:'',  redirectTo: 'home', pathMatch: 'full'},
     // TODO: add a 404 component
     {path:'**', redirectTo: 'home', pathMatch: 'full'}

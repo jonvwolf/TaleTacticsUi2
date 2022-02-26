@@ -1,0 +1,15 @@
+<app-form-errors class="full-content" [formComponent]="this"></app-form-errors>
+<h1 mat-dialog-title>Start game confirmation</h1>
+<div mat-dialog-content>
+    <!-- No position:relative. Whole screen is covered, and it is fine -->
+    <app-loader-overlay [formComponent]="this" ></app-loader-overlay>
+    <p>{{data.title}}</p>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="startGame()">
+        Confirm
+    </button>
+    <button mat-raised-button color="secondary" (click)="close()">
+        Cancel
+    </button>
+</div>
