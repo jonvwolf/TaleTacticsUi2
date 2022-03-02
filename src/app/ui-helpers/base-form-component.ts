@@ -103,4 +103,7 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
         const val = Number(route.snapshot.paramMap.get(key));
         return Number.isNaN(val) ? null : val;
     }
+    protected getStringParam(key:string, route:ActivatedRoute):string|null{
+        return route.snapshot.paramMap.get(key);
+    }
 }

@@ -14,8 +14,11 @@ export class HtConstants {
     public getPathSecuredStoryScenesEditor(id:number):any[] {
         return ['/secured/stories/scenes-editor', id];
     }
-    public getPathSecuredGame(gameCode:string):any[] {
-        return ['/secured/games', gameCode];
+
+    public get gameStoryIdParamName():string { return 'storyId'; }
+    public get gameGameCodeParamName():string { return 'gameCode'; }
+    public getPathSecuredGame(storyId:number, gameCode:string):any[] {
+        return ['/secured/games', storyId, gameCode];
     }
 }
 

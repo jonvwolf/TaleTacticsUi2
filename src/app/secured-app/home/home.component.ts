@@ -1,15 +1,20 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { map, Observable, shareReplay } from 'rxjs';
 import { StoriesEndpointsService } from 'src/app/core/api-endpoints/stories-endpoints.service';
 import { ReadStoryModel } from 'src/app/core/api-models/read-story-model';
 import { htConstants } from 'src/app/core/ht-constants';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
 import { StartGameDialogComponent } from 'src/app/ui-helpers/dialogs/start-game-dialog/start-game-dialog.component';
 import { SecuredAppUiGeneralElements, SecuredAppUiService } from 'src/app/ui-helpers/secured-app-ui.service';
+
+const fullsizeTableColumns = ['id', 'title', 'description', 'game-start'];
+const handsetTableColumns = ['title', 'game-start'];
 
 @Component({
   selector: 'app-home',
@@ -18,6 +23,15 @@ import { SecuredAppUiGeneralElements, SecuredAppUiService } from 'src/app/ui-hel
 })
 export class HomeComponent extends BaseFormComponent implements OnInit, AfterViewInit {
 
+  // TODO: organize code (duplication)
+  public isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  .pipe(
+    map(result => result.matches),
+    shareReplay()
+  );
+  
+  
+  public tableColumns:string[] = fullsizeTableColumns;
   public storyList:ReadStoryModel[] = [];
   public dataSource:MatTableDataSource<ReadStoryModel> = new MatTableDataSource();
 
@@ -30,7 +44,7 @@ export class HomeComponent extends BaseFormComponent implements OnInit, AfterVie
   }; }
 
   constructor(private stories:StoriesEndpointsService, private router:Router,
-    private dialog:MatDialog) {
+    private dialog:MatDialog, private breakpointObserver: BreakpointObserver) {
     super();
 
   }
@@ -41,6 +55,14 @@ export class HomeComponent extends BaseFormComponent implements OnInit, AfterVie
   
   override ngOnInit(): void {
     super.ngOnInit();
+
+    this.subs.add(this.isHandset$.subscribe(isHandset => {
+      if(isHandset){
+        this.tableColumns = handsetTableColumns;
+      }else{
+        this.tableColumns = fullsizeTableColumns;
+      }
+    }));
 
     this.startLoadAndClearErrors();
     this.subs.add(this.stories.getAll().subscribe({

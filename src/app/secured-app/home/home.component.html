@@ -31,13 +31,16 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;</th>
                     <td mat-cell *matCellDef="let element">
                         <button mat-raised-button color="primary" (click)="startGame(element)">
-                            Start a game
+                            <mat-icon>start</mat-icon> <span *ngIf="!(isHandset$ | async)">Start game</span>
+                        </button>
+                        <button mat-raised-button color="primary" (click)="storyRowClick(element)">
+                            <mat-icon>edit</mat-icon>
                         </button>
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="['id', 'title', 'description', 'game-start']"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['id', 'title', 'description', 'game-start']"></tr>
+                <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: tableColumns"></tr>
 
                 <tr class="mat-row" *matNoDataRow>
                     <td class="mat-cell" colspan="3">No stories matches the filter</td>

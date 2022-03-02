@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  apiHost: 'https://localhost:5001',
+  apiHost: 'https://ht-api.whostreaming.net',
   production: false
 };
 

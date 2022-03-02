@@ -28,7 +28,7 @@ export class StartGameDialogComponent extends BaseFormComponent implements OnIni
     
     this.subs.add(this.endpoints.postGame(this.data).subscribe({
       next: (data) => {
-        this.router.navigate(htConstants.getPathSecuredGame(data.gameCode));
+        this.router.navigate(htConstants.getPathSecuredGame(this.data.id, data.gameCode));
         this.endLoad();
         this.dialogRef.close();
       },

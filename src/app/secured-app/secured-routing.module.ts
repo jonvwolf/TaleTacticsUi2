@@ -15,7 +15,7 @@ const routes: Routes = [{
     {path:'stories/create', component:CreateStoryComponent},
     {path:'stories/update/:id', component:UpdateStoryComponent},
     {path:'stories/scenes-editor/:id', component:StoryScenesEditorComponent},
-    {path:'games/:gameCode', component: GameStoryDashboardComponent},
+    {path:'games/:storyId/:gameCode', component: GameStoryDashboardComponent},
     {path:'',  redirectTo: 'home', pathMatch: 'full'},
     // TODO: add a 404 component
     {path:'**', redirectTo: 'home', pathMatch: 'full'}
