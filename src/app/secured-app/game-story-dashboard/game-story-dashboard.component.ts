@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GamesEndpointsService } from 'src/app/core/api-endpoints/games-endpoints.service';
 import { StoriesEndpointsService } from 'src/app/core/api-endpoints/stories-endpoints.service';
 import { defaultReadStoryModel, ReadStoryModel } from 'src/app/core/api-models/read-story-model';
 import { htConstants } from 'src/app/core/ht-constants';
@@ -17,18 +18,16 @@ const logLinesReduceTo:number = -20;
 export class GameStoryDashboardComponent extends BaseFormComponent implements OnInit {
 
   public gameCode:string = '';
-  public storyId:number = 0;
   public story:ReadStoryModel = defaultReadStoryModel;
 
   private logLines:string[] = [];
   public logText:string = '';
 
-
   public override get initialGeneralElements():SecuredAppUiGeneralElements { return {
     headerTitle: 'Game dashboard'
   }; }
 
-  constructor(private activatedRoute:ActivatedRoute, private router:Router, private endpoints:StoriesEndpointsService) {
+  constructor(private activatedRoute:ActivatedRoute, private router:Router, private endpoints:GamesEndpointsService) {
     super();
   }
 
@@ -43,16 +42,16 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
     }
 
     this.gameCode = gameCode;
-    this.storyId = storyId;
 
-    this.subs.add(this.endpoints.get(storyId).subscribe({
+    this.subs.add(this.endpoints.get(gameCode).subscribe({
       next: (data) => {
         this.story = data;
+        
+        this.subs.add()
         this.endLoad();
 
         this.addLogText('Got story from endpoint OK');
         this.connectToHub();
-           
       },
       error: (err) => {
         this.endLoadAndHandleError(err);
