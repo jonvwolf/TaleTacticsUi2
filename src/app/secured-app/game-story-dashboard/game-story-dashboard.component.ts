@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GamesEndpointsService } from 'src/app/core/api-endpoints/games-endpoints.service';
 import { defaultReadStoryModel, ReadStoryModel } from 'src/app/core/api-models/read-story-model';
-import { HorrorMasterHubService } from 'src/app/core/horror-master-hub.service';
+import { HorrorMasterHubService, HubChangedEnum, listenReceiveLogHubName } from 'src/app/core/horror-master-hub.service';
 import { htConstants } from 'src/app/core/ht-constants';
+import { PlayerTextLogModel } from 'src/app/core/hub-models/player-text-log-model';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
 import { SecuredAppUiGeneralElements, SecuredAppUiService } from 'src/app/ui-helpers/secured-app-ui.service';
 
@@ -20,8 +21,10 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   public gameCode:string = '';
   public story:ReadStoryModel = defaultReadStoryModel;
   public isConnected = false;
-  public isConnecting = false;
-  public isDisconnecting = false;
+  public isReconnecting = false;
+
+  public get canConnect():boolean { return !this.isConnected && !this.isReconnecting; }
+  public get canDisconnect():boolean { return this.isConnected && !this.isReconnecting; }
 
   private logLines:string[] = [];
   public logText:string = '';
@@ -36,24 +39,7 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   }
 
   override ngOnInit(): void {
-    this.subs.add(this.hub.eventHubClosed.subscribe(() => {
-      this.addLogText('ERROR. Reconnection to hub failed');
-      this.isConnected = false;
-      this.isConnecting = false;
-    }));
-
-    this.subs.add(this.hub.eventHubReconnected.subscribe(() => {
-      this.addLogText('OK. Reconnection to hub was a success');
-      this.isConnecting = false;
-      this.isConnected = true;
-    }));
-
-    this.subs.add(this.hub.eventHubReconnecting.subscribe(() => {
-      this.isConnecting = true;
-      this.isConnected = true;
-      this.addLogText('Connection to hub lost Reconnecting...');
-    }));
-
+    
     this.startLoadAndClearErrors();
 
     const gameCode = this.getStringParam(htConstants.gameGameCodeParamName, this.activatedRoute);
@@ -64,6 +50,46 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
     }
 
     this.gameCode = gameCode;
+
+    this.subs.add(this.hub.eventHubChanged.subscribe((args) => {
+      switch(args.hubChanged){
+        case HubChangedEnum.Connected:
+          this.isConnected = true;
+          this.isReconnecting = false;
+          this.addLogText('OK. Connected to hub');
+          break;
+        case HubChangedEnum.Connecting:
+          this.isConnected = false;
+          this.isReconnecting = true;
+          this.addLogText('--. Connecting to hub');
+          break;
+        case HubChangedEnum.Reconnecting:
+          this.isConnected = false;
+          this.isReconnecting = true;
+          this.addLogText('--. Reconnecting to hub');
+          break;
+        case HubChangedEnum.Disconnected:
+          this.isConnected = false;
+          this.isReconnecting = false;
+          this.addLogText('--. Disconnected to hub');
+          break;
+        default:
+          console.error('Unkown hub changed enum: ', args.hubChanged);
+          throw new Error('Unkown hub changed enum: ' + args.hubChanged);
+      }
+    }));
+
+    this.subs.add(this.hub.eventReceivedData.subscribe((args) => {
+      if(args.hubName === listenReceiveLogHubName){
+        const model = args.data as PlayerTextLogModel;
+        if(model === null || model.playerName === undefined){
+          // todo: do not use console
+          console.error('Invalid type returned by hub', args.data);
+        }else{
+          this.addLogText(model.playerName + ': ' + model.message)
+        }
+      }
+    }));
 
     this.subs.add(this.endpoints.get(gameCode).subscribe({
       next: (data) => {
@@ -80,63 +106,20 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   }
 
   public disconnectFromHub():void {
-    if(!this.isConnected){
-      this.addLogText('Connection to hub does not exist. Connect first.');
+    if(!this.canDisconnect){
       return;
     }
-    if(this.isConnecting){
-      this.addLogText('Reconnectiong is in progress. Please wait...');
-      return;
-    }
-    if(this.isDisconnecting){
-      this.addLogText('Disconnecting is in progress. Please wait...');
-      return;
-    }
-    this.isDisconnecting = true;
+
     // success or fail, assume the connection is dropped regardless
-    this.hub.stopConnection()
-      .then(() => {
-        this.isConnected = false;
-        this.isConnecting = false;
-        this.isDisconnecting = false;
-        this.addLogText('OK. Disconnected from hub');
-      }).catch(() => {
-        this.isConnected = false;
-        this.isConnecting = false;
-        this.isDisconnecting = false;
-        this.addLogText('ERROR. Disconnected from hub but there was an error');
-      });
+    this.hub.stopConnection();
   }
 
   public connectToHub():void {
-    if(this.isDisconnecting){
-      // just in case
+    if(!this.canConnect){
       return;
     }
-    if(this.isConnected){
-      this.addLogText('Connection to hub is OK. Disconnect first.');
-      return;
-    }
-    if(this.isConnecting){
-      this.addLogText('Reconnectiong is in progress. Please wait...');
-      return;
-    }
-    // TODO: isConnected/isConnecting should go inside the hub service
-    this.isConnected = false;
-    this.isConnecting = true;
-    this.addLogText('Connecting to hub...');
-    
-    this.hub.startConnection()
-      .then(() => {
-        this.addLogText('OK. Connected to hub')
-        this.isConnected = true;
-        this.isConnecting = false;
-      })
-      .catch(() => {
-        this.addLogText('ERROR. starting connection to hub');
-        this.isConnected = false;
-        this.isConnecting = false;
-      });
+
+    this.hub.startConnection([listenReceiveLogHubName]);
   }
 
   private addLogText(log:string):void {
