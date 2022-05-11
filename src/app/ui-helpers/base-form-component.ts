@@ -55,7 +55,7 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
     }
     
     public ngOnDestroy():void{
-        // TODO: is this called?
+        // This is called even if the child does not have implements OnDestroy
         this._subs.unsubscribe();
     }
 

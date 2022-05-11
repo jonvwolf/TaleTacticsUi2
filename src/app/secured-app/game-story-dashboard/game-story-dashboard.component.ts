@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GamesEndpointsService } from 'src/app/core/api-endpoints/games-endpoints.service';
-import { StoriesEndpointsService } from 'src/app/core/api-endpoints/stories-endpoints.service';
 import { defaultReadStoryModel, ReadStoryModel } from 'src/app/core/api-models/read-story-model';
 import { HorrorMasterHubService } from 'src/app/core/horror-master-hub.service';
 import { htConstants } from 'src/app/core/ht-constants';
@@ -38,13 +37,13 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
 
   override ngOnInit(): void {
     this.subs.add(this.hub.eventHubClosed.subscribe(() => {
-      this.addLogText('Reconnection to hub failed. ERR');
+      this.addLogText('ERROR. Reconnection to hub failed');
       this.isConnected = false;
       this.isConnecting = false;
     }));
 
     this.subs.add(this.hub.eventHubReconnected.subscribe(() => {
-      this.addLogText('Reconnection to hub was a success. OK');
+      this.addLogText('OK. Reconnection to hub was a success');
       this.isConnecting = false;
       this.isConnected = true;
     }));
@@ -68,10 +67,11 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
 
     this.subs.add(this.endpoints.get(gameCode).subscribe({
       next: (data) => {
-        this.connectToHub();
         this.story = data;
         this.endLoad();
-        this.addLogText('Got story from endpoint. OK');
+        this.addLogText('OK. Got story from endpoint');
+
+        this.connectToHub();
       },
       error: (err) => {
         this.endLoadAndHandleError(err);
@@ -99,16 +99,20 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
         this.isConnected = false;
         this.isConnecting = false;
         this.isDisconnecting = false;
-        this.addLogText('Disconnected from hub. OK');
+        this.addLogText('OK. Disconnected from hub');
       }).catch(() => {
         this.isConnected = false;
         this.isConnecting = false;
         this.isDisconnecting = false;
-        this.addLogText('Disconnected from hub but there was an error. ERR');
+        this.addLogText('ERROR. Disconnected from hub but there was an error');
       });
   }
 
   public connectToHub():void {
+    if(this.isDisconnecting){
+      // just in case
+      return;
+    }
     if(this.isConnected){
       this.addLogText('Connection to hub is OK. Disconnect first.');
       return;
@@ -124,12 +128,12 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
     
     this.hub.startConnection()
       .then(() => {
-        this.addLogText('Connected to hub. OK')
+        this.addLogText('OK. Connected to hub')
         this.isConnected = true;
         this.isConnecting = false;
       })
       .catch(() => {
-        this.addLogText('Error starting connection to hub. ERR');
+        this.addLogText('ERROR. starting connection to hub');
         this.isConnected = false;
         this.isConnecting = false;
       });

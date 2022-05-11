@@ -31,7 +31,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;</th>
                     <td mat-cell *matCellDef="let element">
                         <button mat-raised-button color="primary" (click)="startGame(element)">
-                            <mat-icon>start</mat-icon> <span *ngIf="!(isHandset$ | async)">Start game</span>
+                            <mat-icon>start</mat-icon>&nbsp;<span *ngIf="!(isHandset$ | async)">Start game</span>
                         </button>
                         <button mat-raised-button color="primary" (click)="storyRowClick(element)">
                             <mat-icon>edit</mat-icon>

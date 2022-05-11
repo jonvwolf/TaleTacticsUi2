@@ -14,7 +14,7 @@ export class GamesEndpointsService extends BaseApiEndpoints {
   }
 
   public get(gameCode:string):Observable<ReadStoryModel>{
-    return this.http.get<ReadStoryModel>('/games/ ' + gameCode + '/configuration', {headers: this.createHttpHeadersJson()}).pipe(
+    return this.http.get<ReadStoryModel>(super.basePath + '/games/' + gameCode + '/configuration', {headers: this.createHttpHeadersJson()}).pipe(
       catchError((err:HttpErrorResponse) => {
         return this.handleHttpError(err);
       })

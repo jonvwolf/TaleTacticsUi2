@@ -16,8 +16,10 @@ export class HorrorMasterHubService {
 
   private internalEventHubClosed = new EventEmitter<any>();
   public get eventHubClosed():EventEmitter<any> { return this.internalEventHubClosed; }
+
   private internalEventHubReconnecting = new EventEmitter<any>();
   public get eventHubReconnecting():EventEmitter<any> { return this.internalEventHubReconnecting; }
+
   private internalEventHubReconnected = new EventEmitter<any>();
   public get eventHubReconnected():EventEmitter<any> { return this.internalEventHubReconnected; }
 
@@ -40,7 +42,7 @@ export class HorrorMasterHubService {
       .withAutomaticReconnect(hubRetries)
       .build();
 
-    // I think the callback references are marked as to be cleaned once `this.hub` is set to null
+    // TODO: I think the callback references are marked as to be cleaned once `this.hub` is set to null
     this.hub.onreconnecting((err) => {
       // This is called only once (the first retry)
       console.error('Hub reconnecting', err);
