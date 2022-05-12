@@ -7,7 +7,7 @@
             <mat-card-title>Stories <span class="card-title-desc">Click on the row <b>text</b> to edit it</span></mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <p *ngIf="storyList.length == 0">
+            <p *ngIf="storyList.length == 0 && !isLoading">
                 <a mat-stroked-button [routerLink]="ht.pathSecuredCreateStory">No stories created so far! Click here to start creating one</a>
             </p>
             <mat-form-field class="full-form-field" appearance="standard" *ngIf="storyList.length > 0">

@@ -1,6 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="center center">
     <app-form-errors class="default-form" [formComponent]="this"></app-form-errors>
     <mat-card class="default-form">
+        <app-loader-overlay [formComponent]="this"></app-loader-overlay>
         <mat-card-header>
             <mat-card-title>
                 {{story.title}}
@@ -12,5 +13,20 @@
         <mat-card-actions>
             <a mat-raised-button [routerLink]="ht.getPathSecuredUpdateStory(story.id)" color="primary">Update</a>
         </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="default-form">
+        <mat-card-header>
+            <mat-card-title>
+                Scenes
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>
+                Examples of story parts: A room in a castle, a monster encounter, an NPC conversation, etc. 
+                A part is composed of one or multiple actions. Actions available: Show an image/start a puzzle, 
+                show text overlay, play one or multiple audios, start a timer.
+            </p>
+        </mat-card-content>
     </mat-card>
 </div>

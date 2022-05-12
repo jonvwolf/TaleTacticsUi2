@@ -6,7 +6,7 @@ import { HorrorMasterHubService, HubChangedEnum, listenReceiveLogHubName } from 
 import { htConstants } from 'src/app/core/ht-constants';
 import { PlayerTextLogModel } from 'src/app/core/hub-models/player-text-log-model';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
-import { SecuredAppUiGeneralElements, SecuredAppUiService } from 'src/app/ui-helpers/secured-app-ui.service';
+import { SecuredAppUiGeneralElements } from 'src/app/ui-helpers/secured-app-ui.service';
 
 const maxCurrentLogLines:number = 500;
 const logLinesReduceTo:number = -20;
@@ -39,6 +39,7 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   }
 
   override ngOnInit(): void {
+    super.ngOnInit();
     
     this.startLoadAndClearErrors();
 

@@ -28,6 +28,8 @@ export class StoryScenesEditorComponent extends BaseFormComponent implements OnI
   override ngOnInit(): void {
     super.ngOnInit();
 
+    this.startLoadAndClearErrors();
+    
     const id = this.getNumberParam(htConstants.updateStoryIdParamName, this.route);
     if(id === null){
       this.router.navigate(htConstants.pathSecuredHome);
