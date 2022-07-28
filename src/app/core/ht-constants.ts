@@ -7,6 +7,8 @@ export class HtConstants {
 
     public get pathSecuredCreateStory():any[] { return ['/secured/stories/create']; }
 
+    public get pathSecuredFileManager():any[] { return ['/secured/files']; }
+
     public get updateStoryIdParamName():string { return 'id'; }
     public getPathSecuredUpdateStory(id:number):any[] {
         return ['/secured/stories/update', id];

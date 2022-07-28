@@ -89,3 +89,21 @@ mat-card.default-form{
 mat-card.default-form mat-form-field {
   display: block;
 }
+
+table.full-content-table {
+  width: 100%;
+}
+
+table.ht-default .mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+table.ht-default .mat-row:hover .mat-cell {
+  border-color: currentColor;
+}
+
+table.ht-default button {
+  margin-right: 7px;
+}

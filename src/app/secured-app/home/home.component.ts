@@ -78,6 +78,7 @@ export class HomeComponent extends BaseFormComponent implements OnInit, AfterVie
   }
 
   public applyFilter(event:Event):void{
+    // TODO: repeated code
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 

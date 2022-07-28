@@ -26,6 +26,7 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
     public ht:HtConstants = htConstants;
     public form:FormGroup = baseFormComponentDefaultFormGroup;
 
+    // TODO: all of the form variables can be inside a reusable class (so you can have more than 2 forms and separate responsibilities)
     private _hasUnexpectedError:boolean = false;
     private _hasBadRequestFromServer:boolean = false;
     private _hasSessionExpiredError:boolean = false;

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { FilesManagerComponent } from '../files-manager/files-manager.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { CreateStoryComponent } from './create-story/create-story.component';
 import { GameStoryDashboardComponent } from './game-story-dashboard/game-story-dashboard.component';
@@ -16,6 +17,7 @@ const routes: Routes = [{
     {path:'stories/update/:id', component:UpdateStoryComponent},
     {path:'stories/scenes-editor/:id', component:StoryScenesEditorComponent},
     {path:'games/:storyId/:gameCode', component: GameStoryDashboardComponent},
+    {path:'files', component: FilesManagerComponent},
     {path:'',  redirectTo: 'home', pathMatch: 'full'},
     // TODO: add a 404 component
     {path:'**', redirectTo: 'home', pathMatch: 'full'}
