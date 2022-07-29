@@ -7,4 +7,7 @@
 <mat-card *ngIf="formComponent?.hasSessionExpiredError" class="mat-card-error">
     Your session has expired. Please log out and log back in
 </mat-card>
+<mat-card *ngIf="formComponent?.customErrorText !== null" class="mat-card-error">
+    {{formComponent?.customErrorText}}
+</mat-card>
 <ng-content select="[form-error-default]"></ng-content>

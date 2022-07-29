@@ -1,4 +1,8 @@
 export class HtConstants {
+    // TODO: these must be gotten from API
+    public allowedFileExtensions = ['png', 'jpeg', 'mp3'];
+    public allowedMaxFileSizeInKb = 2048;
+
     public get securedBasePath():string { return '/secured'; }
     public get localStorageJwt():string { return 'ht-jwt'; }
 
