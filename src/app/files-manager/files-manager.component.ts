@@ -13,7 +13,7 @@ import { BaseFormComponent } from '../ui-helpers/base-form-component';
 import { SecuredAppUiGeneralElements } from '../ui-helpers/secured-app-ui.service';
 
 const fullsizeTableColumns = ['name', 'format'];
-const invalidFileTypeMessage = 'Invalid file format. Select only jpeg, png or mp3';
+const invalidFileTypeMessage = 'Invalid file. Select only jpeg, png or mp3';
 const invalidFileSizeMessage = 'Maximum file size of 2 megabytes allowed';
 
 export interface IFileItem {
@@ -66,7 +66,7 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
     const items:IFileItem[] = [];
     this.subs.add(this.endpoints.getAllImages().subscribe({
       next: (data) => {
-        const images = data.map(image => ({id: image.id, name: image.name, format: FileFormatEnum[image.format], audioModel: null, imageModel: image}));
+        const images = data.map(image => (this.convertImage(image)));
         
         for(let image of images){
           items.push(image);
@@ -74,7 +74,7 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
         
         this.subs.add(this.endpoints.getAllAudios().subscribe({
           next: (data) => {
-            const audios = data.map(audio => ({id: audio.id, name: audio.name, format: FileFormatEnum[audio.format], audioModel: audio, imageModel: null}));
+            const audios = data.map(audio => (this.convertAudio(audio)));
             for(let audio of audios){
               items.push(audio);
             }
@@ -92,6 +92,13 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
       }
     }));
   } 
+
+  private convertAudio(audio:ReadAudioModel):IFileItem{
+    return {id: audio.id, name: audio.name, format: FileFormatEnum[audio.format], audioModel: audio, imageModel: null};
+  }
+  private convertImage(image:ReadImageModel):IFileItem{
+    return {id: image.id, name: image.name, format: FileFormatEnum[image.format], audioModel: null, imageModel: image};
+  }
 
   public ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -128,7 +135,12 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
     if(this.selectedFile.type.startsWith("image/")){
       this.subs.add(this.endpoints.postImage(this.selectedFile).subscribe({
         next: (data) => {
-          this.loadData();
+          const list = this.dataSource.data;
+          list.unshift(this.convertImage(data));
+          this.dataSource.data = list;
+          this.controls.fileControl.setValue('');
+          this.selectedFile = null;
+          this.endLoad();
         },
         error: (err) => {
           this.endLoadAndHandleError(err);
@@ -137,7 +149,12 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
     }else{
       this.subs.add(this.endpoints.postAudio(this.selectedFile).subscribe({
         next: (data) => {
-          this.loadData();
+          const list = this.dataSource.data;
+          list.unshift(this.convertAudio(data));
+          this.dataSource.data = list;
+          this.controls.fileControl.setValue('');
+          this.selectedFile = null;
+          this.endLoad();
         },
         error: (err) => {
           this.endLoadAndHandleError(err);
