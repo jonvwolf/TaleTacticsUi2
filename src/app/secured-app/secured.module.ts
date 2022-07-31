@@ -28,6 +28,7 @@ import { GameStoryDashboardComponent } from './game-story-dashboard/game-story-d
 import { MatDialogModule } from '@angular/material/dialog';
 import { StartGameDialogComponent } from '../ui-helpers/dialogs/start-game-dialog/start-game-dialog.component';
 import { FilesManagerComponent } from '../files-manager/files-manager.component';
+import { EditFileDialogComponent } from '../ui-helpers/dialogs/edit-file-dialog/edit-file-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { FilesManagerComponent } from '../files-manager/files-manager.component'
     StoryScenesEditorComponent,
     GameStoryDashboardComponent,
     StartGameDialogComponent,
-    FilesManagerComponent
+    FilesManagerComponent,
+    EditFileDialogComponent
   ],
   imports: [
     CommonModule,

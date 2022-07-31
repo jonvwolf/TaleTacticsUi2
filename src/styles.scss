@@ -11,6 +11,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   $accent: mat-palette($mat-orange,700);
   $warn: mat-palette($mat-red, 500);
   $textOnWarn: #000;
+  $textOnSuccess: white;
 
   $theme: mat-dark-theme($primary, $accent, $warn);
 
@@ -24,6 +25,13 @@ mat-card-actions {
 .mat-card-error{
   background-color: mat-color($warn);
   color: $textOnWarn;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.mat-card-success{
+  background-color: mat-color($primary);
+  color: $textOnSuccess;
   font-weight: 500;
   margin-top: 10px;
 }
@@ -88,6 +96,17 @@ mat-card.default-form{
 }
 mat-card.default-form mat-form-field {
   display: block;
+}
+
+mat-card.dialog-form .dialog-image {
+  max-width:45vw;
+  min-width: 20vw;
+}
+mat-card.dialog-form mat-form-field {
+  display: block;
+}
+.dialog-buttons app-submit-btn {
+  margin-right:16px;
 }
 
 table.full-content-table {

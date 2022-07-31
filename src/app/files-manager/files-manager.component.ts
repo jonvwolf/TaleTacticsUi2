@@ -10,9 +10,10 @@ import { htConstants } from '../core/ht-constants';
 import { FileFormHelperService, UploadFileFormControls } from '../file-form-helper.service';
 import { FilesEndpointsService } from '../files-endpoints.service';
 import { BaseFormComponent } from '../ui-helpers/base-form-component';
+import { EditFileDialogComponent } from '../ui-helpers/dialogs/edit-file-dialog/edit-file-dialog.component';
 import { SecuredAppUiGeneralElements } from '../ui-helpers/secured-app-ui.service';
 
-const fullsizeTableColumns = ['name', 'format'];
+const fullsizeTableColumns = ['name', 'format', 'commands'];
 const invalidFileTypeMessage = 'Invalid file. Select only jpeg, png or mp3';
 const invalidFileSizeMessage = 'Maximum file size of 2 megabytes allowed';
 
@@ -173,8 +174,13 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
     }
   }
 
-  public startGame(file:IFileItem):void {
-    //this.dialog.open(StartGameDialogComponent, {data: readStoryModel, disableClose: true});
+  public openEditDialog(file:IFileItem):void {
+    var dialog = this.dialog.open(EditFileDialogComponent, {data: file, disableClose: true});
+    this.subs.add(dialog.afterClosed().subscribe({
+      next: (v) => {
+        this.loadData();
+      }
+    }));
   }
 
   public onFileSelect(event:any):void {

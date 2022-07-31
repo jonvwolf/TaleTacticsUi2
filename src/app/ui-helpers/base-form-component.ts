@@ -15,6 +15,7 @@ export interface IFormComponent {
     isLoading:boolean,
     isSubmitBtnDisabled:boolean,
     customErrorText:string|null,
+    customSuccessText:string|null
     submit():void
 }
 
@@ -32,6 +33,7 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
     private _hasBadRequestFromServer:boolean = false;
     private _hasSessionExpiredError:boolean = false;
     private _customErrorText:string|null = null;
+    private _customSuccessText:string|null = null;
     private _isLoading:boolean = false;
     
     public get hasUnexpectedError():boolean { return this._hasUnexpectedError; }
@@ -39,6 +41,8 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
     public get hasSessionExpiredError():boolean { return this._hasSessionExpiredError; }
     public get customErrorText():string|null { return this._customErrorText; }
     public set customErrorText(val:string|null) { this._customErrorText = val; }
+    public get customSuccessText():string|null { return this._customSuccessText; }
+    public set customSuccessText(val:string|null) { this._customSuccessText = val; }
 
     public get isLoading():boolean { return this._isLoading; }
     public get isSubmitBtnDisabled():boolean{ return this.form.invalid; }

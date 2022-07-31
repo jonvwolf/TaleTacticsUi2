@@ -10,4 +10,7 @@
 <mat-card *ngIf="formComponent?.customErrorText !== null" class="mat-card-error">
     {{formComponent?.customErrorText}}
 </mat-card>
+<mat-card *ngIf="formComponent?.customSuccessText !== null" class="mat-card-success">
+    {{formComponent?.customSuccessText}}
+</mat-card>
 <ng-content select="[form-error-default]"></ng-content>

@@ -1,0 +1,29 @@
+<app-form-errors class="full-content" [formComponent]="this"></app-form-errors>
+<h1 mat-dialog-title>Edit file</h1>
+<div mat-dialog-content>
+    <!-- No position:relative. Whole screen is covered, and it is fine -->
+    <app-loader-overlay [formComponent]="this" ></app-loader-overlay>
+    <mat-card class="dialog-form">
+        <mat-card-content>
+            <form [formGroup]="form">
+                <img class="dialog-image" mat-card-image *ngIf="absoluteUrl" src="{{absoluteUrl}}" alt="{{data.name}}">
+                <mat-card-content>
+                    <mat-form-field appearance="standard" color="accent">
+                        <mat-label>Name</mat-label>
+                        <input matInput type="text" [formControl]="controls.nameControl" name="file-name">
+                        <mat-error>Valid name is required</mat-error>
+                    </mat-form-field>
+                </mat-card-content>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
+<div class="dialog-buttons" mat-dialog-actions>
+    <app-submit-btn [formComponent]="this" [options]="createSubmitBtnOptions(true, 'Update')"></app-submit-btn>
+    <button mat-raised-button color="secondary" (click)="delete()">
+        Delete
+    </button>
+    <button mat-raised-button color="secondary" (click)="close()">
+        Close
+    </button>
+</div>
