@@ -1,3 +1,4 @@
 export interface UpdateAudioModel {
-    name:string
+    name:string,
+    isBgm:boolean
 }

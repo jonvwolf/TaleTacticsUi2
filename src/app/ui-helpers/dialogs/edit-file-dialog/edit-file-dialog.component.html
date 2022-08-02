@@ -5,23 +5,46 @@
     <app-loader-overlay [formComponent]="this" ></app-loader-overlay>
     <mat-card class="dialog-form">
         <mat-card-content>
+            <img class="dialog-image" mat-card-image *ngIf="absoluteImageUrl" src="{{absoluteImageUrl}}" alt="{{data.name}}">
+            <audio class="dialog-audio" controls *ngIf="absoluteAudioUrl" src="{{absoluteAudioUrl}}"><code>Browser does not support audio element</code></audio>
+        </mat-card-content>
+    </mat-card>
+    <br />
+    <mat-card class="dialog-form">
+        <mat-card-content>
             <form [formGroup]="form">
-                <img class="dialog-image" mat-card-image *ngIf="absoluteUrl" src="{{absoluteUrl}}" alt="{{data.name}}">
                 <mat-card-content>
                     <mat-form-field appearance="standard" color="accent">
                         <mat-label>Name</mat-label>
                         <input matInput type="text" [formControl]="controls.nameControl" name="file-name">
                         <mat-error>Valid name is required</mat-error>
                     </mat-form-field>
+                    <mat-checkbox *ngIf="controls.isBgm" [formControl]="controls.isBgm">Is Background music (BGM)?</mat-checkbox>
                 </mat-card-content>
+                <mat-card-actions align="end">
+                    <!-- btn has no disable feature because of browser autofill issue -->
+                    <app-submit-btn [formComponent]="this" [options]="createSubmitBtnOptions(true, 'Update')"></app-submit-btn>
+                </mat-card-actions>
             </form>
         </mat-card-content>
     </mat-card>
+    <br />
+    <mat-card>
+        <mat-card-content>
+            <div class="file-upload-div">
+                <mat-label>Replace file</mat-label>
+                <input #fileInput type="file" class="file-upload-input" name="file" (change)="onFileSelect($event)" 
+                accept="image/jpeg,image/png,audio/mpeg">
+            </div>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-raised-button color="primary" (click)="this.submitFile()">Upload & Replace</button>
+        </mat-card-actions>
+    </mat-card>
 </div>
-<div class="dialog-buttons" mat-dialog-actions>
-    <app-submit-btn [formComponent]="this" [options]="createSubmitBtnOptions(true, 'Update')"></app-submit-btn>
-    <button mat-raised-button color="secondary" (click)="delete()">
-        Delete
+<div class="dialog-buttons" mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" (click)="delete()">
+        Permanently delete
     </button>
     <button mat-raised-button color="secondary" (click)="close()">
         Close

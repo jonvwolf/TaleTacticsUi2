@@ -54,6 +54,28 @@ export class FilesEndpointsService extends BaseApiEndpoints {
     );
   }
 
+  public putImageFile(id:number, file:File):Observable<ReadImageModel>{
+    const form = new FormData();
+    form.append('file', file);
+
+    return this.http.put<ReadImageModel>(this.securedBasePath + '/images/' + id + '/file', form).pipe(
+      catchError((err:HttpErrorResponse) => {
+        return this.handleHttpError(err);
+      })
+    );
+  }
+
+  public putAudioFile(id:number, file:File):Observable<ReadAudioModel>{
+    const form = new FormData();
+    form.append('file', file);
+
+    return this.http.put<ReadAudioModel>(this.securedBasePath + '/audios/' + id + '/file', form).pipe(
+      catchError((err:HttpErrorResponse) => {
+        return this.handleHttpError(err);
+      })
+    );
+  }
+
   public putAudio(id:number, model:UpdateAudioModel):Observable<ReadAudioModel>{
     return this.http.put<ReadAudioModel>(this.securedBasePath + '/audios/' + id, model, {headers:this.createHttpHeadersJson()}).pipe(
       catchError((err:HttpErrorResponse) => {

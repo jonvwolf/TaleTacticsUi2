@@ -13,7 +13,9 @@ import { BaseFormComponent } from '../ui-helpers/base-form-component';
 import { EditFileDialogComponent } from '../ui-helpers/dialogs/edit-file-dialog/edit-file-dialog.component';
 import { SecuredAppUiGeneralElements } from '../ui-helpers/secured-app-ui.service';
 
-const fullsizeTableColumns = ['name', 'format', 'commands'];
+const fullsizeTableColumns = ['name', 'format', 'commands', 'size'];
+
+// TODO: repeated code
 const invalidFileTypeMessage = 'Invalid file. Select only jpeg, png or mp3';
 const invalidFileSizeMessage = 'Maximum file size of 2 megabytes allowed';
 
@@ -21,6 +23,7 @@ export interface IFileItem {
   id:number,
   name:string,
   format:string,
+  size:number,
   audioModel:ReadAudioModel|null,
   imageModel:ReadImageModel|null
 }
@@ -67,7 +70,7 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
     const items:IFileItem[] = [];
     this.subs.add(this.endpoints.getAllImages().subscribe({
       next: (data) => {
-        const images = data.map(image => (this.convertImage(image)));
+        const images = data.map(image => (FilesManagerComponent.convertImage(image)));
         
         for(let image of images){
           items.push(image);
@@ -75,7 +78,7 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
         
         this.subs.add(this.endpoints.getAllAudios().subscribe({
           next: (data) => {
-            const audios = data.map(audio => (this.convertAudio(audio)));
+            const audios = data.map(audio => (FilesManagerComponent.convertAudio(audio)));
             for(let audio of audios){
               items.push(audio);
             }
@@ -94,11 +97,11 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
     }));
   } 
 
-  private convertAudio(audio:ReadAudioModel):IFileItem{
-    return {id: audio.id, name: audio.name, format: FileFormatEnum[audio.format], audioModel: audio, imageModel: null};
+  public static convertAudio(audio:ReadAudioModel):IFileItem{
+    return {id: audio.id, name: audio.name, format: FileFormatEnum[audio.format], audioModel: audio, imageModel: null, size: audio.size};
   }
-  private convertImage(image:ReadImageModel):IFileItem{
-    return {id: image.id, name: image.name, format: FileFormatEnum[image.format], audioModel: null, imageModel: image};
+  public static convertImage(image:ReadImageModel):IFileItem{
+    return {id: image.id, name: image.name, format: FileFormatEnum[image.format], audioModel: null, imageModel: image, size: image.size};
   }
 
   public ngAfterViewInit(): void {
@@ -111,6 +114,7 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
       return;
     }
 
+    // TODO: file validation is repeated code
     if(this.selectedFile === null){
       // TODO: change this to a form validator
       this.customErrorText = invalidFileTypeMessage;
@@ -137,7 +141,7 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
       this.subs.add(this.endpoints.postImage(this.selectedFile).subscribe({
         next: (data) => {
           const list = this.dataSource.data;
-          list.unshift(this.convertImage(data));
+          list.unshift(FilesManagerComponent.convertImage(data));
           this.dataSource.data = list;
           this.controls.fileControl.setValue('');
           this.selectedFile = null;
@@ -151,7 +155,7 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
       this.subs.add(this.endpoints.postAudio(this.selectedFile).subscribe({
         next: (data) => {
           const list = this.dataSource.data;
-          list.unshift(this.convertAudio(data));
+          list.unshift(FilesManagerComponent.convertAudio(data));
           this.dataSource.data = list;
           this.controls.fileControl.setValue('');
           this.selectedFile = null;

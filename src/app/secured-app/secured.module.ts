@@ -29,6 +29,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { StartGameDialogComponent } from '../ui-helpers/dialogs/start-game-dialog/start-game-dialog.component';
 import { FilesManagerComponent } from '../files-manager/files-manager.component';
 import { EditFileDialogComponent } from '../ui-helpers/dialogs/edit-file-dialog/edit-file-dialog.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { EditFileDialogComponent } from '../ui-helpers/dialogs/edit-file-dialog/
     SharedModule,
     MatPaginatorModule,
     MatSortModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCheckboxModule
   ],
   providers: []
 })

@@ -7,5 +7,6 @@ export interface ReadImageModel {
     height:number,
     format:FileFormatEnum,
     absoluteUrl:string,
-    isScanned:boolean
+    isScanned:boolean,
+    size:number
 }

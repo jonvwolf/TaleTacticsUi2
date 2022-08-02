@@ -72,6 +72,8 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
         this._hasBadRequestFromServer = false;
         this._hasBadRequestFromServer = false;
         this._hasSessionExpiredError = false;
+        this._customErrorText = null;
+        this._customSuccessText = null;
         
         this.form.disable();
     }

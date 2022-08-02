@@ -1,6 +1,6 @@
 export class HtConstants {
     // TODO: these must be gotten from API
-    public allowedFileExtensions = ['png', 'jpeg', 'mp3'];
+    public allowedFileExtensions = ['png', 'jpeg', 'jpg', 'mp3'];
     public allowedMaxFileSizeInKb = 2048;
 
     public get securedBasePath():string { return '/secured'; }

@@ -1,11 +1,18 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { htConstants } from 'src/app/core/ht-constants';
 import { FileFormHelperService, UpdateFileFormControls } from 'src/app/file-form-helper.service';
 import { FilesEndpointsService } from 'src/app/files-endpoints.service';
-import { IFileItem } from 'src/app/files-manager/files-manager.component';
+import { FilesManagerComponent, IFileItem } from 'src/app/files-manager/files-manager.component';
 import { BaseFormComponent } from '../../base-form-component';
 
 const successMessage = 'File was updated successfully';
+
+// TODO: repeated code
+const invalidFileTypeMessage = 'Invalid file. Select only jpeg, png or mp3';
+const invalidFileSizeMessage = 'Maximum file size of 2 megabytes allowed';
+const invalidImageFile = 'Invalid file. Must select an image';
+const invalidAudioFile = 'Invalid file. Must select an audio';
 
 @Component({
   selector: 'app-edit-file-dialog',
@@ -15,7 +22,12 @@ const successMessage = 'File was updated successfully';
 export class EditFileDialogComponent extends BaseFormComponent implements OnInit {
 
   public controls:UpdateFileFormControls;
-  public absoluteUrl:string|null = null;
+  public absoluteImageUrl:string|null = null;
+  public absoluteAudioUrl:string|null = null;
+
+  public selectedFile:File|null = null;
+
+  @ViewChild('fileInput') fileInput: ElementRef|null = null;
 
   constructor(public dialogRef:MatDialogRef<EditFileDialogComponent>,
     private endpoints:FilesEndpointsService,
@@ -23,19 +35,31 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
     @Inject(MAT_DIALOG_DATA) public data: IFileItem) {
     super();
 
-    this.controls = formHelper.createUpdateContols();
-    this.form = formHelper.createUpdateForm(this.controls);
+    if(data.audioModel !== null){
+      this.controls = this.formHelper.createUpdateAudioContols();
+    }else{
+      this.controls = this.formHelper.createUpdateImageContols();
+    }
+    
+    this.form = this.formHelper.createUpdateForm(this.controls);
   }
 
   public override ngOnInit(): void {
     super.ngOnInit();
 
-    this.controls.nameControl.setValue(this.data.name);
+    this.reloadData();
+  }
 
+  private reloadData():void{
     if(this.data.audioModel !== null){
-      this.absoluteUrl = this.data.audioModel.absoluteUrl;
+
+      this.formHelper.setUpdateAudioValues(this.data.audioModel, this.controls);
+      this.absoluteImageUrl = null;
+      this.absoluteAudioUrl = this.data.audioModel.absoluteUrl;
     }else if(this.data.imageModel !== null){
-      this.absoluteUrl = this.data.imageModel.absoluteUrl;
+      this.formHelper.setUpdateImageValues(this.data.imageModel, this.controls);
+      this.absoluteImageUrl = this.data.imageModel.absoluteUrl;
+      this.absoluteAudioUrl = null;
     }
   }
 
@@ -71,6 +95,75 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
     }
   }
 
+  public submitFile():void {
+    this.customErrorText = null;
+
+    // TODO: file validation is repeated code
+    if(this.selectedFile === null){
+      // TODO: change this to a form validator
+      this.customErrorText = invalidFileTypeMessage;
+      return;
+    }
+
+    const extension = this.selectedFile.name.split('.').pop();
+    if(!htConstants.allowedFileExtensions.includes(extension ?? 'invalid')){
+      // TODO: change this to a form validator
+      this.customErrorText = invalidFileTypeMessage;
+      return;
+    }
+
+    if(this.selectedFile.size > htConstants.allowedMaxFileSizeInKb * 1024){
+      // TODO: change this to a form validator
+      this.customErrorText = invalidFileSizeMessage;
+      return;
+    }
+
+    if(this.selectedFile.type.startsWith("image/") && this.data.audioModel !== null){
+      this.customErrorText = invalidAudioFile;
+      return;
+    }else if(this.selectedFile.type.startsWith("audio/") && this.data.imageModel !== null){
+      this.customErrorText = invalidImageFile;
+      return;
+    }
+
+    this.startLoadAndClearErrors();
+
+    if(this.selectedFile.type.startsWith("image/")){
+      this.subs.add(this.endpoints.putImageFile(this.data.id, this.selectedFile).subscribe({
+        next: (data) => {
+          this.customSuccessText = 'The file was replaced successfully';
+          this.data = FilesManagerComponent.convertImage(data);
+          this.reloadData();
+          this.selectedFile = null;
+
+          if(this.fileInput !== null)
+            this.fileInput.nativeElement.value = '';
+
+          this.endLoad();
+        },
+        error: (err) => {
+          this.endLoadAndHandleError(err);
+        }
+      }));
+    }else{
+      this.subs.add(this.endpoints.putAudioFile(this.data.id, this.selectedFile).subscribe({
+        next: (data) => {
+          this.customSuccessText = 'The file was replaced successfully';
+          this.data = FilesManagerComponent.convertAudio(data);
+          this.reloadData();
+          this.selectedFile = null;
+          if(this.fileInput !== null)
+            this.fileInput.nativeElement.value = '';
+
+          this.endLoad();
+        },
+        error: (err) => {
+          this.endLoadAndHandleError(err);
+        }
+      }));
+    }
+  }
+
   public override submit():void{
     this.customSuccessText = null;
     if(!this.canSubmitAndTouchForm()){
@@ -103,6 +196,13 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
           this.endLoadAndHandleError(err);
         }
       }));
+    }
+  }
+
+  public onFileSelect(event:any):void {
+    if(event && event.target.files.length > 0){
+      // Does not work: this.controls.fileControl.setValue(event.target.files[0]);
+      this.selectedFile = event.target.files[0];
     }
   }
 }

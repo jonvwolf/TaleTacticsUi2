@@ -99,9 +99,13 @@ mat-card.default-form mat-form-field {
 }
 
 mat-card.dialog-form .dialog-image {
-  max-width:45vw;
-  min-width: 20vw;
+  max-width:30vw;
+  min-width: 30vw;
 }
+mat-card.dialog-form .dialog-audio {
+  width:25vw;
+}
+
 mat-card.dialog-form mat-form-field {
   display: block;
 }
