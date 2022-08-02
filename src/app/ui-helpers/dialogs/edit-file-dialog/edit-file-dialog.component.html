@@ -11,22 +11,20 @@
     </mat-card>
     <br />
     <mat-card class="dialog-form">
-        <mat-card-content>
-            <form [formGroup]="form">
-                <mat-card-content>
-                    <mat-form-field appearance="standard" color="accent">
-                        <mat-label>Name</mat-label>
-                        <input matInput type="text" [formControl]="controls.nameControl" name="file-name">
-                        <mat-error>Valid name is required</mat-error>
-                    </mat-form-field>
-                    <mat-checkbox *ngIf="controls.isBgm" [formControl]="controls.isBgm">Is Background music (BGM)?</mat-checkbox>
-                </mat-card-content>
-                <mat-card-actions align="end">
-                    <!-- btn has no disable feature because of browser autofill issue -->
-                    <app-submit-btn [formComponent]="this" [options]="createSubmitBtnOptions(true, 'Update')"></app-submit-btn>
-                </mat-card-actions>
-            </form>
-        </mat-card-content>
+        <form [formGroup]="form">
+            <mat-card-content>
+                <mat-form-field appearance="standard" color="accent">
+                    <mat-label>Name</mat-label>
+                    <input matInput type="text" [formControl]="controls.nameControl" name="file-name">
+                    <mat-error>Valid name is required</mat-error>
+                </mat-form-field>
+                <mat-checkbox *ngIf="controls.isBgm" [formControl]="controls.isBgm">Is Background music (BGM)?</mat-checkbox>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <!-- btn has no disable feature because of browser autofill issue -->
+                <app-submit-btn [formComponent]="this" [options]="createSubmitBtnOptions(true, 'Update')"></app-submit-btn>
+            </mat-card-actions>
+        </form>
     </mat-card>
     <br />
     <mat-card>

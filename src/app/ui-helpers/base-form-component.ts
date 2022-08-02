@@ -68,14 +68,23 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
     }
 
     protected startLoadAndClearErrors():void{
+        // TODO: this isLoading/overlay can be to the whole page content (not menu)
+        // . isLoading is set through a service that triggers an event for the page content to set the overlay
         this._isLoading = true;
         this._hasBadRequestFromServer = false;
         this._hasBadRequestFromServer = false;
         this._hasSessionExpiredError = false;
         this._customErrorText = null;
         this._customSuccessText = null;
-        
+
         this.form.disable();
+    }
+
+    protected clearMessages():void {
+        this._customErrorText = null;
+
+        // TODO: success texts (and maybe the error text) can be through toast messages
+        this._customSuccessText = null;
     }
 
     protected endLoad():void{

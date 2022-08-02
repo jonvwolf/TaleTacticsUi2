@@ -96,7 +96,7 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
   }
 
   public submitFile():void {
-    this.customErrorText = null;
+    this.clearMessages();
 
     // TODO: file validation is repeated code
     if(this.selectedFile === null){

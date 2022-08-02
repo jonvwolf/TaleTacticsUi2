@@ -134,7 +134,6 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
       return;
     }
     
-    this.customErrorText = null;
     this.startLoadAndClearErrors();
 
     if(this.selectedFile.type.startsWith("image/")){

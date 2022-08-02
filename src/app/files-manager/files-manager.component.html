@@ -6,20 +6,18 @@
         <mat-card-header>
             <mat-card-title>Upload file (jpeg, png or mp3 only. Max 2 mb file size)</mat-card-title>
         </mat-card-header>
-        <mat-card-content>
-            <form [formGroup]="form">
-                <mat-card-content>
-                    <div class="file-upload-div">
-                        <input type="file" class="file-upload-input" [formControl]="controls.fileControl" name="file" (change)="onFileSelect($event)" 
-                        accept="image/jpeg,image/png,audio/mpeg">
-                    </div>
-                </mat-card-content>
-                <mat-card-actions align="end">
-                    <!-- btn has no disable feature because of browser autofill issue -->
-                    <app-submit-btn [formComponent]="this" [options]="createSubmitBtnOptions(true, 'Upload')"></app-submit-btn>
-                </mat-card-actions>
-            </form>
-        </mat-card-content>
+        <form [formGroup]="form">
+            <mat-card-content>
+                <div class="file-upload-div">
+                    <input type="file" class="file-upload-input" [formControl]="controls.fileControl" name="file" (change)="onFileSelect($event)" 
+                    accept="image/jpeg,image/png,audio/mpeg">
+                </div>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <!-- btn has no disable feature because of browser autofill issue -->
+                <app-submit-btn [formComponent]="this" [options]="createSubmitBtnOptions(true, 'Upload')"></app-submit-btn>
+            </mat-card-actions>
+        </form>
     </mat-card>
 
     <mat-card class="full-content-card">
