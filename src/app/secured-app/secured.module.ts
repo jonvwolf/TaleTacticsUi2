@@ -30,6 +30,8 @@ import { StartGameDialogComponent } from '../ui-helpers/dialogs/start-game-dialo
 import { FilesManagerComponent } from '../files-manager/files-manager.component';
 import { EditFileDialogComponent } from '../ui-helpers/dialogs/edit-file-dialog/edit-file-dialog.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { CreateStorySceneComponent } from './story-scenes-editor/create-story-scene/create-story-scene.component';
+import { EditStorySceneComponent } from './story-scenes-editor/edit-story-scene/edit-story-scene.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     GameStoryDashboardComponent,
     StartGameDialogComponent,
     FilesManagerComponent,
-    EditFileDialogComponent
+    EditFileDialogComponent,
+    CreateStorySceneComponent,
+    EditStorySceneComponent
   ],
   imports: [
     CommonModule,

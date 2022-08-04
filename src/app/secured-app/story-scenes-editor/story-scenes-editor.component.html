@@ -10,7 +10,7 @@
         <mat-card-content>
             <pre>{{story.description}}</pre>
         </mat-card-content>
-        <mat-card-actions>
+        <mat-card-actions align="end">
             <a mat-raised-button [routerLink]="ht.getPathSecuredUpdateStory(story.id)" color="primary">Update</a>
         </mat-card-actions>
     </mat-card>
@@ -23,10 +23,19 @@
         </mat-card-header>
         <mat-card-content>
             <p>
-                Examples of story parts: A room in a castle, a monster encounter, an NPC conversation, etc. 
-                A part is composed of one or multiple actions. Actions available: Show an image/start a puzzle, 
-                show text overlay, play one or multiple audios, start a timer.
+                A scene part is for example; a room in a castle or the whole castle, a forest overview to tell the introduction of your story, monster encounter, NPC conversations, etc. 
+                <br><br>
+                Within a scene part, you are able to execute actions such as; show an image, play audios, show text overlay, etc. To make it easier for you, these actions
+                are grouped within commands or buttons, so you can execute multiple actions at the same time, instead of individually.<br>
             </p>
         </mat-card-content>
+        <mat-card-actions align="end">
+            <a mat-raised-button (click)="addStoryPart()" color="primary">Add Part</a>
+        </mat-card-actions>
     </mat-card>
+</div>
+<app-create-story-scene [hidden]="!showAddPart" (finishedEvent)="addStoryPartFinished($event)" [args]="{storySceneId:story.id}"></app-create-story-scene>
+
+<div *ngFor="let model of story.storyScenes">
+    <app-edit-story-scene [model]="model"></app-edit-story-scene>
 </div>

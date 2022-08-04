@@ -1,0 +1,28 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+    <app-form-errors class="default-form" [formComponent]="this"></app-form-errors>
+    <mat-card class="default-form">
+        <!-- for overlay to work, must be inside a position:relative div -->
+        <app-loader-overlay [formComponent]="this"></app-loader-overlay>
+        <mat-card-header>
+            <mat-card-title>
+                Add scene part
+            </mat-card-title>
+        </mat-card-header>
+        <form [formGroup]="form">
+            <mat-card-content>
+                <mat-form-field appearance="standard" color="accent">
+                    <mat-label>Title</mat-label>
+                    <input matInput type="text" [formControl]="controls.titleControl" name="create-story-scene-name">
+                    <mat-error>Valid title is required</mat-error>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions align="end" class="buttons-with-app-btn">
+                <!-- btn has no disable feature because of browser autofill issue -->
+                <app-submit-btn [formComponent]="this" [options]="createSubmitBtnOptions(true, 'Save')"></app-submit-btn>
+                <button mat-raised-button color="secondary" (click)="cancel()">
+                    Discard & cancel
+                </button>
+            </mat-card-actions>
+        </form>
+    </mat-card>    
+</div>

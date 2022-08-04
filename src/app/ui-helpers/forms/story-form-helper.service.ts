@@ -64,9 +64,9 @@ export class StoryFormHelperService {
   }
 
   public createUpdateModel(controls:UpdateStoryFormControls):UpdateStoryModel{
-    return {
-        title: controls.titleControl.value,
-        description: controls.descriptionControl.value
-    };
-}
+      return {
+          title: controls.titleControl.value,
+          description: controls.descriptionControl.value
+      };
+  }
 }
