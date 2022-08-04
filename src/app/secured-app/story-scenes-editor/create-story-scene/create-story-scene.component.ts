@@ -61,9 +61,7 @@ export class CreateStorySceneComponent extends BaseFormComponent implements OnIn
   }
 
   public cancel():void{
-    if(confirm('Are you sure to discard unsaved changes?')){
-      this.resetData();
-      this.finishedEvent.emit(null);
-    }
+    this.resetData();
+    this.finishedEvent.emit(null);
   }
 }

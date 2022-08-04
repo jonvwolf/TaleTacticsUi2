@@ -1,9 +1,13 @@
+import { ReadStorySceneCommandModel } from "./read-story-scene-command-model";
+
 export const defaultReadStorySceneModel:ReadStorySceneModel = {
     id: 0,
-    title: ''
+    title: '',
+    storySceneCommands: []
 };
 
 export interface ReadStorySceneModel {
     id:number,
-    title:string
+    title:string,
+    storySceneCommands:ReadStorySceneCommandModel[]
 }

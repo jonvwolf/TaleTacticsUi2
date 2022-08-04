@@ -1,0 +1,19 @@
+<app-form-errors class="full-content" [formComponent]="this"></app-form-errors>
+<h1 mat-dialog-title>Add component</h1>
+<div mat-dialog-content>
+    <!-- No position:relative. Whole screen is covered, and it is fine -->
+    <app-loader-overlay [formComponent]="this" ></app-loader-overlay>
+    <mat-card class="dialog-form">
+        <form [formGroup]="form">
+            <mat-card-content>
+                
+            </mat-card-content>
+        </form>
+    </mat-card>
+</div>
+<div class="dialog-buttons" mat-dialog-actions align="end">
+    <app-submit-btn [formComponent]="this" [options]="createSubmitBtnOptions(true, 'Create')"></app-submit-btn>
+    <button mat-raised-button color="secondary" (click)="close()">
+        Close
+    </button>
+</div>

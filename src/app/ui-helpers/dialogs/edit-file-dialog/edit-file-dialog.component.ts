@@ -165,7 +165,7 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
   }
 
   public override submit():void{
-    this.customSuccessText = null;
+    this.clearMessages();
     if(!this.canSubmitAndTouchForm()){
       return;
     }

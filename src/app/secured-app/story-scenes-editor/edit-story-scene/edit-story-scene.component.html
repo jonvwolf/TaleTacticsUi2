@@ -5,7 +5,7 @@
         <app-loader-overlay [formComponent]="this"></app-loader-overlay>
         <mat-card-header>
             <mat-card-title>
-                Scene part
+                {{controls.titleControl.value}}
             </mat-card-title>
         </mat-card-header>
         <form [formGroup]="form">
@@ -16,9 +16,12 @@
                     <mat-error>Valid title is required</mat-error>
                 </mat-form-field>
             </mat-card-content>
-            <mat-card-actions align="end">
+            <mat-card-actions align="end" class="dialog-buttons">
                 <!-- btn has no disable feature because of browser autofill issue -->
-                <app-submit-btn [formComponent]="this" [options]="createSubmitBtnOptions(true, 'Save')"></app-submit-btn>
+                <app-submit-btn [formComponent]="this" [options]="createSubmitBtnOptions(true, 'Save changes')"></app-submit-btn>
+                <button mat-raised-button color="primary" (click)="addCommand()">
+                    Add command
+                </button>
             </mat-card-actions>
         </form>
     </mat-card>    

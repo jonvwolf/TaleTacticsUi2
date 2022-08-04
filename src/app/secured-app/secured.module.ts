@@ -32,6 +32,8 @@ import { EditFileDialogComponent } from '../ui-helpers/dialogs/edit-file-dialog/
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { CreateStorySceneComponent } from './story-scenes-editor/create-story-scene/create-story-scene.component';
 import { EditStorySceneComponent } from './story-scenes-editor/edit-story-scene/edit-story-scene.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { CreateCommandDialogComponent } from './story-scenes-editor/create-command-dialog/create-command-dialog.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { EditStorySceneComponent } from './story-scenes-editor/edit-story-scene/
     FilesManagerComponent,
     EditFileDialogComponent,
     CreateStorySceneComponent,
-    EditStorySceneComponent
+    EditStorySceneComponent,
+    CreateCommandDialogComponent
   ],
   imports: [
     CommonModule,
@@ -69,7 +72,8 @@ import { EditStorySceneComponent } from './story-scenes-editor/edit-story-scene/
     MatPaginatorModule,
     MatSortModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSnackBarModule
   ],
   providers: []
 })

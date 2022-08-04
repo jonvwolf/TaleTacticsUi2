@@ -29,6 +29,11 @@ mat-card-actions {
   margin-top: 10px;
 }
 
+.success-snack-bar{
+  background-color: mat-color($primary);
+  color: $textOnSuccess;
+}
+
 .mat-card-success{
   background-color: mat-color($primary);
   color: $textOnSuccess;

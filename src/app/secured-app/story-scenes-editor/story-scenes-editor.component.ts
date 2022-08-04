@@ -60,8 +60,7 @@ export class StoryScenesEditorComponent extends BaseFormComponent implements OnI
 
   public addStoryPartFinished(model:ReadStorySceneModel|null):void{
     if(model !== null){
-      // TODO: instead of calling api, replace the model
-      this.reloadData();
+      this.story.storyScenes.push(model);
     }
     this.showAddPart = false;
   }
