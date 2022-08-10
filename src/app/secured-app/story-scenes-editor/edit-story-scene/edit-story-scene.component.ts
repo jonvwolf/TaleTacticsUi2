@@ -2,11 +2,11 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StoryScenesEndpointsService } from 'src/app/core/api-endpoints/story-scenes-endpoints.service';
-import { checkIfReadStorySceneCommandModel } from 'src/app/core/api-models/read-story-scene-command-model';
+import { checkIfReadStorySceneCommandModel, ReadStorySceneCommandModel } from 'src/app/core/api-models/read-story-scene-command-model';
 import { defaultReadStorySceneModel, ReadStorySceneModel } from 'src/app/core/api-models/read-story-scene-model';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
 import { StorySceneFormHelperService, UpdateStorySceneFormControls } from 'src/app/ui-helpers/forms/story-scene-form-helper.service';
-import { CreateCommandDialogComponent } from '../create-command-dialog/create-command-dialog.component';
+import { CreateCommandDialogArgs, CreateCommandDialogComponent } from '../create-command-dialog/create-command-dialog.component';
 
 @Component({
   selector: 'app-edit-story-scene',
@@ -46,7 +46,7 @@ export class EditStorySceneComponent extends BaseFormComponent implements OnInit
       next: (data) => {
         // TODO: this should be in the formhelper, right? update all values from old model to new model
         // . Can't just set the whole model because the reference is lost and parent component can't update accordingly
-        this.model.title = model.title; //Right now it's fine with only title because thats the onyl thing that can be updated
+        this.model.title = data.title; //Right now it's fine with only title because thats the onyl thing that can be updated
         this.formHelper.setUpdateValues(this.model, this.controls);
         this.endLoad();
 
@@ -63,7 +63,8 @@ export class EditStorySceneComponent extends BaseFormComponent implements OnInit
   }
 
   public addCommand():void{
-    var dialog = this.dialog.open(CreateCommandDialogComponent, {data: this.model, disableClose: true});
+    const args:CreateCommandDialogArgs = {scene:this.model, command: null};
+    const dialog = this.dialog.open(CreateCommandDialogComponent, {data: args, disableClose: true});
     this.subs.add(dialog.afterClosed().subscribe({
       next: (data) => {
         if(checkIfReadStorySceneCommandModel(data)){
@@ -74,6 +75,20 @@ export class EditStorySceneComponent extends BaseFormComponent implements OnInit
           });
 
           this.model.storySceneCommands.push(data);
+        }
+      }
+    }));
+  }
+
+  public editCommand(cmd:ReadStorySceneCommandModel):void{
+    const args:CreateCommandDialogArgs = {scene:this.model, command: cmd};
+    const dialog = this.dialog.open(CreateCommandDialogComponent, {data: args, disableClose: true});
+    this.subs.add(dialog.afterClosed().subscribe({
+      next: (data) => {
+        if(checkIfReadStorySceneCommandModel(data)){
+          const index = this.model.storySceneCommands.findIndex((item) => item.id === data.id);
+          // This is fine to replace reference, because there is no @Input where the command ref is given
+          this.model.storySceneCommands[index] = data;
         }
       }
     }));

@@ -1,6 +1,6 @@
 <app-form-errors class="full-content" [formComponent]="this"></app-form-errors>
 <h1 mat-dialog-title>Add command</h1>
-<div mat-dialog-content style="width: 50vw;">
+<div mat-dialog-content class="dialog-content-form">
     <!-- No position:relative. Whole screen is covered, and it is fine -->
     <app-loader-overlay [formComponent]="this" ></app-loader-overlay>
     <mat-card class="dialog-form">
@@ -82,7 +82,7 @@
     </mat-card>
 </div>
 <div class="dialog-buttons" mat-dialog-actions align="end">
-    <app-submit-btn [formComponent]="this" [options]="createSubmitBtnOptions(true, 'Create')"></app-submit-btn>
+    <app-submit-btn [formComponent]="this" [options]="createSubmitBtnOptions(true, buttonText)"></app-submit-btn>
     <button mat-raised-button color="secondary" (click)="close()">
         Close
     </button>

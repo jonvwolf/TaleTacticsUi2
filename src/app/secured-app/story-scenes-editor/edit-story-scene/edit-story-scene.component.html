@@ -24,5 +24,15 @@
                 </button>
             </mat-card-actions>
         </form>
+        <mat-card *ngIf="model.storySceneCommands.length > 0">
+            <mat-card-header>
+                <mat-card-subtitle>Commands <small>click to edit</small></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <button class="command-button" *ngFor="let cmd of model.storySceneCommands" mat-raised-button color="primary" (click)="editCommand(cmd)">
+                    {{cmd.title}}
+                </button>
+            </mat-card-content>
+        </mat-card>
     </mat-card>    
 </div>

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CreateStorySceneCommandModel } from 'src/app/core/api-models/create-story-scene-command-model';
 import { ReadAudioModel } from 'src/app/core/api-models/read-audio-model';
 import { ReadImageModel } from 'src/app/core/api-models/read-image-model';
+import { ReadStorySceneCommandModel } from 'src/app/core/api-models/read-story-scene-command-model';
 
 export interface CreateCommandFormControls {
   titleControl: FormControl,
@@ -44,12 +45,16 @@ export class CommandFormHelperService {
     let imageIds:number[]|null = null;
     if(image !== null){
       imageIds = [image.id];
+    }else{
+      imageIds = [];
     }
 
     let minigames:number[]|null = null;
     if(controls.miniGameControl.value === true){
       // TODO: For now, it does not matter what value
       minigames = [1];
+    }else{
+      minigames = [];
     }
 
     let texts:string|null = null;
@@ -60,11 +65,15 @@ export class CommandFormHelperService {
     let timers:number[]|null = null;
     if(controls.timerControl.value > 0){
       timers = [controls.timerControl.value];
+    }else{
+      timers = [];
     }
 
     let audioIds:number[]|null = null;
     if(audios.length > 0){
       audioIds = audios.map((item) => item.id);
+    }else{
+      audioIds = [];
     }
 
     return {
@@ -75,5 +84,17 @@ export class CommandFormHelperService {
       texts: texts,
       timers: timers
     };
+  }
+
+  public setControls(model:ReadStorySceneCommandModel, controls:CreateCommandFormControls):void{
+    controls.titleControl.setValue(model.title);
+    controls.textControl.setValue(model.texts);
+
+    if(model.minigames && model.minigames.length > 0)
+      controls.miniGameControl.setValue(true);
+
+    if(model.timers && model.timers.length > 0)
+      controls.timerControl.setValue(model.timers[0]);
+    
   }
 }

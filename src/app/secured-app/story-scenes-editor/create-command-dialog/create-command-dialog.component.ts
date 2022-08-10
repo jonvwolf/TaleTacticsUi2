@@ -12,6 +12,13 @@ import { CommandFormHelperService, CreateCommandFormControls } from 'src/app/ui-
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import { FormControl } from '@angular/forms';
 import { CommandsEndpointsService } from 'src/app/core/api-endpoints/commands-endpoints.service';
+import { ReadStorySceneCommandModel } from 'src/app/core/api-models/read-story-scene-command-model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+export interface CreateCommandDialogArgs {
+  scene:ReadStorySceneModel,
+  command:ReadStorySceneCommandModel|null,
+};
 
 @Component({
   selector: 'app-create-command-dialog',
@@ -20,6 +27,7 @@ import { CommandsEndpointsService } from 'src/app/core/api-endpoints/commands-en
 })
 export class CreateCommandDialogComponent extends BaseFormComponent implements OnInit {
 
+  public buttonText:string;
   public separatorKeyCodes: number[] = [COMMA, ENTER];
 
   public controls:CreateCommandFormControls;
@@ -38,13 +46,24 @@ export class CreateCommandDialogComponent extends BaseFormComponent implements O
   @ViewChild('audioChipInput') audioChipInput: ElementRef<HTMLInputElement>|null = null;
   @ViewChild('imageChipInput') imageChipInput: ElementRef<HTMLInputElement>|null = null;
   
-  constructor(public dialogRef:MatDialogRef<CreateCommandDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: ReadStorySceneModel,
-  private formHelper:CommandFormHelperService, private cache:FilesCacheService, private endpoints:CommandsEndpointsService) {
+  constructor(public dialogRef:MatDialogRef<CreateCommandDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: CreateCommandDialogArgs,
+  private formHelper:CommandFormHelperService, private cache:FilesCacheService, private endpoints:CommandsEndpointsService,
+  private snackBar:MatSnackBar) {
     super();
 
     this.controls = formHelper.createControls();
     this.form = formHelper.createForm(this.controls);
 
+    if(data.command !== null){
+      // Edit mode
+      // can't have controls update here (see on init)
+      this.selectedAudios = data.command.audios;
+      this.selectedImages = data.command.images;
+      this.buttonText = 'Update';
+    }else{
+      this.buttonText = 'Create';
+    }
+    
     this.filteredAudios = this.audioControl.valueChanges.pipe(
       startWith(null),
       map((audio:ReadAudioModel) => (audio ? this._filter(audio) : this.allAudios.slice()))
@@ -120,6 +139,10 @@ export class CreateCommandDialogComponent extends BaseFormComponent implements O
   override ngOnInit(): void {
     super.ngOnInit();
 
+    if(this.data.command !== null){
+      this.formHelper.setControls(this.data.command, this.controls);
+    }
+    
     this.startLoadAndClearErrors();
     this.subs.add(this.cache.getAudios(false).subscribe({
       next: (data) => {
@@ -143,7 +166,10 @@ export class CreateCommandDialogComponent extends BaseFormComponent implements O
   }
 
   public close():void{
-    this.dialogRef.close();
+    if(this.data.command === null)
+      this.dialogRef.close();
+    else
+      this.dialogRef.close(this.data.command);
   }
 
   public override submit():void {
@@ -159,14 +185,33 @@ export class CreateCommandDialogComponent extends BaseFormComponent implements O
     }
     const model = this.formHelper.createModel(this.controls, this.selectedAudios, selectedImage);
     
-    this.subs.add(this.endpoints.post(this.data.id, model).subscribe({
-      next: (data) => {
-        this.endLoad();
-        this.dialogRef.close(data);
-      },
-      error: (err) => {
-        this.endLoadAndHandleError(err);
-      }
-    }));
+    if(this.data.command === null){
+      this.subs.add(this.endpoints.post(this.data.scene.id, model).subscribe({
+        next: (data) => {
+          this.endLoad();
+          this.dialogRef.close(data);
+        },
+        error: (err) => {
+          this.endLoadAndHandleError(err);
+        }
+      }));
+    }else{
+      this.subs.add(this.endpoints.put(this.data.command.id, model).subscribe({
+        next: (data) => {
+          this.endLoad();
+          
+          // TODO: this should be a common function or just for the config rather
+          this.snackBar.open('Command updated successfully', 'Close', {
+            duration: 8000,
+            panelClass: ['success-snack-bar']
+          });
+          this.data.command = data;
+        },
+        error: (err) => {
+          this.endLoadAndHandleError(err);
+        }
+      }));
+    }
+    
   }
 }

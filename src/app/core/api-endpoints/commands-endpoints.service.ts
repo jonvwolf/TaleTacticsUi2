@@ -39,7 +39,7 @@ export class CommandsEndpointsService extends BaseApiEndpoints {
     );
   }
 
-  public put(id:number, model:UpdateStorySceneCommandModel):Observable<ReadStorySceneCommandModel>{
+  public put(id:number, model:CreateStorySceneCommandModel):Observable<ReadStorySceneCommandModel>{
     return this.http.put<ReadStorySceneCommandModel>(this.securedBasePath + '/scenes/commands/' + id, model, {headers:this.createHttpHeadersJson()}).pipe(
       catchError((err:HttpErrorResponse) => {
         return this.handleHttpError(err);

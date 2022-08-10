@@ -114,6 +114,16 @@ mat-card.dialog-form .dialog-audio {
 mat-card.dialog-form mat-form-field {
   display: block;
 }
+// TODO: fix the classes...
+.dialog-content-form{
+  width: 50vw;
+}
+
+.command-button{
+  margin-left: 14px !important;
+  margin-bottom: 14px !important;
+}
+
 .dialog-buttons app-submit-btn {
   margin-right:16px;
 }
