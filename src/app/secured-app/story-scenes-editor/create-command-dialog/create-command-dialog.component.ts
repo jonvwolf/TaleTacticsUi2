@@ -173,16 +173,23 @@ export class CreateCommandDialogComponent extends BaseFormComponent implements O
   }
 
   public override submit():void {
+    this.clearMessages();
     if(!this.canSubmitAndTouchForm()){
       return;
     }
-
-    this.startLoadAndClearErrors();
 
     let selectedImage:ReadImageModel|null = null;
     if(this.selectedImages.length > 0){
       selectedImage = this.selectedImages[0];
     }
+
+    if(selectedImage !== null && this.controls.miniGameControl.value === true){
+      this.customErrorText = 'Cannot have show image and start minigame in the same command';
+      return;
+    }
+
+    this.startLoadAndClearErrors();
+
     const model = this.formHelper.createModel(this.controls, this.selectedAudios, selectedImage);
     
     if(this.data.command === null){
