@@ -27,6 +27,8 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
 
   public selectedFile:File|null = null;
 
+  private wasDeleted = false;
+
   @ViewChild('fileInput') fileInput: ElementRef|null = null;
 
   constructor(public dialogRef:MatDialogRef<EditFileDialogComponent>,
@@ -52,7 +54,6 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
 
   private reloadData():void{
     if(this.data.audioModel !== null){
-
       this.formHelper.setUpdateAudioValues(this.data.audioModel, this.controls);
       this.absoluteImageUrl = null;
       this.absoluteAudioUrl = this.data.audioModel.absoluteUrl;
@@ -64,10 +65,16 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
   }
 
   public close():void {
-    this.dialogRef.close();
+    if(this.wasDeleted)
+      this.dialogRef.close(this.data.id);
+    else
+      this.dialogRef.close(this.data);
   }
 
   public delete():void {
+    if(this.wasDeleted)
+      return;
+
     if(confirm('This will permanently delete the file. Are you sure?')){
 
       this.startLoadAndClearErrors();
@@ -75,6 +82,7 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
         this.subs.add(this.endpoints.deleteAudio(this.data.id).subscribe({
           next: (data) => {
             this.customSuccessText = 'File successfully deleted. You may not close the dialog';
+            this.wasDeleted = true;
             this.endLoad();
           },
           error: (err) => {
@@ -85,6 +93,7 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
         this.subs.add(this.endpoints.deleteImage(this.data.id).subscribe({
           next: (data) => {
             this.customSuccessText = 'File successfully deleted. You may not close the dialog';
+            this.wasDeleted = true;
             this.endLoad();
           },
           error: (err) => {
@@ -96,6 +105,9 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
   }
 
   public submitFile():void {
+    if(this.wasDeleted)
+      return;
+
     this.clearMessages();
 
     // TODO: file validation is repeated code
@@ -165,6 +177,9 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
   }
 
   public override submit():void{
+    if(this.wasDeleted)
+      return;
+
     this.clearMessages();
     if(!this.canSubmitAndTouchForm()){
       return;
@@ -177,6 +192,7 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
 
       this.subs.add(this.endpoints.putAudio(this.data.id, model).subscribe({
         next: (data) => {
+          this.data = FilesManagerComponent.convertAudio(data);
           this.endLoad();
           this.customSuccessText = successMessage;
         },
@@ -189,6 +205,7 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
 
       this.subs.add(this.endpoints.putImage(this.data.id, model).subscribe({
         next: (data) => {
+          this.data = FilesManagerComponent.convertImage(data);
           this.endLoad();
           this.customSuccessText = successMessage;
         },
@@ -200,6 +217,9 @@ export class EditFileDialogComponent extends BaseFormComponent implements OnInit
   }
 
   public onFileSelect(event:any):void {
+    if(this.wasDeleted)
+      return;
+
     if(event && event.target.files.length > 0){
       // Does not work: this.controls.fileControl.setValue(event.target.files[0]);
       this.selectedFile = event.target.files[0];

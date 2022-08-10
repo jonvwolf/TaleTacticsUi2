@@ -19,6 +19,10 @@ const fullsizeTableColumns = ['name', 'format', 'commands', 'size'];
 const invalidFileTypeMessage = 'Invalid file. Select only jpeg, png or mp3';
 const invalidFileSizeMessage = 'Maximum file size of 2 megabytes allowed';
 
+const checkIfFileItem = (obj:any): obj is IFileItem => {
+  return obj && 'name' in obj && 'format' in obj;
+};
+
 export interface IFileItem {
   id:number,
   name:string,
@@ -181,8 +185,25 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
     var dialog = this.dialog.open(EditFileDialogComponent, {data: file, disableClose: true});
     this.subs.add(dialog.afterClosed().subscribe({
       next: (v) => {
-        // TODO: here can be updating the one already in the list instead of calling API
-        this.loadData();
+        const list = this.dataSource.data;
+        if(typeof v === 'number'){
+          // deleted
+          const index = list.findIndex((item) => item.id === v);
+          if(index >= 0){
+            list.splice(index, 1);
+            this.dataSource.data = list;
+          }
+        } else if(checkIfFileItem(v)){
+          //updated
+          const index = list.findIndex((item) => v.id === item.id);
+          if(index >= 0){
+            list[index] = v;
+            this.dataSource.data = list;
+          }
+        }else{
+          console.error('Dialog returned invalid type')
+          this.loadData();
+        }
       }
     }));
   }
