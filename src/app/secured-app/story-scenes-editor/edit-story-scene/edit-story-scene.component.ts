@@ -66,8 +66,13 @@ export class EditStorySceneComponent extends BaseFormComponent implements OnInit
     var dialog = this.dialog.open(CreateCommandDialogComponent, {data: this.model, disableClose: true});
     this.subs.add(dialog.afterClosed().subscribe({
       next: (data) => {
-        // TODO: me quede en esto tambien
         if(checkIfReadStorySceneCommandModel(data)){
+          // TODO: this should be a common function or just for the config rather
+          this.snackBar.open('Command added successfully', 'Close', {
+            duration: 8000,
+            panelClass: ['success-snack-bar']
+          });
+
           this.model.storySceneCommands.push(data);
         }
       }

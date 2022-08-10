@@ -34,6 +34,8 @@ import { CreateStorySceneComponent } from './story-scenes-editor/create-story-sc
 import { EditStorySceneComponent } from './story-scenes-editor/edit-story-scene/edit-story-scene.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { CreateCommandDialogComponent } from './story-scenes-editor/create-command-dialog/create-command-dialog.component';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { CreateCommandDialogComponent } from './story-scenes-editor/create-comma
     MatSortModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   providers: []
 })

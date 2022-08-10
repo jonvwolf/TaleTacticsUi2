@@ -15,8 +15,8 @@ export class StoryScenesEndpointsService extends BaseApiEndpoints {
     super();
   }
 
-  public getAll(sceneId:number):Observable<ReadStorySceneModel[]>{
-    return this.http.get<ReadStorySceneModel[]>(this.securedBasePath + '/stories' + sceneId + '/scenes', {headers: this.createHttpHeadersJson()}).pipe(
+  public getAll(storyId:number):Observable<ReadStorySceneModel[]>{
+    return this.http.get<ReadStorySceneModel[]>(this.securedBasePath + '/stories/' + storyId + '/scenes', {headers: this.createHttpHeadersJson()}).pipe(
       catchError((err:HttpErrorResponse) => {
         return this.handleHttpError(err);
       })
@@ -31,8 +31,8 @@ export class StoryScenesEndpointsService extends BaseApiEndpoints {
     );
   }
 
-  public post(sceneId:number, model:CreateStorySceneModel):Observable<ReadStorySceneModel>{
-    return this.http.post<ReadStorySceneModel>(this.securedBasePath + '/stories/' + sceneId + '/scenes', model, {headers:this.createHttpHeadersJson()}).pipe(
+  public post(storyId:number, model:CreateStorySceneModel):Observable<ReadStorySceneModel>{
+    return this.http.post<ReadStorySceneModel>(this.securedBasePath + '/stories/' + storyId + '/scenes', model, {headers:this.createHttpHeadersJson()}).pipe(
       catchError((err:HttpErrorResponse) => {
         return this.handleHttpError(err);
       })

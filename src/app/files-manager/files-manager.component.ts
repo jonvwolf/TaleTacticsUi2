@@ -181,6 +181,7 @@ export class FilesManagerComponent extends BaseFormComponent implements OnInit, 
     var dialog = this.dialog.open(EditFileDialogComponent, {data: file, disableClose: true});
     this.subs.add(dialog.afterClosed().subscribe({
       next: (v) => {
+        // TODO: here can be updating the one already in the list instead of calling API
         this.loadData();
       }
     }));

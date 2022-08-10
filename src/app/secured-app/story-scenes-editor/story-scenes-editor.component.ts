@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StoriesEndpointsService } from 'src/app/core/api-endpoints/stories-endpoints.service';
 import { defaultReadStoryModel, ReadStoryModel } from 'src/app/core/api-models/read-story-model';
 import { ReadStorySceneModel } from 'src/app/core/api-models/read-story-scene-model';
+import { FilesCacheService } from 'src/app/core/caches/files-cache.service';
 import { htConstants } from 'src/app/core/ht-constants';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
 import { SecuredAppUiGeneralElements } from 'src/app/ui-helpers/secured-app-ui.service';
@@ -24,12 +25,15 @@ export class StoryScenesEditorComponent extends BaseFormComponent implements OnI
     headerTitle: 'Story scene editor'
   }; }
 
-  constructor(private endpoints:StoriesEndpointsService, private router:Router, private route:ActivatedRoute) {
+  constructor(private endpoints:StoriesEndpointsService, private router:Router, private route:ActivatedRoute, private cache:FilesCacheService) {
     super();
   }
 
   override ngOnInit(): void {
     super.ngOnInit();
+
+    this.subs.add(this.cache.getAudios(true).subscribe());
+    this.subs.add(this.cache.getImages(true).subscribe());
 
     const id = this.getNumberParam(htConstants.updateStoryIdParamName, this.route);
     if(id === null){

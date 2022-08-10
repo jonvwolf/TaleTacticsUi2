@@ -1,12 +1,82 @@
 <app-form-errors class="full-content" [formComponent]="this"></app-form-errors>
-<h1 mat-dialog-title>Add component</h1>
-<div mat-dialog-content>
+<h1 mat-dialog-title>Add command</h1>
+<div mat-dialog-content style="width: 50vw;">
     <!-- No position:relative. Whole screen is covered, and it is fine -->
     <app-loader-overlay [formComponent]="this" ></app-loader-overlay>
     <mat-card class="dialog-form">
+        <mat-card-content>
+            <p>
+                Here you can create a command that executes multiple actions. For example: show an image of a forest raining and play rain background music and a thunder sound effect.
+                <br><br>
+                Some actions cannot be combined, for example: Can't show an image and start a minigame.
+            </p>
+        </mat-card-content>
+        <br>
         <form [formGroup]="form">
             <mat-card-content>
-                
+                <mat-form-field appearance="standard" color="accent">
+                    <mat-label>Command label</mat-label>
+                    <input matInput type="text" [formControl]="controls.titleControl" name="title">
+                    <mat-error>Valid label is required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="standard" color="accent">
+                    <mat-label>Show Text</mat-label>
+                    <textarea matInput rows="5" [formControl]="controls.textControl" name="text"></textarea>
+                    <mat-error>Valid text is required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Show Image</mat-label>
+                    <mat-chip-list #chipListImage aria-label="Image selection">
+                      <mat-chip *ngFor="let image of selectedImages" (removed)="removeImage(image)">
+                        {{image.name}}
+                        <button matChipRemove>
+                          <mat-icon>cancel</mat-icon>
+                        </button>
+                      </mat-chip>
+                      <input
+                        placeholder="Select image..."
+                        #imageChipInput
+                        [formControl]="imageControl"
+                        [matAutocomplete]="autoImage"
+                        [matChipInputFor]="chipListImage"
+                        [matChipInputSeparatorKeyCodes]="separatorKeyCodes">
+                    </mat-chip-list>
+                    <mat-autocomplete #autoImage="matAutocomplete" (optionSelected)="selectedImage($event)">
+                      <mat-option *ngFor="let image of filteredImages | async" [value]="image">
+                        {{image.name}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Play Audios</mat-label>
+                    <mat-chip-list #chipList aria-label="Audios selection">
+                      <mat-chip *ngFor="let audio of selectedAudios" (removed)="remove(audio)">
+                        {{audio.name}}
+                        <button matChipRemove>
+                          <mat-icon>cancel</mat-icon>
+                        </button>
+                      </mat-chip>
+                      <input
+                        placeholder="Select audio..."
+                        #audioChipInput
+                        [formControl]="audioControl"
+                        [matAutocomplete]="auto"
+                        [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeyCodes">
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                      <mat-option *ngFor="let audio of filteredAudios | async" [value]="audio">
+                        {{audio.name}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Start timer</mat-label>
+                    <input matInput type="number" placeholder="Ex. 12" [formControl]="controls.timerControl" min="1">
+                    <span matSuffix>seconds</span>
+                    <mat-error *ngIf="controls.timerControl">Min: 1s</mat-error>
+                  </mat-form-field>
+                  <mat-checkbox [formControl]="controls.miniGameControl">Start minigame</mat-checkbox>
             </mat-card-content>
         </form>
     </mat-card>
