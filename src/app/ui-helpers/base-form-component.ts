@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { BadRequestError } from "../core/api-endpoints/errors/bad-request-error";
+import { InternalServerError } from "../core/api-endpoints/errors/internal-server-error";
 import { UnauthorizedError } from "../core/api-endpoints/errors/unauthorized-error";
 import { htConstants, HtConstants } from "../core/ht-constants";
 import { htCreateSubmitBtnOptions } from "./reusable-components/submit-btn/submit-btn.component";
@@ -114,6 +115,8 @@ export abstract class BaseFormComponent implements IFormComponent, OnDestroy, On
             this._hasBadRequestFromServer = true;
         }else if(error instanceof UnauthorizedError){
             this._hasSessionExpiredError = true;
+        }else if(error instanceof InternalServerError){
+            this._customErrorText = error.errorMessage;
         }else{
             this.unexpectedErrorHappened();
         }

@@ -51,10 +51,10 @@ export abstract class BaseApiEndpoints {
             if(err.status === 404){
                 return new NotFoundError();
             }
-
+            
             console.warn('Server returned 500', err);
             // TODO: pass err
-            return new InternalServerError();
+            return new InternalServerError(err);
           }
     }
 }
