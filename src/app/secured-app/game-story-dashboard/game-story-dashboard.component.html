@@ -3,10 +3,10 @@
     <app-form-errors class="default-form" [formComponent]="this"></app-form-errors>
     <mat-card class="default-form">
         <mat-card-header>
-            <mat-card-title>{{story.title}}</mat-card-title>
+            <mat-card-title>{{gameState.story.title}}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <pre>{{story.description}}</pre>
+            <pre>{{gameState.story.description}}</pre>
         </mat-card-content>
     </mat-card>
     <mat-card class="default-form">
@@ -18,7 +18,7 @@
         </mat-card-content>
     </mat-card>
 
-    <mat-card class="default-form" *ngFor="let scene of story.storyScenes">
+    <mat-card class="default-form" *ngFor="let scene of gameState.story.storyScenes">
         <mat-card-header>
             <mat-card-title>Scene: {{scene.id}}</mat-card-title>
         </mat-card-header>

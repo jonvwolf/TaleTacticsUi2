@@ -36,6 +36,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { CreateCommandDialogComponent } from './story-scenes-editor/create-command-dialog/create-command-dialog.component';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { GameListComponent } from './game-list/game-list.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     EditFileDialogComponent,
     CreateStorySceneComponent,
     EditStorySceneComponent,
-    CreateCommandDialogComponent
+    CreateCommandDialogComponent,
+    GameListComponent
   ],
   imports: [
     CommonModule,

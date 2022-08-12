@@ -1,0 +1,48 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+    <app-form-errors class="full-content" [formComponent]="this"></app-form-errors>
+    <mat-card class="full-content-card">
+        <!-- for overlay to work, must be inside a position:relative div -->
+        <app-loader-overlay [formComponent]="this"></app-loader-overlay>
+        <mat-card-header>
+            <mat-card-title>Games <span class="card-title-desc">to resume playing!</span></mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p *ngIf="dataSource.data.length == 0 && !isLoading">
+                No games found!
+            </p>
+            <mat-form-field class="full-form-field" appearance="standard" *ngIf="dataSource.data.length > 0">
+                <mat-label>Filter</mat-label>
+                <input matInput placeholder="Type here to filter by title or description" #inputFilter (keyup)="applyFilter($event)" name="home-stories-filter">
+            </mat-form-field>
+            <table mat-table matSort class="mat-elevation-z8 full-content-table ht-default" [dataSource]="dataSource" [hidden]="dataSource.data.length == 0">
+                <ng-container matColumnDef="title">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+                    <td mat-cell *matCellDef="let element">{{element.code}}</td>
+                </ng-container>
+                <ng-container matColumnDef="story">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Story</th>
+                    <td mat-cell *matCellDef="let element">{{element.story.title}}</td>
+                </ng-container>
+                <ng-container matColumnDef="buttons">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp;</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-raised-button color="primary" (click)="resume(element)">
+                            Resume
+                        </button>
+                        <button mat-raised-button color="primary" (click)="deleteGame(element)">
+                            <mat-icon>delete_forever</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: tableColumns"></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="3">No games matches the filter</td>
+                </tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 20, 40, 100]" aria-label="Select page of stories"></mat-paginator>
+        </mat-card-content>
+    </mat-card>
+</div>

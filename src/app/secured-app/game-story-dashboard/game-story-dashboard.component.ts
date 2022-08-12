@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GamesEndpointsService } from 'src/app/core/api-endpoints/games-endpoints.service';
-import { defaultReadStoryModel, ReadStoryModel } from 'src/app/core/api-models/read-story-model';
+import { defaultReadGameStateModel, ReadGameStateModel } from 'src/app/core/api-models/read-game-state-model';
 import { HorrorMasterHubService, HubChangedEnum, listenReceiveLogHubName } from 'src/app/core/horror-master-hub.service';
 import { htConstants } from 'src/app/core/ht-constants';
 import { PlayerTextLogModel } from 'src/app/core/hub-models/player-text-log-model';
@@ -19,7 +19,7 @@ const logLinesReduceTo:number = -20;
 export class GameStoryDashboardComponent extends BaseFormComponent implements OnInit {
 
   public gameCode:string = '';
-  public story:ReadStoryModel = defaultReadStoryModel;
+  public gameState:ReadGameStateModel = defaultReadGameStateModel;
   public isConnected = false;
   public isReconnecting = false;
 
@@ -94,9 +94,9 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
 
     this.subs.add(this.endpoints.get(gameCode).subscribe({
       next: (data) => {
-        this.story = data;
+        this.gameState = data;
         this.endLoad();
-        this.addLogText('OK. Got story from endpoint');
+        this.addLogText('OK. Got game state from endpoint');
 
         this.connectToHub();
       },
