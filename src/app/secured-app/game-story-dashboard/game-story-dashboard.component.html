@@ -8,6 +8,14 @@
         <mat-card-content>
             <pre>{{gameState.story.description}}</pre>
         </mat-card-content>
+        <mat-card-actions align="end" class="dialog-buttons">
+            <button mat-raised-button color="primary" (click)="connectToHub()" [disabled]="!canConnect">
+                Connect
+            </button>
+            <button mat-raised-button color="primary" (click)="disconnectFromHub()" [disabled]="!canDisconnect">
+                Disconnect
+            </button>
+        </mat-card-actions>
     </mat-card>
     <mat-card class="default-form">
         <mat-card-content>

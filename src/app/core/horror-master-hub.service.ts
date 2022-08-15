@@ -38,6 +38,8 @@ export class HorrorMasterHubService {
   private hub:HubConnection|null = null;
   private hubNames: string[] = [];
 
+  private manualDisconnecting = false;
+
   constructor() {
 
   }
@@ -47,6 +49,9 @@ export class HorrorMasterHubService {
     if(this.hub !== null){
       return new Promise(res => { res(); });
     }
+
+    // Temp fix for when stop, start are called very fast
+    this.manualDisconnecting = false;
 
     if(hubNames.length === 0){
       throw new Error('hubNames are required');
@@ -74,10 +79,12 @@ export class HorrorMasterHubService {
     });
 
     this.hub.onclose((err) => {
-      // This is called when it fails to reconnect
-      this.resetConnection();
-      console.error('Error. Hub connection closed', err)
-      this._eventHubChanged.next({hubChanged: HubChangedEnum.Disconnected});
+      // This is called when it fails to reconnect or when calling disconnect
+      if(this.manualDisconnecting === false){
+        console.error('Error. Hub connection closed', err)
+        this.resetConnection();
+        this._eventHubChanged.next({hubChanged: HubChangedEnum.Disconnected});
+      }
     });
 
     this._eventHubChanged.next({hubChanged: HubChangedEnum.Connecting});
@@ -100,10 +107,16 @@ export class HorrorMasterHubService {
       return;
     }
     const stopHub = this.hub;
+
+    // when calling `stop` it will still call `onclose` event, that's why `manualStop`
+    this.manualDisconnecting = true;
     this.resetConnection();
     this._eventHubChanged.next({hubChanged: HubChangedEnum.Disconnected});
 
     stopHub.stop()
+      .finally(() => {
+        this.manualDisconnecting = false;  
+      })
       .catch((err) => {
         //todo: do not use console.error
         console.error('Error trying to stop hub', err);

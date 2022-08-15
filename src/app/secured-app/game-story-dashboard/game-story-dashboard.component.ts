@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GamesEndpointsService } from 'src/app/core/api-endpoints/games-endpoints.service';
 import { defaultReadGameStateModel, ReadGameStateModel } from 'src/app/core/api-models/read-game-state-model';
@@ -16,7 +16,7 @@ const logLinesReduceTo:number = -20;
   templateUrl: './game-story-dashboard.component.html',
   styleUrls: ['./game-story-dashboard.component.scss']
 })
-export class GameStoryDashboardComponent extends BaseFormComponent implements OnInit {
+export class GameStoryDashboardComponent extends BaseFormComponent implements OnInit, OnDestroy {
 
   public gameCode:string = '';
   public gameState:ReadGameStateModel = defaultReadGameStateModel;
@@ -36,6 +36,12 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   constructor(private activatedRoute:ActivatedRoute, private router:Router, private endpoints:GamesEndpointsService,
     private hub:HorrorMasterHubService) {
     super();
+  }
+
+  override ngOnDestroy():void{
+    this.hub.stopConnection();
+
+    super.ngOnDestroy();
   }
 
   override ngOnInit(): void {

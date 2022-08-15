@@ -3,8 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { GamesEndpointsService } from 'src/app/core/api-endpoints/games-endpoints.service';
 import { ReadGameStateModel } from 'src/app/core/api-models/read-game-state-model';
+import { htConstants } from 'src/app/core/ht-constants';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
 
 interface IGameItem {
@@ -26,7 +28,7 @@ export class GameListComponent extends BaseFormComponent implements OnInit, Afte
   @ViewChild(MatPaginator) paginator: MatPaginator|null = null;
   @ViewChild(MatSort) sort: MatSort|null = null;
 
-  constructor(private endpoints:GamesEndpointsService, private snackBar:MatSnackBar) {
+  constructor(private endpoints:GamesEndpointsService, private snackBar:MatSnackBar, private router:Router) {
     super();
   }
 
@@ -85,6 +87,6 @@ export class GameListComponent extends BaseFormComponent implements OnInit, Afte
   }
 
   public resume(game:IGameItem):void{
-
+    this.router.navigate(htConstants.getPathSecuredGame(game.game.story.id, game.code));
   }
 }
