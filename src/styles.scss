@@ -18,6 +18,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @include angular-material-theme($theme);
 // Modify theme colors END
 
+// DASHBOARD is in its own css
+
 mat-card-actions {
   margin-bottom: 0 !important;
 }
@@ -102,6 +104,9 @@ mat-card.default-form{
 mat-card.default-form mat-form-field {
   display: block;
 }
+mat-card.full-content-card mat-form-field {
+  display: block;
+}
 
 mat-card.dialog-form .dialog-image {
   max-width:30vw;
@@ -156,3 +161,5 @@ table.ht-default button {
 .file-upload-input {
   display: block;padding: 15px;font-size: medium;
 }
+
+// DASHBOARD is in its own css

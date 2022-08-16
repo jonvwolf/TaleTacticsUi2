@@ -37,6 +37,8 @@ import { CreateCommandDialogComponent } from './story-scenes-editor/create-comma
 import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { GameListComponent } from './game-list/game-list.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,9 @@ import { GameListComponent } from './game-list/game-list.component';
     MatCheckboxModule,
     MatSnackBarModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatGridListModule,
+    MatExpansionModule
   ],
   providers: []
 })

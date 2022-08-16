@@ -1,7 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GamesEndpointsService } from 'src/app/core/api-endpoints/games-endpoints.service';
 import { defaultReadGameStateModel, ReadGameStateModel } from 'src/app/core/api-models/read-game-state-model';
+import { ReadStorySceneModel } from 'src/app/core/api-models/read-story-scene-model';
 import { HorrorMasterHubService, HubChangedEnum, listenReceiveLogHubName } from 'src/app/core/horror-master-hub.service';
 import { htConstants } from 'src/app/core/ht-constants';
 import { PlayerTextLogModel } from 'src/app/core/hub-models/player-text-log-model';
@@ -18,6 +20,7 @@ const logLinesReduceTo:number = -20;
 })
 export class GameStoryDashboardComponent extends BaseFormComponent implements OnInit, OnDestroy {
 
+  public scenePrefix = 'scene_';
   public gameCode:string = '';
   public gameState:ReadGameStateModel = defaultReadGameStateModel;
   public isConnected = false;
@@ -34,12 +37,12 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   }; }
 
   constructor(private activatedRoute:ActivatedRoute, private router:Router, private endpoints:GamesEndpointsService,
-    private hub:HorrorMasterHubService) {
+    private hub:HorrorMasterHubService, @Inject(DOCUMENT) document: Document) {
     super();
   }
 
   override ngOnDestroy():void{
-    this.hub.stopConnection();
+    this.disconnectFromHub();
 
     super.ngOnDestroy();
   }
@@ -146,5 +149,21 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
     }else{
       this.logText = log + this.logText;
     }
+  }
+
+  public goBack():void{
+    // no need to disconnect, on ng destroy it disconnects
+    this.router.navigate(htConstants.pathSecuredHome);
+  }
+
+  public goToScene(scene:ReadStorySceneModel):void{
+    var elem = document.getElementById(this.scenePrefix + scene.id);
+    if(elem){
+      elem.scrollIntoView({behavior: 'smooth'});
+    }
+  }
+
+  public sendCommand(scene:ReadStorySceneModel):void{
+
   }
 }
