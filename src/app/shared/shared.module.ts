@@ -14,6 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CutTextPipe } from '../ui-helpers/pipes/cut-text.pipe';
+import { ConvertToBrPipe } from '../ui-helpers/pipes/convert-to-br.pipe';
 
 
 
@@ -21,7 +23,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   declarations: [
     FormErrorsComponent,
     LoaderOverlayComponent,
-    SubmitBtnComponent
+    SubmitBtnComponent,
+    CutTextPipe,
+    ConvertToBrPipe,
   ],
   imports: [
     CommonModule,
@@ -41,7 +45,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   exports: [
     FormErrorsComponent,
     LoaderOverlayComponent,
-    SubmitBtnComponent
+    SubmitBtnComponent,
+    CutTextPipe,
+    ConvertToBrPipe
   ],
 })
 export class SharedModule { }

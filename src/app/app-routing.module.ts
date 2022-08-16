@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 const routes: Routes = [
   {path:'', component: LoginComponent},
   {path:'secured', loadChildren: () => import('src/app/secured-app/secured.module').then(m=>m.SecureModule)},
+  {path:'secured-game', loadChildren: () => import('src/app/game-app/game-app.module').then(m=>m.GameAppModule)},
   {path:'**', redirectTo:'', pathMatch:'full'}
   // TODO: add a 404
 ];

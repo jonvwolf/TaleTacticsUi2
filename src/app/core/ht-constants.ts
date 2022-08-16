@@ -8,6 +8,7 @@ export class HtConstants {
 
     public get pathLogin():any[] { return ['/']; }
     public get pathSecuredHome():any[] { return ['/secured/home']; }
+    public get pathSecuredHomeForRoutes():string { return '/secured/home'; }
 
     public get pathSecuredCreateStory():any[] { return ['/secured/stories/create']; }
 
@@ -24,7 +25,7 @@ export class HtConstants {
     public get gameStoryIdParamName():string { return 'storyId'; }
     public get gameGameCodeParamName():string { return 'gameCode'; }
     public getPathSecuredGame(storyId:number, gameCode:string):any[] {
-        return ['/secured/games', storyId, gameCode];
+        return ['/secured-game/games', storyId, gameCode];
     }
 }
 

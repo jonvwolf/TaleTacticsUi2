@@ -45,8 +45,6 @@ import {MatExpansionModule} from '@angular/material/expansion';
     HomeComponent,
     SecureAppComponent,
     CreateStoryComponent,
-    CutTextPipe,
-    ConvertToBrPipe,
     UpdateStoryComponent,
     StoryScenesEditorComponent,
     GameStoryDashboardComponent,
