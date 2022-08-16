@@ -20,11 +20,8 @@ import { SharedModule } from '../shared/shared.module';
 import { CreateStoryComponent } from './create-story/create-story.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { CutTextPipe } from '../ui-helpers/pipes/cut-text.pipe';
-import { ConvertToBrPipe } from '../ui-helpers/pipes/convert-to-br.pipe';
 import { UpdateStoryComponent } from './update-story/update-story.component';
 import { StoryScenesEditorComponent } from './story-scenes-editor/story-scenes-editor.component';
-import { GameStoryDashboardComponent } from './game-story-dashboard/game-story-dashboard.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { StartGameDialogComponent } from '../ui-helpers/dialogs/start-game-dialog/start-game-dialog.component';
 import { FilesManagerComponent } from '../files-manager/files-manager.component';
@@ -47,7 +44,6 @@ import {MatExpansionModule} from '@angular/material/expansion';
     CreateStoryComponent,
     UpdateStoryComponent,
     StoryScenesEditorComponent,
-    GameStoryDashboardComponent,
     StartGameDialogComponent,
     FilesManagerComponent,
     EditFileDialogComponent,

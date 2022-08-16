@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { FilesManagerComponent } from '../files-manager/files-manager.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { CreateStoryComponent } from './create-story/create-story.component';
-import { GameStoryDashboardComponent } from './game-story-dashboard/game-story-dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { SecureAppComponent } from './secured-app.component';
 import { StoryScenesEditorComponent } from './story-scenes-editor/story-scenes-editor.component';

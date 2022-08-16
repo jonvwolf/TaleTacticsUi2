@@ -25,11 +25,12 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatExpansionModule } from '@angular/material/expansion';
-
+import { GameStoryDashboardComponent } from './game-story-dashboard/game-story-dashboard.component';
 
 @NgModule({
   declarations: [
-    RootGameComponent
+    RootGameComponent,
+    GameStoryDashboardComponent
   ],
   imports: [
     CommonModule,
