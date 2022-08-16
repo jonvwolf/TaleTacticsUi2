@@ -1,13 +1,153 @@
 // dashboard
+mat-card {
+  width: 100%;
+}
 
-.fixed-dashboard-left{
-    margin-left: 0px;margin-right:20px;
+// phones
+@media (max-width: 767.98px) {
+  .main-div-left {
+    width: 100%;
   }
   
-  .fixed-dashboard-left mat-expansion-panel {
-    margin-bottom: 15px !important;
+  .main-div-right {
+    width: 100%;
+  }
+
+  .main-div-left-space{
+    display: none;
+    content: "";
+  }
+
+  .go-top-div {
+    position: fixed;width:35px;height:35px;bottom:0;right:0;z-index: 50;
+  }
+
+  .go-top-div button {
+    padding: 2px;margin:0;line-height: 25px;width: 30px;min-width: 5px;
+  }
+
+  .command-details .command-contains p img {
+    width: 100%;max-height:140px
+  }
+}
+
+// tablets
+@media (min-width: 768px) and (max-width: 991.98px) {
+  // START This and phone are the same
+  .main-div-left {
+    width: 40%;
+    position: fixed;overflow-y: auto;max-height: 99%;
   }
   
-  .fixed-dashboard-left mat-accordion {
-    margin-bottom: 15px !important;
+  .main-div-left-space {
+    width: 40%;height:99%;float: left;
   }
+
+  .main-div-right {
+    width: 60%;float: left;
+  }
+
+  .go-top-div {
+    display: none;
+    content: "";
+  }
+  // END This and phone are the same
+
+  .command-details .command-contains p img {
+    width: 100%;max-height:140px
+  }
+}
+
+// everything else
+@media (min-width: 992px) {
+  // START This and tablet are the same
+  .main-div-left {
+    width: 40%;
+    position: fixed;overflow-y: auto;max-height: 99%;
+  }
+  
+  .main-div-left-space {
+    width: 40%;height:99%;float: left;
+  }
+  
+  .main-div-right {
+    width: 60%;float: left;
+  }
+
+  .go-top-div {
+    display: none;
+    content: "";
+  }
+  // END This and tablet are the same
+
+  .command-details-btn-div {
+    width: 30%;
+    float: left;
+  }
+
+  .command-contains{
+    width: 60%;
+    float: left;
+  }
+
+  .command-details .command-contains p img {
+    width: 50%;max-height:140px;min-width: 300px;
+  }
+}
+
+.story-details{
+  margin-bottom: 20px;word-break: normal;background-color: #424242;padding: 4px;border-top: 3px solid #F57C00;
+  overflow: hidden;
+}
+
+.scene-details{
+  width:100%;margin-top: 35px;background-color: #424242;border-top: 3px solid #F57C00;
+}
+
+.scene-details h2 {
+  word-break: normal;padding: 4px;
+  overflow: hidden;
+}
+
+.command-details {
+  margin-bottom: 40px;
+}
+
+.command-details .command-details-btn-div {
+  padding: 4px;
+}
+
+.command-details button {
+  width: 100%;white-space: normal;word-break: normal;
+  overflow: hidden;
+}
+
+.command-details .command-contains {
+  padding-left:10px;padding-top: 4px;padding-right: 4px;padding-bottom: 4px;
+}
+
+.command-details .command-contains p {
+  word-break: normal;
+  overflow: hidden;
+}
+
+.main-div-left mat-expansion-panel {
+  margin-bottom: 15px !important;
+}
+
+.main-div-left .main-div-left-inner {
+  padding: 4px;
+}
+
+.main-div-left .main-div-left-a {
+  width: 100%;margin-bottom:10px;
+}
+
+.main-div-left .main-div-left-inner mat-accordion button.command-button {
+  white-space: normal;word-break: normal;
+  overflow: hidden;
+}
+
+.clear-both {
+  clear: both;
+}

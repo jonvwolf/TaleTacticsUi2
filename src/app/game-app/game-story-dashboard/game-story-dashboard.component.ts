@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GamesEndpointsService } from 'src/app/core/api-endpoints/games-endpoints.service';
 import { defaultReadGameStateModel, ReadGameStateModel } from 'src/app/core/api-models/read-game-state-model';
@@ -31,6 +31,8 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
 
   private logLines:string[] = [];
   public logText:string = '';
+
+  @ViewChild('homebtn') homebtn:ElementRef|null = null;
 
   public override get initialGeneralElements():SecuredAppUiGeneralElements { return {
     headerTitle: 'Game dashboard'
@@ -151,6 +153,9 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
     }
   }
 
+  public goToTop():void{
+    this.homebtn?.nativeElement.scrollIntoView({behaivor:'smooth'});
+  }
   public goBack():void{
     // no need to disconnect, on ng destroy it disconnects
     this.router.navigate(htConstants.pathSecuredHome);
@@ -164,6 +169,18 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   }
 
   public sendCommand(scene:ReadStorySceneModel):void{
+
+  }
+
+  public clearScreen():void{
+
+  }
+
+  public stopSoundEffects():void{
+
+  }
+
+  public stopBgm():void{
 
   }
 }
