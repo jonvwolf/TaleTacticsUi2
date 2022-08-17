@@ -113,7 +113,7 @@
                     <p *ngIf="cmd.images && cmd.images.length > 0">
                         <i>Show image: </i> {{cmd.images[0].name}}
                     </p>
-                    <p *ngIf="cmd.images && cmd.images.length > 0">
+                    <p class="command-p-image" *ngIf="cmd.images && cmd.images.length > 0">
                         <img src="{{cmd.images[0].absoluteUrl}}">
                     </p>
                     <p *ngIf="cmd.texts">
@@ -127,6 +127,11 @@
                     </p>
                     <p *ngIf="cmd.minigames && cmd.minigames.length > 0">
                         <i>Play minigame: </i> Yes
+                    </p>
+                </div>
+                <div class="command-p-image-separated" *ngIf="cmd.images && cmd.images.length > 0">
+                    <p>
+                        <img src="{{cmd.images[0].absoluteUrl}}">
                     </p>
                 </div>
                 <div class="clear-both"></div>
