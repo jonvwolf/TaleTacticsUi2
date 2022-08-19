@@ -1,1 +1,11 @@
-<p>small-game-menu works!</p>
+<mat-nav-list>
+    <a href="#" mat-list-item (click)="goToTop($event)">
+      <span mat-line>Go to top</span>
+    </a>
+    <a href="#" mat-list-item (click)="clearScreen($event)">
+        <span mat-line>Clear screen</span>
+    </a>
+    <a href="#" mat-list-item (click)="stopAllAudio($event)">
+        <span mat-line>Stop all audio</span>
+    </a>
+  </mat-nav-list>

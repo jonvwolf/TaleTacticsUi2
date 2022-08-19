@@ -9,7 +9,7 @@ import { htConstants } from 'src/app/core/ht-constants';
 import { PlayerTextLogModel } from 'src/app/core/hub-models/player-text-log-model';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
 import { SecuredAppUiGeneralElements } from 'src/app/ui-helpers/secured-app-ui.service';
-import { SmallGameMenuComponent } from '../small-game-menu/small-game-menu.component';
+import { checkIfSmallGameMenuResult, SmallGameMenuComponent } from '../small-game-menu/small-game-menu.component';
 
 const maxCurrentLogLines:number = 500;
 const logLinesReduceTo:number = -20;
@@ -156,7 +156,23 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
 
   public goToTop():void{
     var sheetRef = this.sheet.open(SmallGameMenuComponent);
-    // TODO: this.homebtn?.nativeElement.scrollIntoView({behaivor:'smooth'});
+    this.subs.add(sheetRef.afterDismissed().subscribe({
+      next: (data) => {
+        if(checkIfSmallGameMenuResult(data)){
+          if(data.clearScreen){
+            this.clearScreen();
+          }else if(data.goToTop){
+            // smooth not working
+            this.homebtn?.nativeElement.scrollIntoView({behaivor:'smooth'});
+          }else if(data.stopAllAudio){
+            this.stopSoundEffects();
+            this.stopBgm();
+          }
+        }else{
+          console.error('Invalid data for small game menu');
+        }
+      }
+    }));
   }
   public goBack():void{
     // no need to disconnect, on ng destroy it disconnects
