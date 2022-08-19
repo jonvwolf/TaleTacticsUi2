@@ -26,11 +26,14 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { GameStoryDashboardComponent } from './game-story-dashboard/game-story-dashboard.component';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { SmallGameMenuComponent } from './small-game-menu/small-game-menu.component';
 
 @NgModule({
   declarations: [
     RootGameComponent,
-    GameStoryDashboardComponent
+    GameStoryDashboardComponent,
+    SmallGameMenuComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +60,8 @@ import { GameStoryDashboardComponent } from './game-story-dashboard/game-story-d
     MatChipsModule,
     MatAutocompleteModule,
     MatGridListModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatBottomSheetModule
   ]
 })
 export class GameAppModule { }

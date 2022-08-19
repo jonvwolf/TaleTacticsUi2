@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GamesEndpointsService } from 'src/app/core/api-endpoints/games-endpoints.service';
 import { defaultReadGameStateModel, ReadGameStateModel } from 'src/app/core/api-models/read-game-state-model';
@@ -9,6 +9,7 @@ import { htConstants } from 'src/app/core/ht-constants';
 import { PlayerTextLogModel } from 'src/app/core/hub-models/player-text-log-model';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
 import { SecuredAppUiGeneralElements } from 'src/app/ui-helpers/secured-app-ui.service';
+import { SmallGameMenuComponent } from '../small-game-menu/small-game-menu.component';
 
 const maxCurrentLogLines:number = 500;
 const logLinesReduceTo:number = -20;
@@ -39,7 +40,7 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   }; }
 
   constructor(private activatedRoute:ActivatedRoute, private router:Router, private endpoints:GamesEndpointsService,
-    private hub:HorrorMasterHubService, @Inject(DOCUMENT) document: Document) {
+    private hub:HorrorMasterHubService, private sheet:MatBottomSheet) {
     super();
   }
 
@@ -154,7 +155,8 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   }
 
   public goToTop():void{
-    this.homebtn?.nativeElement.scrollIntoView({behaivor:'smooth'});
+    var sheetRef = this.sheet.open(SmallGameMenuComponent);
+    // TODO: this.homebtn?.nativeElement.scrollIntoView({behaivor:'smooth'});
   }
   public goBack():void{
     // no need to disconnect, on ng destroy it disconnects
