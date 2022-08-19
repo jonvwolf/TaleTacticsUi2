@@ -14,6 +14,12 @@ import { checkIfSmallGameMenuResult, SmallGameMenuComponent } from '../small-gam
 const maxCurrentLogLines:number = 500;
 const logLinesReduceTo:number = -20;
 
+enum ComponentState {
+  Working = 1,
+  Ok = 2,
+  Error = 3
+}
+
 @Component({
   selector: 'app-game-story-dashboard',
   templateUrl: './game-story-dashboard.component.html',
@@ -32,6 +38,18 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
 
   private logLines:string[] = [];
   public logText:string = '';
+
+  public numberOfPlayers = 1;
+  // indicator for when HM is sending a command
+  public commandSent:ComponentState = ComponentState.Working;
+  // indicator for hub connection
+  public hubConnection:ComponentState = ComponentState.Working;
+  // make sure all players got the commands
+  public playerReceived:ComponentState = ComponentState.Working;
+
+  public errorState:ComponentState = ComponentState.Error;
+  public okState:ComponentState = ComponentState.Ok;
+  public workingState:ComponentState = ComponentState.Working;
 
   @ViewChild('homebtn') homebtn:ElementRef|null = null;
 
@@ -69,24 +87,29 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
         case HubChangedEnum.Connected:
           this.isConnected = true;
           this.isReconnecting = false;
+          this.hubConnection = ComponentState.Ok;
           this.addLogText('OK. Connected to hub');
           break;
         case HubChangedEnum.Connecting:
           this.isConnected = false;
           this.isReconnecting = true;
+          this.hubConnection = ComponentState.Working;
           this.addLogText('--. Connecting to hub');
           break;
         case HubChangedEnum.Reconnecting:
           this.isConnected = false;
           this.isReconnecting = true;
+          this.hubConnection = ComponentState.Working;
           this.addLogText('--. Reconnecting to hub');
           break;
         case HubChangedEnum.Disconnected:
           this.isConnected = false;
           this.isReconnecting = false;
+          this.hubConnection = ComponentState.Error;
           this.addLogText('--. Disconnected to hub');
           break;
         default:
+          this.hubConnection = ComponentState.Error;
           console.error('Unkown hub changed enum: ', args.hubChanged);
           throw new Error('Unkown hub changed enum: ' + args.hubChanged);
       }
@@ -154,7 +177,7 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
     }
   }
 
-  public goToTop():void{
+  public openMenu():void{
     var sheetRef = this.sheet.open(SmallGameMenuComponent);
     this.subs.add(sheetRef.afterDismissed().subscribe({
       next: (data) => {
@@ -168,6 +191,8 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
             this.stopSoundEffects();
             this.stopBgm();
           }
+        }else if(data === null || data === undefined){
+          // do nothing
         }else{
           console.error('Invalid data for small game menu');
         }

@@ -18,12 +18,14 @@ mat-card {
     content: "";
   }
 
-  .go-top-div {
-    position: fixed;width:35px;height:35px;bottom:0;right:0;z-index: 50;
+  .small-menu-btn {
+    position: fixed;width:140px;height:35px;bottom:0;right:0;z-index: 50;
   }
 
-  .go-top-div button {
+  .small-menu-btn button {
+    // repeated style [small]
     padding: 2px;margin:0;line-height: 25px;width: 30px;min-width: 5px;
+    margin-right: 5px;
   }
 
   .command-details .command-contains p img {
@@ -52,7 +54,7 @@ mat-card {
     width: 60%;float: left;
   }
 
-  .go-top-div {
+  .small-menu-btn {
     display: none;
     content: "";
   }
@@ -84,7 +86,7 @@ mat-card {
     width: 60%;float: left;
   }
 
-  .go-top-div {
+  .small-menu-btn {
     display: none;
     content: "";
   }
@@ -119,6 +121,28 @@ mat-card {
     max-height: 180px;
     max-width: 280px;
   }
+}
+
+.small-command-div {
+  display: block;
+  text-align: right;
+  margin-bottom: 10px;
+}
+.small-command-div button {
+  // repeated style [small]
+  padding: 2px;margin:0;line-height: 25px;width: 30px;min-width: 5px;
+  margin-right: 5px;
+}
+.working {
+  color: yellow;
+}
+
+.error {
+  color: red;
+}
+
+.ok {
+  color: chartreuse;
 }
 
 .story-details{
