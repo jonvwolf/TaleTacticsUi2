@@ -71,7 +71,7 @@ export class HorrorMasterHubService {
       .withUrl(environment.apiHost + '/game-hub', {
         skipNegotiation: true,
         transport: HttpTransportType.WebSockets,
-        //accessTokenFactory: this.session.jwt
+        accessTokenFactory: () => this.session.jwt
       })
       .withAutomaticReconnect(hubRetries)
       .build();
