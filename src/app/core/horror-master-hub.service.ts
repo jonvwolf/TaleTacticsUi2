@@ -132,16 +132,16 @@ export class HorrorMasterHubService {
       });
   }
 
-  public invoke(hubAction:string, model:any, gameCode?:GameCodeModel):Promise<any>{
+  public invoke(hubAction:string, gameCode:GameCodeModel, model?:any):Promise<any>{
     if(this.hub === null){
       return new Promise((res, rej) => { rej(); });
     }
 
-    if(gameCode !== undefined && gameCode !== null){
-
+    if(model !== undefined && model !== null){
+      return this.hub.invoke(hubAction, gameCode, model);
     }
 
-    return this.hub.invoke(hubAction, model);
+    return this.hub.invoke(hubAction, gameCode);
   }
 
   private resetConnection():void {

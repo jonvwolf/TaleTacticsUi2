@@ -265,7 +265,7 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
 
     this.commandSent = ComponentState.Working;
 
-    this.hub.invoke(actionHmSendCommand, model, this.gameCodeModel).then((data) => {
+    this.hub.invoke(actionHmSendCommand, this.gameCodeModel, model).then((data) => {
       this.commandSent = ComponentState.Ok;
     }).catch((err) => {
       this.commandSent = ComponentState.Error;
@@ -306,7 +306,7 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
 
     this.commandSent = ComponentState.Working;
 
-    this.hub.invoke(actionHmSendCommandPredefined, model, this.gameCodeModel).then((data) => {
+    this.hub.invoke(actionHmSendCommandPredefined, this.gameCodeModel, model).then((data) => {
       this.commandSent = ComponentState.Ok;
     }).catch((err) => {
       this.commandSent = ComponentState.Error;
