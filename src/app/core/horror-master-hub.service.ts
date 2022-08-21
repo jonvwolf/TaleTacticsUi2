@@ -1,8 +1,16 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpTransportType, HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
+import { GameCodeModel } from './hub-models/game-code-model';
+import { UserSessionService } from './user-session.service';
 
 export const listenReceiveLogHubName = 'HmReceiveLog';
+export const listenReceiveBackHmCommandHubName = 'HmReceiveBackHmCommand';
+export const listenReceiveBackHmCommandPredefinedHubName = 'HmReceiveBackHmCommandPredefined';
+
+export const actionJoinGameAsHm = 'JoinGameAsHm';
+export const actionHmSendCommand = 'HmSendCommand';
+export const actionHmSendCommandPredefined = 'HmSendCommandPredefined';
 
 const hubRetries = [5, 10, 10];
 
@@ -40,7 +48,7 @@ export class HorrorMasterHubService {
 
   private manualDisconnecting = false;
 
-  constructor() {
+  constructor(private session:UserSessionService) {
 
   }
 
@@ -62,7 +70,8 @@ export class HorrorMasterHubService {
     this.hub = new HubConnectionBuilder()
       .withUrl(environment.apiHost + '/game-hub', {
         skipNegotiation: true,
-        transport: HttpTransportType.WebSockets
+        transport: HttpTransportType.WebSockets,
+        //accessTokenFactory: this.session.jwt
       })
       .withAutomaticReconnect(hubRetries)
       .build();
@@ -121,6 +130,18 @@ export class HorrorMasterHubService {
         //todo: do not use console.error
         console.error('Error trying to stop hub', err);
       });
+  }
+
+  public invoke(hubAction:string, model:any, gameCode?:GameCodeModel):Promise<any>{
+    if(this.hub === null){
+      return new Promise((res, rej) => { rej(); });
+    }
+
+    if(gameCode !== undefined && gameCode !== null){
+
+    }
+
+    return this.hub.invoke(hubAction, model);
   }
 
   private resetConnection():void {

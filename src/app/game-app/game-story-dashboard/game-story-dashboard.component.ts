@@ -3,10 +3,14 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GamesEndpointsService } from 'src/app/core/api-endpoints/games-endpoints.service';
 import { defaultReadGameStateModel, ReadGameStateModel } from 'src/app/core/api-models/read-game-state-model';
+import { ReadStorySceneCommandModel } from 'src/app/core/api-models/read-story-scene-command-model';
 import { ReadStorySceneModel } from 'src/app/core/api-models/read-story-scene-model';
-import { HorrorMasterHubService, HubChangedEnum, listenReceiveLogHubName } from 'src/app/core/horror-master-hub.service';
+import { actionHmSendCommand, actionHmSendCommandPredefined, actionJoinGameAsHm, HorrorMasterHubService, HubChangedEnum, listenReceiveBackHmCommandHubName, listenReceiveBackHmCommandPredefinedHubName, listenReceiveLogHubName } from 'src/app/core/horror-master-hub.service';
 import { htConstants } from 'src/app/core/ht-constants';
-import { PlayerTextLogModel } from 'src/app/core/hub-models/player-text-log-model';
+import { emptyGameCodeModel, GameCodeModel } from 'src/app/core/hub-models/game-code-model';
+import { checkIfHmCommandModel, HmCommandModel } from 'src/app/core/hub-models/hm-command-model';
+import { checkIfHmCommandPredefinedModel, HmCommandPredefinedModel } from 'src/app/core/hub-models/hm-command-predefined-model';
+import { checkIfTextLogModel } from 'src/app/core/hub-models/player-text-log-model';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
 import { SecuredAppUiGeneralElements } from 'src/app/ui-helpers/secured-app-ui.service';
 import { checkIfSmallGameMenuResult, SmallGameMenuComponent } from '../small-game-menu/small-game-menu.component';
@@ -39,7 +43,8 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   private logLines:string[] = [];
   public logText:string = '';
 
-  public numberOfPlayers = 1;
+  // indicator how many players have sent back command
+  public numberOfPlayersSent = 0;
   // indicator for when HM is sending a command
   public commandSent:ComponentState = ComponentState.Working;
   // indicator for hub connection
@@ -50,6 +55,8 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   public errorState:ComponentState = ComponentState.Error;
   public okState:ComponentState = ComponentState.Ok;
   public workingState:ComponentState = ComponentState.Working;
+
+  private gameCodeModel:GameCodeModel = emptyGameCodeModel;
 
   @ViewChild('homebtn') homebtn:ElementRef|null = null;
 
@@ -81,6 +88,9 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
     }
 
     this.gameCode = gameCode;
+    this.gameCodeModel = {
+      gameCode: gameCode
+    };
 
     this.subs.add(this.hub.eventHubChanged.subscribe((args) => {
       switch(args.hubChanged){
@@ -116,15 +126,22 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
     }));
 
     this.subs.add(this.hub.eventReceivedData.subscribe((args) => {
-      if(args.hubName === listenReceiveLogHubName){
-        const model = args.data as PlayerTextLogModel;
-        if(model === null || model.playerName === undefined){
-          // todo: do not use console
-          console.error('Invalid type returned by hub', args.data);
-        }else{
-          this.addLogText(model.playerName + ': ' + model.message)
-        }
+      if(args.hubName === listenReceiveLogHubName && checkIfTextLogModel(args.data)){
+        this.addLogText(args.data.from + ': ' + args.data.message);
+        return;
       }
+
+      if(args.hubName === listenReceiveBackHmCommandHubName && checkIfHmCommandModel(args.data)){
+        // TODO
+        return;
+      }
+      
+      if(args.hubName === listenReceiveBackHmCommandPredefinedHubName && checkIfHmCommandPredefinedModel(args.data)){
+        // TODO
+        return;
+      }
+
+      console.error('Invalid type returned by hub', args.data);
     }));
 
     this.subs.add(this.endpoints.get(gameCode).subscribe({
@@ -155,7 +172,14 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
       return;
     }
 
-    this.hub.startConnection([listenReceiveLogHubName]);
+    this.hub.startConnection([listenReceiveLogHubName, listenReceiveBackHmCommandHubName, listenReceiveBackHmCommandPredefinedHubName]).then(() => {
+      this.hub.invoke(actionJoinGameAsHm, this.gameCodeModel).then(() => {
+        this.addLogText('OK. Joined as HM');
+      }).catch((err) => {
+        this.addLogText('ERR. Could not join as HM. Check console logs');
+        console.error('Error trying to send command', err);
+      });
+    });
   }
 
   private addLogText(log:string):void {
@@ -211,19 +235,83 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
     }
   }
 
-  public sendCommand(scene:ReadStorySceneModel):void{
+  public sendCommand(cmd:ReadStorySceneCommandModel):void{
+    if(!this.isConnected){
+      this.commandSent = ComponentState.Error;
+      return;
+    }
 
+    const model:HmCommandModel = {};
+
+    if(cmd.audios.length > 0){
+      model.audioIds = cmd.audios.map((x) => x.id);
+    }
+
+    if(cmd.images.length > 0){
+      model.imageId = cmd.images[0].id;
+    }
+
+    if(cmd.minigames.length > 0){
+      model.minigameId = cmd.minigames[0].id;
+    }
+
+    if(cmd.timers.length > 0){
+      model.timer = cmd.timers[0];
+    }
+
+    if(cmd.texts !== null && cmd.texts.length > 0){
+      model.text = cmd.texts;
+    }
+
+    this.commandSent = ComponentState.Working;
+
+    this.hub.invoke(actionHmSendCommand, model, this.gameCodeModel).then((data) => {
+      this.commandSent = ComponentState.Ok;
+    }).catch((err) => {
+      this.commandSent = ComponentState.Error;
+      this.addLogText('ERR. Command was not sent. Check console logs');
+      console.error('Error trying to send command', err);
+    });
   }
 
   public clearScreen():void{
+    const model:HmCommandPredefinedModel = {
+      clearScreen: true
+    };
 
+    this.sendCommandPredefined(model);
   }
 
   public stopSoundEffects():void{
+    const model:HmCommandPredefinedModel = {
+      stopSoundEffects: true
+    };
 
+    this.sendCommandPredefined(model);
   }
 
-  public stopBgm():void{
+  public stopBgm():void{    
+    const model:HmCommandPredefinedModel = {
+      stopBgm: true
+    };
 
+    this.sendCommandPredefined(model);
+  }
+
+  private sendCommandPredefined(model:HmCommandPredefinedModel):void{
+    if(!this.isConnected){
+      this.commandSent = ComponentState.Error;
+      return;
+    }
+
+    this.commandSent = ComponentState.Working;
+
+    this.hub.invoke(actionHmSendCommandPredefined, model, this.gameCodeModel).then((data) => {
+      this.commandSent = ComponentState.Ok;
+    }).catch((err) => {
+      this.commandSent = ComponentState.Error;
+      this.addLogText('ERR. Command was not sent. Check console logs');
+      console.error('Error trying to send command', err);
+    });
   }
 }

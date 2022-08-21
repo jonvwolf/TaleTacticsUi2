@@ -6,7 +6,8 @@
     <button mat-raised-button disabled>
         <mat-icon [ngClass]="{'working': commandSent === workingState, 'ok': commandSent === okState, 'error': commandSent === errorState}">send</mat-icon>
     </button>
-    <button mat-raised-button disabled>
+    <button mat-raised-button disabled class="player-count">
+        {{numberOfPlayersSent}}
         <mat-icon [ngClass]="{'working': playerReceived === workingState, 'ok': playerReceived === okState, 'error': playerReceived === errorState}">group</mat-icon>
     </button>
     <button mat-raised-button color="primary" (click)="openMenu()">
@@ -42,10 +43,6 @@
                             <mat-form-field appearance="standard" color="accent">
                                 <mat-label>Game code</mat-label>
                                 <input matInput type="text" readonly [value]="gameCode">
-                            </mat-form-field>
-                            <mat-form-field appearance="standard" color="accent">
-                                <mat-label>Expecting number of players</mat-label>
-                                <input matInput type="number" [(ngModel)]="numberOfPlayers">
                             </mat-form-field>
                         </mat-card-content>
                         <mat-card-actions align="end" class="dialog-buttons">
@@ -126,7 +123,7 @@
 
             <div class="command-details" *ngFor="let cmd of scene.storySceneCommands">
                 <div class="command-details-btn-div">
-                    <button mat-raised-button color="primary" (click)="sendCommand(scene)">
+                    <button mat-raised-button color="primary" (click)="sendCommand(cmd)">
                         {{cmd.title}}
                     </button>
                 </div>
