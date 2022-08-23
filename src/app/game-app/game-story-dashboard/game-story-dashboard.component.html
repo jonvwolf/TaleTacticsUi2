@@ -1,16 +1,20 @@
 <ng-template #buttonstates>
-    <button mat-raised-button disabled>
+    <button mat-raised-button matTooltip="Hub connection indicator"
+        aria-label="Hub connection indicator">
         <mat-icon [ngClass]="{'working': hubConnection === workingState, 'ok': hubConnection === okState, 'error': hubConnection === errorState}">
             device_hub</mat-icon>
     </button>
-    <button mat-raised-button disabled>
+    <button mat-raised-button matTooltip="Indicator if command was successfully sent or not"
+        aria-label="Indicator if command was successfully sent or not">
         <mat-icon [ngClass]="{'working': commandSent === workingState, 'ok': commandSent === okState, 'error': commandSent === errorState}">send</mat-icon>
     </button>
-    <button mat-raised-button disabled class="player-count">
-        {{numberOfPlayersSent}}
+    <button mat-raised-button class="player-count" matTooltip="Indicator of how many players have received the command that was sent"
+        aria-label="Indicator of how many players have received the command that was sent">
+        {{playersReceivedCount}}
         <mat-icon [ngClass]="{'working': playerReceived === workingState, 'ok': playerReceived === okState, 'error': playerReceived === errorState}">group</mat-icon>
     </button>
-    <button mat-raised-button color="primary" (click)="openMenu()">
+    <button mat-raised-button color="primary" (click)="openMenu()" matTooltip="Opens up a quick menu"
+        aria-label="Opens up a quick menu">
         <mat-icon>menu_open</mat-icon>
     </button>
 </ng-template>

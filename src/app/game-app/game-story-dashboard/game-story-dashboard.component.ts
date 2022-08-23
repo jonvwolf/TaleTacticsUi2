@@ -44,7 +44,7 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   public logText:string = '';
 
   // indicator how many players have sent back command
-  public numberOfPlayersSent = 0;
+  public playersReceivedCount = 0;
   // indicator for when HM is sending a command
   public commandSent:ComponentState = ComponentState.Working;
   // indicator for hub connection
@@ -132,12 +132,14 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
       }
 
       if(args.hubName === listenReceiveBackHmCommandHubName && checkIfHmCommandModel(args.data)){
-        // TODO
+        this.playersReceivedCount++;
+        this.playerReceived = ComponentState.Ok;
         return;
       }
       
       if(args.hubName === listenReceiveBackHmCommandPredefinedHubName && checkIfHmCommandPredefinedModel(args.data)){
-        // TODO
+        this.playersReceivedCount++;
+        this.playerReceived = ComponentState.Ok;
         return;
       }
 
@@ -264,6 +266,8 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
     }
 
     this.commandSent = ComponentState.Working;
+    this.playerReceived = ComponentState.Working;
+    this.playersReceivedCount = 0;
 
     this.hub.invoke(actionHmSendCommand, this.gameCodeModel, model).then((data) => {
       this.commandSent = ComponentState.Ok;
@@ -305,6 +309,8 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
     }
 
     this.commandSent = ComponentState.Working;
+    this.playerReceived = ComponentState.Working;
+    this.playersReceivedCount = 0;
 
     this.hub.invoke(actionHmSendCommandPredefined, this.gameCodeModel, model).then((data) => {
       this.commandSent = ComponentState.Ok;

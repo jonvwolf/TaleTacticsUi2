@@ -28,6 +28,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { GameStoryDashboardComponent } from './game-story-dashboard/game-story-dashboard.component';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { SmallGameMenuComponent } from './small-game-menu/small-game-menu.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { SmallGameMenuComponent } from './small-game-menu/small-game-menu.compon
     MatAutocompleteModule,
     MatGridListModule,
     MatExpansionModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MatTooltipModule
   ]
 })
 export class GameAppModule { }
