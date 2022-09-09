@@ -43,6 +43,10 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   private logLines:string[] = [];
   public logText:string = '';
 
+  // indicator for current timer
+  public currentTimer = 0;
+  private timerInterval:number|null = null;
+
   // indicator how many players have sent back command
   public playersReceivedCount = 0;
   // indicator for when HM is sending a command
@@ -259,6 +263,19 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
 
     if(cmd.timers.length > 0){
       model.timer = cmd.timers[0];
+      this.currentTimer = model.timer + 1;
+
+      if(this.timerInterval !== null){
+        clearInterval(this.timerInterval);
+      }
+      this.timerInterval = window.setInterval(() => {
+        this.currentTimer--;
+        if(this.currentTimer === 0){
+          if(this.timerInterval !== null){
+            clearInterval(this.timerInterval);
+          }
+        }
+      }, 1000);
     }
 
     if(cmd.texts !== null && cmd.texts.length > 0){
@@ -291,6 +308,10 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
       stopSoundEffects: true
     };
 
+    if(this.timerInterval !== null){
+      clearInterval(this.timerInterval);
+      this.currentTimer = 0;
+    }
     this.sendCommandPredefined(model);
   }
 

@@ -13,6 +13,10 @@
         {{playersReceivedCount}}
         <mat-icon [ngClass]="{'working': playerReceived === workingState, 'ok': playerReceived === okState, 'error': playerReceived === errorState}">group</mat-icon>
     </button>
+    <button mat-raised-button matTooltip="Shows the current timer"
+        aria-label="Shows the current timer">
+        {{currentTimer}}s
+    </button>
     <button mat-raised-button color="primary" (click)="openMenu()" matTooltip="Opens up a quick menu"
         aria-label="Opens up a quick menu">
         <mat-icon>menu_open</mat-icon>
@@ -109,7 +113,7 @@
                 Clear screen
             </button>
             <button class="command-button" mat-raised-button color="primary" (click)="stopSoundEffects()">
-                Stop sound effects
+                Stop timer
             </button>
             <button class="command-button" mat-raised-button color="primary" (click)="stopBgm()">
                 Stop background music
