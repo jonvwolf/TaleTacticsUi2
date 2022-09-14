@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StoryScenesEndpointsService } from 'src/app/core/api-endpoints/story-scenes-endpoints.service';
@@ -18,7 +18,8 @@ export class EditStorySceneComponent extends BaseFormComponent implements OnInit
   public controls:UpdateStorySceneFormControls;
 
   @Input() model:ReadStorySceneModel = defaultReadStorySceneModel;
-
+  @Output() deletedEvent = new EventEmitter<ReadStorySceneModel>();
+  
   constructor(private dialog:MatDialog, private formHelper:StorySceneFormHelperService, private endpoints:StoryScenesEndpointsService,
     private snackBar:MatSnackBar) {
     super();
@@ -80,12 +81,36 @@ export class EditStorySceneComponent extends BaseFormComponent implements OnInit
     }));
   }
 
+  public deleteScenePart():void{
+    if(confirm('Are you sure to delete this scene part? This action cannot be undone. All commands will be lost. Images and audios are preserved')){
+      this.startLoadAndClearErrors();
+      this.subs.add(this.endpoints.delete(this.model.id).subscribe({
+        next: (data) => {
+          this.deletedEvent.emit(this.model);
+          this.endLoad();
+        },
+        error: (err) => {
+          this.endLoadAndHandleError(err);
+        }
+      }));
+    }
+  }
+
   public editCommand(cmd:ReadStorySceneCommandModel):void{
     const args:CreateCommandDialogArgs = {scene:this.model, command: cmd};
     const dialog = this.dialog.open(CreateCommandDialogComponent, {data: args, disableClose: true});
     this.subs.add(dialog.afterClosed().subscribe({
       next: (data) => {
-        if(checkIfReadStorySceneCommandModel(data)){
+        if(typeof data === 'number'){
+          // deleted
+          const list = this.model.storySceneCommands;
+          const index = list.findIndex((item) => item.id === data);
+          if(index >= 0){
+            list.splice(index, 1);
+            this.model.storySceneCommands = list;
+          }
+
+        }else if(checkIfReadStorySceneCommandModel(data)){
           const index = this.model.storySceneCommands.findIndex((item) => item.id === data.id);
           // This is fine to replace reference, because there is no @Input where the command ref is given
           this.model.storySceneCommands[index] = data;

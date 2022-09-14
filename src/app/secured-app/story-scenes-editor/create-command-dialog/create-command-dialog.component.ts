@@ -172,6 +172,25 @@ export class CreateCommandDialogComponent extends BaseFormComponent implements O
       this.dialogRef.close(this.data.command);
   }
 
+  public deleteCommand():void{
+    if(this.data.command === null)
+      return;
+
+    if(confirm('Are you sure to delete this command? This action cannot be undone. Images and audios are preserved')){
+      this.startLoadAndClearErrors();
+      this.subs.add(this.endpoints.delete(this.data.command.id).subscribe({
+        next: (data) => {
+          if(this.data.command !== null)
+            this.dialogRef.close(this.data.command.id);
+          this.endLoad();
+        },
+        error: (err) => {
+          this.endLoadAndHandleError(err);
+        }
+      }));
+    }
+  }
+
   public override submit():void {
     this.clearMessages();
     if(!this.canSubmitAndTouchForm()){

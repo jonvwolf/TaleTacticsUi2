@@ -7,14 +7,14 @@
             <mat-card-title>Stories <span class="card-title-desc">Click on a row to edit a story</span></mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <p *ngIf="storyList.length == 0 && !isLoading">
+            <p *ngIf="dataSource.data.length == 0 && !isLoading">
                 <a mat-stroked-button [routerLink]="ht.pathSecuredCreateStory">No stories created so far! Click here to start creating one</a>
             </p>
-            <mat-form-field class="full-form-field" appearance="standard" *ngIf="storyList.length > 0">
+            <mat-form-field class="full-form-field" appearance="standard" *ngIf="dataSource.data.length > 0">
                 <mat-label>Filter</mat-label>
                 <input matInput placeholder="Type here to filter by title or description" #inputFilter (keyup)="applyFilter($event)" name="home-stories-filter">
             </mat-form-field>
-            <table mat-table matSort class="mat-elevation-z8 full-content-table ht-default" [dataSource]="dataSource" [hidden]="storyList.length == 0">
+            <table mat-table matSort class="mat-elevation-z8 full-content-table ht-default" [dataSource]="dataSource" [hidden]="dataSource.data.length == 0">
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
                     <td mat-cell *matCellDef="let element"><span (click)="storyRowClick(element)">{{element.id}}</span></td>
@@ -35,6 +35,9 @@
                         </button>
                         <button mat-raised-button color="primary" (click)="storyRowClick(element)">
                             <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-raised-button color="primary" (click)="deleteStoryRowClick(element)">
+                            <mat-icon>delete</mat-icon>
                         </button>
                     </td>
                 </ng-container>

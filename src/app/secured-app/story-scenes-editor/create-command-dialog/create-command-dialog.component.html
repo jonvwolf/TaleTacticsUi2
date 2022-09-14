@@ -86,4 +86,7 @@
     <button mat-raised-button color="secondary" (click)="close()">
         Close
     </button>
+    <button *ngIf="data.command !== null" mat-raised-button color="secondary" (click)="deleteCommand()">
+      Delete
+  </button>
 </div>

@@ -32,7 +32,6 @@ export class HomeComponent extends BaseFormComponent implements OnInit, AfterVie
   
   
   public tableColumns:string[] = fullsizeTableColumns;
-  public storyList:ReadStoryModel[] = [];
   public dataSource:MatTableDataSource<ReadStoryModel> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator: MatPaginator|null = null;
@@ -68,7 +67,6 @@ export class HomeComponent extends BaseFormComponent implements OnInit, AfterVie
     this.subs.add(this.stories.getAll().subscribe({
       next: (data) => {
         this.dataSource.data = data;
-        this.storyList = data;
         this.endLoad();
       },
       error: (err) => {
@@ -89,6 +87,28 @@ export class HomeComponent extends BaseFormComponent implements OnInit, AfterVie
 
   public storyRowClick(readStoryModel:ReadStoryModel):void {
     this.router.navigate(htConstants.getPathSecuredStoryScenesEditor(readStoryModel.id));
+  }
+
+  public deleteStoryRowClick(readStoryModel:ReadStoryModel):void {
+    if(confirm('Are you sure to delete this story? This action cannot be undone. All story scenes and commands will be lost. Images and Audios are preserved')){
+      this.startLoadAndClearErrors();
+      this.subs.add(this.stories.delete(readStoryModel.id).subscribe({
+        next: (data) => {
+
+          const list = this.dataSource.data;
+          const index = list.findIndex((item) => item.id === readStoryModel.id);
+          if(index >= 0){
+            list.splice(index, 1);
+            this.dataSource.data = list;
+          }
+
+          this.endLoad();
+        },
+        error: (err) => {
+          this.endLoadAndHandleError(err);
+        }
+      }));
+    }
   }
 
   public startGame(readStoryModel:ReadStoryModel):void {

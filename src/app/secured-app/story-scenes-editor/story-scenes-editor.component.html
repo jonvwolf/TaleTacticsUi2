@@ -37,5 +37,5 @@
 <app-create-story-scene [hidden]="!showAddPart" (finishedEvent)="addStoryPartFinished($event)" [args]="{storySceneId:story.id}"></app-create-story-scene>
 
 <div *ngFor="let model of story.storyScenes">
-    <app-edit-story-scene [model]="model"></app-edit-story-scene>
+    <app-edit-story-scene [model]="model" (deletedEvent)="onStorySceneDelete($event)"></app-edit-story-scene>
 </div>

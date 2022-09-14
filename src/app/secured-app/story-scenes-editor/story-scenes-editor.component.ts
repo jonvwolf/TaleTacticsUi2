@@ -68,4 +68,13 @@ export class StoryScenesEditorComponent extends BaseFormComponent implements OnI
     }
     this.showAddPart = false;
   }
+
+  public onStorySceneDelete(model:ReadStorySceneModel):void{
+    const list = this.story.storyScenes;
+    const index = list.findIndex((item) => item.id === model.id);
+    if(index >= 0){
+      list.splice(index, 1);
+      this.story.storyScenes = list;
+    }
+  }
 }

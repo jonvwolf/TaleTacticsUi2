@@ -22,6 +22,9 @@
                 <button mat-raised-button color="primary" (click)="addCommand()">
                     Add command
                 </button>
+                <button mat-raised-button color="primary" (click)="deleteScenePart()">
+                    Delete scene part
+                </button>
             </mat-card-actions>
         </form>
         <mat-card *ngIf="model.storySceneCommands.length > 0">

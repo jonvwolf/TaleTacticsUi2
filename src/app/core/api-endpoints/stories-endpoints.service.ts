@@ -33,6 +33,14 @@ export class StoriesEndpointsService extends BaseApiEndpoints {
     );
   }
 
+  public delete(id:number):Observable<any>{
+    return this.http.delete<any>(this.securedBasePath + '/stories/' + id).pipe(
+      catchError((err:HttpErrorResponse) => {
+        return this.handleHttpError(err);
+      })
+    );
+  }
+
   public post(model:CreateStoryModel):Observable<ReadStoryModel>{
     return this.http.post<ReadStoryModel>(this.securedBasePath + '/stories', model, {headers:this.createHttpHeadersJson()}).pipe(
       catchError((err:HttpErrorResponse) => {

@@ -31,6 +31,14 @@ export class CommandsEndpointsService extends BaseApiEndpoints {
     );
   }
 
+  public delete(id:number):Observable<any>{
+    return this.http.delete<any>(this.securedBasePath + '/scenes/commands/' + id).pipe(
+      catchError((err:HttpErrorResponse) => {
+        return this.handleHttpError(err);
+      })
+    );
+  }
+
   public post(sceneId:number, model:CreateStorySceneCommandModel):Observable<ReadStorySceneCommandModel>{
     return this.http.post<ReadStorySceneCommandModel>(this.securedBasePath + '/scenes/' + sceneId + '/commands', model, {headers:this.createHttpHeadersJson()}).pipe(
       catchError((err:HttpErrorResponse) => {
