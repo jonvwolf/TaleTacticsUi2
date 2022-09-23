@@ -28,6 +28,7 @@ export class LoginFormHelper {
 
     public createModel(controls:LoginFormControls):LoginModel{
         return {
+            username: controls.usernameControl.value,
             password: controls.passwordControl.value
         };
     }
