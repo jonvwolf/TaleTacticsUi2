@@ -20,6 +20,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 // DASHBOARD is in its own css
 
+a {
+  color: mat-color($warn);
+}
+
 mat-card-actions {
   margin-bottom: 0 !important;
 }
