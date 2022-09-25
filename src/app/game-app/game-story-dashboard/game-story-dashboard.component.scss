@@ -155,6 +155,10 @@ mat-card {
   overflow: hidden;
 }
 
+.story-details pre {
+  white-space: pre-wrap;
+}
+
 .scene-details{
   width:100%;margin-top: 35px;background-color: #424242;border-top: 3px solid #F57C00;
 }
