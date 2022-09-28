@@ -36,7 +36,7 @@
                 <mat-expansion-panel hideToggle>
                     <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <mat-icon>device_hub</mat-icon> Hub connection
+                        <mat-icon>device_hub</mat-icon> Hub connection - Game code:&nbsp;<u>{{gameCode}}</u>
                     </mat-panel-title>
                     <mat-panel-description>
                         
@@ -109,13 +109,13 @@
                 </mat-expansion-panel>
 
             </mat-accordion>
-            <button class="command-button" mat-raised-button color="primary" (click)="clearScreen()">
+            <button class="command-button" mat-raised-button [color]="currentPredefinedCommandType === uiClearScreen ? 'accent' : 'primary'" (click)="clearScreen()">
                 Clear screen
             </button>
-            <button class="command-button" mat-raised-button color="primary" (click)="stopSoundEffects()">
+            <button class="command-button" mat-raised-button [color]="currentPredefinedCommandType === uiStopTimer ? 'accent' : 'primary'" (click)="stopSoundEffects()">
                 Stop timer
             </button>
-            <button class="command-button" mat-raised-button color="primary" (click)="stopBgm()">
+            <button class="command-button" mat-raised-button [color]="currentPredefinedCommandType === uiStopBgm ? 'accent' : 'primary'" (click)="stopBgm()">
                 Stop background music
             </button>
         </div>
@@ -131,7 +131,7 @@
 
             <div class="command-details" *ngFor="let cmd of scene.storySceneCommands">
                 <div class="command-details-btn-div">
-                    <button mat-raised-button color="primary" (click)="sendCommand(cmd)">
+                    <button mat-raised-button [color]="cmd.id === currentCommandId ? 'accent' : 'primary'" (click)="sendCommand(cmd)">
                         {{cmd.title}}
                     </button>
                 </div>

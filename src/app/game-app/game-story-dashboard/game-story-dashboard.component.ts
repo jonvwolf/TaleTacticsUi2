@@ -24,12 +24,23 @@ enum ComponentState {
   Error = 3
 }
 
+enum PredefinedButtonType {
+  NotSet = 0,
+  ClearScreen = 1,
+  StopTimer = 2,
+  StopBgm = 3
+}
+
 @Component({
   selector: 'app-game-story-dashboard',
   templateUrl: './game-story-dashboard.component.html',
   styleUrls: ['./game-story-dashboard.component.scss']
 })
 export class GameStoryDashboardComponent extends BaseFormComponent implements OnInit, OnDestroy {
+
+  public uiClearScreen = PredefinedButtonType.ClearScreen;
+  public uiStopTimer = PredefinedButtonType.StopTimer;
+  public uiStopBgm = PredefinedButtonType.StopBgm;
 
   public scenePrefix = 'scene_';
   public gameCode:string = '';
@@ -47,6 +58,10 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   public currentTimer = 0;
   private timerInterval:number|null = null;
 
+  // To highlight button
+  public currentCommandId = 0;
+  // To highlight predefined button
+  public currentPredefinedCommandType:PredefinedButtonType = PredefinedButtonType.NotSet;
   // indicator how many players have sent back command
   public playersReceivedCount = 0;
   // indicator for when HM is sending a command
@@ -217,9 +232,10 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
           }else if(data.goToTop){
             // smooth not working
             this.homebtn?.nativeElement.scrollIntoView({behaivor:'smooth'});
-          }else if(data.stopAllAudio){
-            this.stopSoundEffects();
+          }else if(data.stopBGM){
             this.stopBgm();
+          }else if(data.stopTimer){
+            this.stopSoundEffects();
           }
         }else if(data === null || data === undefined){
           // do nothing
@@ -246,6 +262,9 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
       this.commandSent = ComponentState.Error;
       return;
     }
+
+    this.currentCommandId = 0;
+    this.currentPredefinedCommandType = PredefinedButtonType.NotSet;
 
     const model:HmCommandModel = {};
 
@@ -288,6 +307,7 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
 
     this.hub.invoke(actionHmSendCommand, this.gameCodeModel, model).then((data) => {
       this.commandSent = ComponentState.Ok;
+      this.currentCommandId = cmd.id;
     }).catch((err) => {
       this.commandSent = ComponentState.Error;
       this.addLogText('ERR. Command was not sent. Check console logs');
@@ -300,6 +320,7 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
       clearScreen: true
     };
 
+    this.currentPredefinedCommandType = PredefinedButtonType.ClearScreen;
     this.sendCommandPredefined(model);
   }
 
@@ -312,6 +333,8 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
       clearInterval(this.timerInterval);
       this.currentTimer = 0;
     }
+
+    this.currentPredefinedCommandType = PredefinedButtonType.StopTimer;
     this.sendCommandPredefined(model);
   }
 
@@ -320,6 +343,7 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
       stopBgm: true
     };
 
+    this.currentPredefinedCommandType = PredefinedButtonType.StopBgm;
     this.sendCommandPredefined(model);
   }
 
@@ -329,6 +353,7 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
       return;
     }
 
+    this.currentCommandId = 0;
     this.commandSent = ComponentState.Working;
     this.playerReceived = ComponentState.Working;
     this.playersReceivedCount = 0;

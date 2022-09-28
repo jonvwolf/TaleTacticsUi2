@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 export interface SmallGameMenuResult {
-  stopAllAudio?: boolean,
+  stopBGM?: boolean,
   clearScreen?: boolean,
+  stopTimer?: boolean,
   goToTop?: boolean
 }
 
 export const checkIfSmallGameMenuResult = (obj:any): obj is SmallGameMenuResult => {
-  return obj && ('stopAllAudio' in obj || 'clearScreen' in obj || 'goToTop' in obj);
+  return obj && ('stopBGM' in obj || 'clearScreen' in obj || 'goToTop' in obj || 'stopTimer' in obj);
 };
 
 @Component({
@@ -25,11 +26,19 @@ export class SmallGameMenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public stopAllAudio(event:MouseEvent):void{
+  public stopBGM(event:MouseEvent):void{
     event.preventDefault();
 
     const result:SmallGameMenuResult = {
-      stopAllAudio: true
+      stopBGM: true
+    };
+    this.bottomSheetRef.dismiss(result);
+  }
+  public stopTimer(event:MouseEvent):void{
+    event.preventDefault();
+
+    const result:SmallGameMenuResult = {
+      stopTimer: true
     };
     this.bottomSheetRef.dismiss(result);
   }
