@@ -13,5 +13,7 @@ export interface ReadStorySceneCommandModel {
     timers:number[],
     images:ReadImageModel[],
     audios:ReadAudioModel[],
-    minigames:ReadMinigameModel[]
+    minigames:ReadMinigameModel[],
+    comments:string|null,
+    startInternalTimer:boolean
 }

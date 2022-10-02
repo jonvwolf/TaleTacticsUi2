@@ -4,5 +4,7 @@ export interface CreateStorySceneCommandModel {
     timers:number[]|null,
     images:number[]|null,
     audios:number[]|null,
-    minigames:number[]|null
+    minigames:number[]|null,
+    comments:string|null,
+    startInternalTimer:boolean
 }

@@ -10,6 +10,8 @@ export interface CreateCommandFormControls {
   textControl: FormControl,
   miniGameControl: FormControl,
   timerControl: FormControl,
+  commentsControl: FormControl,
+  startInternalTimerControl: FormControl,
   // material chip autocomplete does not use as value
   //imageControl: FormControl,
   // material chip autocomplete sets this as null...
@@ -28,7 +30,9 @@ export class CommandFormHelperService {
       titleControl: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(60)]),
       textControl: new FormControl('', [Validators.minLength(1), Validators.maxLength(5000)]),
       miniGameControl: new FormControl(''),
-      timerControl: new FormControl('', [Validators.min(1)])
+      timerControl: new FormControl('', [Validators.min(1)]),
+      commentsControl: new FormControl('', [Validators.minLength(1), Validators.maxLength(600)]),
+      startInternalTimerControl: new FormControl(''),
     };
   }
 
@@ -37,7 +41,9 @@ export class CommandFormHelperService {
       titleControl: controls.titleControl,
       textControl: controls.textControl,
       miniGameControl: controls.miniGameControl,
-      timerControl: controls.timerControl
+      timerControl: controls.timerControl,
+      commentsControl: controls.commentsControl,
+      startInternalTimerControl: controls.startInternalTimerControl
     });
   }
 
@@ -57,9 +63,19 @@ export class CommandFormHelperService {
       minigames = [];
     }
 
+    let startInternalTimer = false;
+    if(controls.startInternalTimerControl.value === true){
+      startInternalTimer = true;
+    }
+
     let texts:string|null = null;
     if(controls.textControl.value && controls.textControl.value.length > 0){
       texts = controls.textControl.value;
+    }
+
+    let comments:string|null = null;
+    if(controls.commentsControl.value && controls.commentsControl.value.length > 0){
+      comments = controls.commentsControl.value;
     }
 
     let timers:number[]|null = null;
@@ -82,13 +98,16 @@ export class CommandFormHelperService {
       images: imageIds,
       minigames: minigames,
       texts: texts,
-      timers: timers
+      timers: timers,
+      comments: comments,
+      startInternalTimer: startInternalTimer
     };
   }
 
   public setControls(model:ReadStorySceneCommandModel, controls:CreateCommandFormControls):void{
     controls.titleControl.setValue(model.title);
     controls.textControl.setValue(model.texts);
+    controls.commentsControl.setValue(model.comments);
 
     if(model.minigames && model.minigames.length > 0)
       controls.miniGameControl.setValue(true);
@@ -96,5 +115,6 @@ export class CommandFormHelperService {
     if(model.timers && model.timers.length > 0)
       controls.timerControl.setValue(model.timers[0]);
     
+    controls.startInternalTimerControl.setValue(model.startInternalTimer);
   }
 }

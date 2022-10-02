@@ -135,6 +135,7 @@
                     <button mat-raised-button [color]="cmd.id === currentCommandId ? 'accent' : 'primary'" (click)="sendCommand(cmd)">
                         {{cmd.title}}
                     </button>
+                    <pre class="command-details-comments" *ngIf="cmd.comments && cmd.comments.length > 0"><small>{{cmd.comments}}</small></pre>
                 </div>
                 <div class="command-contains">
                     <p *ngIf="cmd.images && cmd.images.length > 0">
@@ -154,6 +155,9 @@
                     </p>
                     <p *ngIf="cmd.minigames && cmd.minigames.length > 0">
                         <i>Play minigame: </i> Yes
+                    </p>
+                    <p *ngIf="cmd.startInternalTimer === true">
+                        <i>Start internal timer: </i> Yes
                     </p>
                 </div>
                 <div class="command-p-image-separated" *ngIf="cmd.images && cmd.images.length > 0">

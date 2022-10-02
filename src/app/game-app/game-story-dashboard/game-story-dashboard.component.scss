@@ -191,6 +191,11 @@ mat-card {
   overflow: hidden;
 }
 
+.command-details-comments {
+  white-space: pre-wrap;margin:0;padding:0;overflow: hidden;
+  word-break: normal;
+}
+
 .main-div-left mat-expansion-panel {
   margin-bottom: 15px !important;
 }

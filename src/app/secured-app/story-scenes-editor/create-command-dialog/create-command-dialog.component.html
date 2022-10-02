@@ -76,7 +76,14 @@
                     <span matSuffix>seconds</span>
                     <mat-error *ngIf="controls.timerControl">Min: 1s</mat-error>
                   </mat-form-field>
+                  <mat-form-field appearance="standard" color="accent">
+                      <mat-label>Comments (these comments are only shown to you) for internal tracking</mat-label>
+                      <textarea matInput rows="5" [formControl]="controls.commentsControl"></textarea>
+                      <mat-error>Valid comments are required</mat-error>
+                  </mat-form-field>
                   <!--<mat-checkbox [formControl]="controls.miniGameControl">Start minigame</mat-checkbox>-->
+                  <mat-checkbox [formControl]="controls.startInternalTimerControl">Start internal timer</mat-checkbox>
+                  <p><small>This is an internal timer (only shown to you) to coordinate timings betweens commands. For example, if you want to click certain commnads at a certain time within a song</small></p>
             </mat-card-content>
         </form>
     </mat-card>
