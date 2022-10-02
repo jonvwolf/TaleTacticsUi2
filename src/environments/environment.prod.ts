@@ -1,4 +1,4 @@
 export const environment = {
-  apiHost: '',
+  apiHost: 'https://ht-api.whostreaming.net',
   production: true
 };
