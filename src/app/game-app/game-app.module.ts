@@ -29,12 +29,14 @@ import { GameStoryDashboardComponent } from './game-story-dashboard/game-story-d
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { SmallGameMenuComponent } from './small-game-menu/small-game-menu.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { ShowTimerPipe } from '../ui-helpers/pipes/show-timer.pipe';
 
 @NgModule({
   declarations: [
     RootGameComponent,
     GameStoryDashboardComponent,
-    SmallGameMenuComponent
+    SmallGameMenuComponent,
+    ShowTimerPipe
   ],
   imports: [
     CommonModule,

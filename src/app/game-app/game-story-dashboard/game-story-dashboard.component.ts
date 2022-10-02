@@ -58,6 +58,10 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   public currentTimer = 0;
   private timerInterval:number|null = null;
 
+  public currentInternalTimer = 0;
+  private internalTimerInterval:number|null = null;
+  public expandInternalTimer = false;
+
   // To highlight button
   public currentCommandId = 0;
   // To highlight predefined button
@@ -192,6 +196,26 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
     }));
   }
 
+  public startInternalTimer():void {
+    this.expandInternalTimer = true;
+    if(this.internalTimerInterval !== null){
+      this.currentInternalTimer = 0;
+      return;
+    }
+
+    this.currentInternalTimer = 0;
+    this.internalTimerInterval = window.setInterval(() => {
+      this.currentInternalTimer++;
+    }, 1000);
+  }
+
+  public stopInternalTimer():void {
+    if(this.internalTimerInterval !== null){
+      clearInterval(this.internalTimerInterval);
+      this.internalTimerInterval = null;
+    }
+  }
+
   public disconnectFromHub():void {
     if(!this.canDisconnect){
       return;
@@ -321,6 +345,11 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
     this.hub.invoke(actionHmSendCommand, this.gameCodeModel, model).then((data) => {
       this.commandSent = ComponentState.Ok;
       this.currentCommandId = cmd.id;
+
+      if(cmd.startInternalTimer === true){
+        this.startInternalTimer();
+      }
+
     }).catch((err) => {
       this.commandSent = ComponentState.Error;
       this.addLogText('ERR. Command was not sent. Check console logs');

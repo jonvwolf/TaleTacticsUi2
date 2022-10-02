@@ -36,10 +36,10 @@
                 <mat-expansion-panel hideToggle>
                     <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <mat-icon>device_hub</mat-icon> Hub connection - Game code:&nbsp;<u>{{gameCode}}</u>&nbsp;(Expand for more info)
+                        <mat-icon>device_hub</mat-icon> Hub connection
                     </mat-panel-title>
                     <mat-panel-description>
-                        
+                        <div>Game code:&nbsp;<u>{{gameCode}}</u>&nbsp;(Expand for more info)</div>
                     </mat-panel-description>
                     </mat-expansion-panel-header>
                     <mat-card class="full-content-card">
@@ -75,7 +75,7 @@
                         
                     </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <p>states</p>
+                    <p>WIP</p>
                 </mat-expansion-panel>
             </mat-accordion>
             <div class="small-command-div">
@@ -107,6 +107,32 @@
                     </mat-panel-description>
                     </mat-expansion-panel-header>
                     <p>WIP</p>
+                </mat-expansion-panel>
+
+            </mat-accordion>
+            <mat-accordion>
+                <mat-expansion-panel hideToggle [expanded]="expandInternalTimer">
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon>timer</mat-icon> Internal timer
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <div>For internal time tracking</div>
+                    </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <mat-card class="full-content-card">
+                        <mat-card-content>
+                            <p style="text-align: center;font-size:36px">{{currentInternalTimer | showTimer}}</p>
+                        </mat-card-content>
+                        <mat-card-actions align="end" class="dialog-buttons">
+                            <button mat-raised-button color="primary" (click)="startInternalTimer()">
+                                Start / Restart
+                            </button>
+                            <button mat-raised-button color="primary" (click)="stopInternalTimer()">
+                                Stop
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
                 </mat-expansion-panel>
 
             </mat-accordion>
