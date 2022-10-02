@@ -17,6 +17,7 @@ const hubRetries = [5, 10, 10];
 export enum HubChangedEnum {
   None = 0,
   Connected,
+  Reconnected,
   Connecting,
   Reconnecting,
   Disconnected
@@ -84,7 +85,7 @@ export class HorrorMasterHubService {
     });
 
     this.hub.onreconnected((connId) => {
-      this._eventHubChanged.next({hubChanged: HubChangedEnum.Connected});
+      this._eventHubChanged.next({hubChanged: HubChangedEnum.Reconnected});
     });
 
     this.hub.onclose((err) => {

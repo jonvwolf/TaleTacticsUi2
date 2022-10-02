@@ -36,7 +36,7 @@
                 <mat-expansion-panel hideToggle>
                     <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <mat-icon>device_hub</mat-icon> Hub connection - Game code:&nbsp;<u>{{gameCode}}</u>
+                        <mat-icon>device_hub</mat-icon> Hub connection - Game code:&nbsp;<u>{{gameCode}}</u>&nbsp;(Expand for more info)
                     </mat-panel-title>
                     <mat-panel-description>
                         
@@ -44,6 +44,7 @@
                     </mat-expansion-panel-header>
                     <mat-card class="full-content-card">
                         <mat-card-content>
+                            <p>If you experience problems, try to reconnect or if still persists, reload page</p>
                             <mat-form-field appearance="standard" color="accent">
                                 <mat-label>Logs</mat-label>
                                 <textarea matInput rows="8" readonly>{{logText}}</textarea>

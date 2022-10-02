@@ -131,6 +131,19 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
           this.hubConnection = ComponentState.Working;
           this.addLogText('--. Reconnecting to hub');
           break;
+        case HubChangedEnum.Reconnected:
+          this.isConnected = true;
+          this.isReconnecting = false;
+          this.hubConnection = ComponentState.Ok;
+          this.addLogText('OK. Connected to hub, trying to join as HM...');
+
+          this.hub.invoke(actionJoinGameAsHm, this.gameCodeModel).then(() => {
+            this.addLogText('OK. Rejoined as HM');
+          }).catch((err) => {
+            this.addLogText('ERR. Could not join as HM. Check console logs');
+            console.error('Error trying to send command', err);
+          });
+          break;
         case HubChangedEnum.Disconnected:
           this.isConnected = false;
           this.isReconnecting = false;
