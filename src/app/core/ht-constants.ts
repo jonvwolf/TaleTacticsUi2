@@ -1,3 +1,5 @@
+import { environment } from "src/environments/environment";
+
 export class HtConstants {
     // TODO: these must be gotten from API
     public allowedFileExtensions = ['png', 'jpeg', 'jpg', 'mp3'];
@@ -26,6 +28,10 @@ export class HtConstants {
     public get gameGameCodeParamName():string { return 'gameCode'; }
     public getPathSecuredGame(storyId:number, gameCode:string):any[] {
         return ['/secured-game/games', storyId, gameCode];
+    }
+
+    public getPathForUnity(gameCode:string):string {
+        return environment.host + '/' + environment.pathToUnity + '?code=' + gameCode;
     }
 }
 

@@ -145,6 +145,9 @@
             <button class="command-button" mat-raised-button [color]="currentPredefinedCommandType === uiStopBgm ? 'accent' : 'primary'" (click)="stopBgm()">
                 Stop background music
             </button>
+            <p>
+                Share this link with your friends that are using a web browser: <a [href]="shareUrl" target="_blank">{{shareUrl}}</a>
+            </p>
         </div>
     </div>
     <div class="main-div-right">
@@ -171,7 +174,7 @@
                         <img src="{{cmd.images[0].absoluteUrl}}">
                     </p>
                     <p *ngIf="cmd.texts">
-                        <i>Show text:</i> {{cmd.texts | cutText:140 | convertToBr:'. '}}
+                        <i>Show text:</i> {{cmd.texts | convertToBr:'. '}}
                     </p>
                     <p *ngIf="cmd.audios && cmd.audios.length > 0">
                         <i>Play audio: </i> <span *ngFor="let audio of cmd.audios">{{audio.name}}, </span>

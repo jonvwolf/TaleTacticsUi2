@@ -42,6 +42,8 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   public uiStopTimer = PredefinedButtonType.StopTimer;
   public uiStopBgm = PredefinedButtonType.StopBgm;
 
+  public shareUrl = '';
+
   public scenePrefix = 'scene_';
   public gameCode:string = '';
   public gameState:ReadGameStateModel = defaultReadGameStateModel;
@@ -114,6 +116,8 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
     this.gameCodeModel = {
       gameCode: gameCode
     };
+
+    this.shareUrl = htConstants.getPathForUnity(this.gameCode);
 
     this.subs.add(this.hub.eventHubChanged.subscribe((args) => {
       switch(args.hubChanged){
