@@ -1,21 +1,27 @@
 <ng-template #buttonstates>
     <button mat-raised-button matTooltip="Hub connection indicator"
-        aria-label="Hub connection indicator">
+        aria-label="Hub connection indicator" class="small-btn-background-color"
+        (click)="showAlert('Hub connection indicator')">
         <mat-icon [ngClass]="{'working': hubConnection === workingState, 'ok': hubConnection === okState, 'error': hubConnection === errorState}">
             device_hub</mat-icon>
     </button>
     <button mat-raised-button matTooltip="Indicator if command was successfully sent or not"
-        aria-label="Indicator if command was successfully sent or not">
+        aria-label="Indicator if command was successfully sent or not" class="small-btn-background-color"
+        (click)="showAlert('Indicator if command was successfully sent or not')">
         <mat-icon [ngClass]="{'working': commandSent === workingState, 'ok': commandSent === okState, 'error': commandSent === errorState}">send</mat-icon>
     </button>
-    <button mat-raised-button class="player-count" matTooltip="Indicator of how many players have received the command that was sent"
-        aria-label="Indicator of how many players have received the command that was sent">
+    <button mat-raised-button class="player-count small-btn-background-color" matTooltip="Indicator of how many players have received the command that was sent"
+        aria-label="Indicator of how many players have received the command that was sent" (click)="showAlert('Indicator of how many players have received the command that was sent')">
         {{playersReceivedCount}}
         <mat-icon [ngClass]="{'working': playerReceived === workingState, 'ok': playerReceived === okState, 'error': playerReceived === errorState}">group</mat-icon>
     </button>
-    <button mat-raised-button matTooltip="Shows the current timer"
-        aria-label="Shows the current timer">
-        {{currentTimer}}s
+    <button mat-raised-button matTooltip="Shows the current timer" (click)="showAlert('Shows the current timer')"
+        aria-label="Shows the current timer" class="small-btn-timer small-btn-background-color" >
+        {{currentTimer | showTimer}}
+    </button>
+    <button mat-raised-button matTooltip="Shows the current internal timer" (click)="showAlert('Shows the current internal timer')"
+        aria-label="Shows the current internal timer" class="small-btn-timer small-btn-background-color">
+        <u>{{currentInternalTimer | showTimer}}</u>
     </button>
     <button mat-raised-button color="primary" (click)="openMenu()" matTooltip="Opens up a quick menu"
         aria-label="Opens up a quick menu">
@@ -122,7 +128,7 @@
                     </mat-expansion-panel-header>
                     <mat-card class="full-content-card">
                         <mat-card-content>
-                            <p style="text-align: center;font-size:36px">{{currentInternalTimer | showTimer}}</p>
+                            <p class="internal-timer-p">{{currentInternalTimer | showTimer}}</p>
                         </mat-card-content>
                         <mat-card-actions align="end" class="dialog-buttons">
                             <button mat-raised-button color="primary" (click)="startInternalTimer()">

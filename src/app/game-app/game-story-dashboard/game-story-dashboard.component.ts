@@ -412,4 +412,8 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
       console.error('Error trying to send command', err);
     });
   }
+
+  public showAlert(msg:string):void {
+    alert(msg);
+  }
 }

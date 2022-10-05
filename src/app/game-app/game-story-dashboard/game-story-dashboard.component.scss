@@ -19,13 +19,18 @@ mat-card {
   }
 
   .small-menu-btn {
-    position: fixed;width:200px;height:35px;bottom:0;right:0;z-index: 50;
+    position: fixed;width:260px;height:35px;bottom:0;right:0;z-index: 50;
   }
 
   .small-menu-btn button {
     // repeated style [small]
     padding: 2px;margin:0;line-height: 25px;width: 30px;min-width: 5px;
     margin-right: 5px;
+  }
+
+  .small-menu-btn button.small-btn-timer{
+    // repeated style [small]
+    width: 45px;
   }
 
   .command-details .command-contains p img {
@@ -123,6 +128,11 @@ mat-card {
   }
 }
 
+.small-btn-background-color {
+  background-color:rgb(27, 27, 27);
+  color:rgb(249, 249, 249)
+}
+
 .small-command-div {
   display: block;
   text-align: right;
@@ -132,6 +142,11 @@ mat-card {
   // repeated style [small]
   padding: 2px;margin:0;line-height: 25px;width: 30px;min-width: 5px;
   margin-right: 5px;
+}
+
+.small-command-div button.small-btn-timer{
+  // repeated style [small]
+  width: 45px;
 }
 
 .player-count {
@@ -148,6 +163,10 @@ mat-card {
 
 .ok {
   color: chartreuse;
+}
+
+.internal-timer-p {
+  text-align: center;font-size:36px
 }
 
 .story-details{
