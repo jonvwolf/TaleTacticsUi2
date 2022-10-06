@@ -1,6 +1,6 @@
 export const environment = {
   apiHost: 'https://ht-api.whostreaming.net',
-  pathToUnity: 'ht-unity',
-  host: 'https://whostreaming.net',
+  pathToUnity: '',
+  host: 'https://game.whostreaming.net',
   production: true,
 };
