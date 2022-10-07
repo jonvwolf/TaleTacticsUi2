@@ -1,4 +1,5 @@
 import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GamesEndpointsService } from 'src/app/core/api-endpoints/games-endpoints.service';
@@ -12,6 +13,7 @@ import { checkIfHmCommandModel, HmCommandModel } from 'src/app/core/hub-models/h
 import { checkIfHmCommandPredefinedModel, HmCommandPredefinedModel } from 'src/app/core/hub-models/hm-command-predefined-model';
 import { checkIfTextLogModel } from 'src/app/core/hub-models/player-text-log-model';
 import { BaseFormComponent } from 'src/app/ui-helpers/base-form-component';
+import { GameFormHelperService, UpdateGameNotesFormControls } from 'src/app/ui-helpers/forms/game-form-helper.service';
 import { SecuredAppUiGeneralElements } from 'src/app/ui-helpers/secured-app-ui.service';
 import { checkIfSmallGameMenuResult, SmallGameMenuComponent } from '../small-game-menu/small-game-menu.component';
 
@@ -49,6 +51,11 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   public gameState:ReadGameStateModel = defaultReadGameStateModel;
   public isConnected = false;
   public isReconnecting = false;
+
+  public controls:UpdateGameNotesFormControls;
+  public isSavingNotes = false;
+  private indicatorSaveNotesInterval:number|null = null;
+  public saveNotesSuccess:boolean|null = null;
 
   public get canConnect():boolean { return !this.isConnected && !this.isReconnecting; }
   public get canDisconnect():boolean { return this.isConnected && !this.isReconnecting; }
@@ -90,8 +97,11 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
   }; }
 
   constructor(private activatedRoute:ActivatedRoute, private router:Router, private endpoints:GamesEndpointsService,
-    private hub:HorrorMasterHubService, private sheet:MatBottomSheet) {
+    private hub:HorrorMasterHubService, private sheet:MatBottomSheet, private gameForm:GameFormHelperService) {
     super();
+
+    this.controls = gameForm.createControls();
+    this.form = gameForm.createForm(this.controls);
   }
 
   override ngOnDestroy():void{
@@ -188,6 +198,7 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
 
     this.subs.add(this.endpoints.get(gameCode).subscribe({
       next: (data) => {
+        this.gameForm.setUpdateValues(data, this.controls);
         this.gameState = data;
         this.endLoad();
         this.addLogText('OK. Got game state from endpoint');
@@ -218,6 +229,36 @@ export class GameStoryDashboardComponent extends BaseFormComponent implements On
       clearInterval(this.internalTimerInterval);
       this.internalTimerInterval = null;
     }
+  }
+
+  public saveNotes():void {
+    const model = this.gameForm.createModel(this.controls);
+    this.isSavingNotes = true;
+    this.saveNotesSuccess = null;
+
+    if(this.indicatorSaveNotesInterval !== null)
+      clearTimeout(this.indicatorSaveNotesInterval);
+
+    this.subs.add(this.endpoints.putNotes(this.gameCode, model).subscribe({
+      next: (data) => {
+        this.isSavingNotes = false;
+        this.saveNotesSuccess = true;
+
+        this.indicatorSaveNotesInterval = window.setTimeout(() => {
+          this.saveNotesSuccess = null;  
+          this.indicatorSaveNotesInterval = null;
+        }, 3000);
+      },
+      error: (err) => {
+        this.isSavingNotes = false;
+        this.saveNotesSuccess = false;
+
+        this.indicatorSaveNotesInterval = window.setTimeout(() => {
+          this.saveNotesSuccess = null;  
+          this.indicatorSaveNotesInterval = null;
+        }, 3000);
+      }
+    }));
   }
 
   public disconnectFromHub():void {
