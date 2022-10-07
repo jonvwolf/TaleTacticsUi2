@@ -6,6 +6,7 @@ import { htConstants, HtConstants } from '../core/ht-constants';
 import { UserSessionService } from '../core/user-session.service';
 import { htDefaultGeneralElements, SecuredAppUiGeneralElements, SecuredAppUiService } from '../ui-helpers/secured-app-ui.service';
 import { BaseFormComponent } from '../ui-helpers/base-form-component'
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-secured-app',
@@ -16,6 +17,8 @@ export class SecureAppComponent implements OnInit {
 
   public generalElements:SecuredAppUiGeneralElements = htDefaultGeneralElements;
   public ht:HtConstants = htConstants;
+  public version:string = '';
+  public helpUrl:string = '';
 
   public isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
@@ -38,7 +41,9 @@ export class SecureAppComponent implements OnInit {
     // TODO: I think Observe is better?
     this.subs.add(this.appUI.generalElementsEvent.subscribe(options => {
       this.generalElements = options;
-    }));    
+    }));
+    this.version = environment.version;
+    this.helpUrl = environment.helpUrl;
   }
 
   public logout():void {

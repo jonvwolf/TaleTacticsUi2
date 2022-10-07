@@ -1,14 +1,12 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
 export const environment = {
-  apiHost: 'https://ht-api.whostreaming.net',
+  //apiHost: 'https://ht-api.whostreaming.net',
   pathToUnity: '',
   host: 'https://game.whostreaming.net',
-  //apiHost: 'https://localhost:7216',
+  helpUrl: 'https://ht.whostreaming.net/help',
+  production: false,
+  version: '1.2',
+  apiHost: 'https://localhost:7216',
   //apiHost: 'https://localhost:5001',
-  production: false
 };
 
 /*

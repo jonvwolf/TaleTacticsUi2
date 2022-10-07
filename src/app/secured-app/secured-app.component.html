@@ -9,9 +9,9 @@
         <a mat-list-item [routerLink]="ht.pathSecuredCreateStory">Create a story</a>
         <a mat-list-item [routerLink]="ht.pathSecuredFileManager">Files</a>
     </mat-nav-list>
-    <a class="help-a" href="https://whostreaming.net/ht-help" mat-raised-button color="primary" target="_blank">Help & How to</a>
-    <pre>&nbsp;Made by <a href="https://twitter.com/jonwolfdev" target="_blank">@jonwolfdev</a>
-&nbsp;<a href="mailto:jonwolfdev@gmail.com">jonwolfdev@gmail.com</a></pre>
+    <a class="help-a" [href]="helpUrl" mat-raised-button color="primary" target="_blank">Help & How to</a>
+    <pre>&nbsp;<small>v{{version}}</small> Made by <a href="https://twitter.com/jonwolfdev" target="_blank">@jonwolfdev</a>
+&nbsp;<a href="mailto:jonwolfdev@gmail.com">(email)</a></pre>
 </mat-sidenav>
 <mat-sidenav-content>
     <mat-toolbar color="primary">
