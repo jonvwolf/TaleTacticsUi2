@@ -1,11 +1,11 @@
 export const environment = {
-  //apiHost: 'https://ht-api.whostreaming.net',
+  apiHost: 'https://api.taletactics.com',
   pathToUnity: '',
-  host: 'https://game.whostreaming.net',
-  helpUrl: 'https://ht.whostreaming.net/help',
+  host: 'https://player.taletactics.com',
+  helpUrl: 'https://www.taletactics.com/HowToPlay',
   production: false,
-  version: '1.2',
-  apiHost: 'https://localhost:7216',
+  version: '1.3',
+  //apiHost: 'https://localhost:7216',
   //apiHost: 'https://localhost:5001',
 };
 

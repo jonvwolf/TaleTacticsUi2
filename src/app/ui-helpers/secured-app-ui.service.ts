@@ -5,7 +5,7 @@ export interface SecuredAppUiGeneralElements{
 }
 
 export const htDefaultGeneralElements:SecuredAppUiGeneralElements = {
-  headerTitle: 'Horror Tactics'
+  headerTitle: 'Tale Tactics'
 };
 
 @Injectable({
