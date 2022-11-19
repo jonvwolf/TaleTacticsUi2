@@ -4,5 +4,5 @@ export const environment = {
   host: 'https://player.taletactics.com',
   helpUrl: 'https://www.taletactics.com/HowToPlay',
   production: true,
-  version: '1.3'
+  version: '1.3.1'
 };

@@ -66,21 +66,21 @@ export class CreateCommandDialogComponent extends BaseFormComponent implements O
     
     this.filteredAudios = this.audioControl.valueChanges.pipe(
       startWith(null),
-      map((audio:ReadAudioModel) => (audio ? this._filter(audio) : this.allAudios.slice()))
+      map((audio:string) => (audio ? this._filter(audio) : this.allAudios.slice()))
     );
 
     this.filteredImages = this.imageControl.valueChanges.pipe(
       startWith(null),
-      map((image:ReadImageModel) => (image ? this._filterImage(image) : this.allImages.slice()))
+      map((image:string) => (image ? this._filterImage(image) : this.allImages.slice()))
     );
   }
 
-  private _filterImage(value:ReadImageModel) : ReadImageModel[]{
-    const filterValue = value.name.toLowerCase();
+  private _filterImage(value:string) : ReadImageModel[]{
+    const filterValue = value.toLowerCase();
     return this.allImages.filter(image => image.name.toLowerCase().includes(filterValue) );
   }
-  private _filter(value: ReadAudioModel): ReadAudioModel[] {
-    const filterValue = value.name.toLowerCase();
+  private _filter(value: string): ReadAudioModel[] {
+    const filterValue = value.toLowerCase();
     return this.allAudios.filter(audio => audio.name.toLowerCase().includes(filterValue) );
   }
 

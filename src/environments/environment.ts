@@ -4,7 +4,7 @@ export const environment = {
   host: 'https://player.taletactics.com',
   helpUrl: 'https://www.taletactics.com/HowToPlay',
   production: false,
-  version: '1.3',
+  version: '1.3.1',
   //apiHost: 'https://localhost:7216',
   //apiHost: 'https://localhost:5001',
 };
