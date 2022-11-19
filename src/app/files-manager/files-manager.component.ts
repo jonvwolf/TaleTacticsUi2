@@ -17,7 +17,7 @@ const fullsizeTableColumns = ['name', 'format', 'commands', 'size'];
 
 // TODO: repeated code
 const invalidFileTypeMessage = 'Invalid file. Select only jpeg, png or mp3';
-const invalidFileSizeMessage = 'Maximum file size of 2 megabytes allowed';
+const invalidFileSizeMessage = 'Maximum file size of 4 megabytes allowed';
 
 const checkIfFileItem = (obj:any): obj is IFileItem => {
   return obj && 'name' in obj && 'format' in obj;

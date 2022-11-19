@@ -10,7 +10,7 @@ const successMessage = 'File was updated successfully';
 
 // TODO: repeated code
 const invalidFileTypeMessage = 'Invalid file. Select only jpeg, png or mp3';
-const invalidFileSizeMessage = 'Maximum file size of 2 megabytes allowed';
+const invalidFileSizeMessage = 'Maximum file size of 4 megabytes allowed';
 const invalidImageFile = 'Invalid file. Must select an image';
 const invalidAudioFile = 'Invalid file. Must select an audio';
 
