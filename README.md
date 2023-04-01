@@ -1,3 +1,13 @@
+# Github links to all components
+https://github.com/jonwolfdev/Tale-Tactics-Game
+https://github.com/jonwolfdev/TaleTacticsUi2
+https://github.com/jonwolfdev/TaleTacticsApi2
+
+# Tale-Tactics-Game
+
+![](https://github.com/jonwolfdev/TaleTacticsUi2/blob/fc78d361ed1535d0ced6d8147500d97a5ef411e1/taletactics.png?raw=true)
+
+
 # HorrorTacticsUi2
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.2.
